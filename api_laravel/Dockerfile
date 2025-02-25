@@ -43,7 +43,7 @@ COPY . /var/www
 COPY --chown=www-data:www-data . /var/www
 
 # Copy .env file
-COPY .env /var/www/.env
+# COPY .env /var/www/.env
 
 # Generate optimized autoload files
 RUN composer dump-autoload --optimize
