@@ -1,9 +1,8 @@
-services:
+version: "3"
+services: 
   app:
-    build: .
+    image: kltn:lastest
     init: true
     restart: always
     ports:
-      - "8000:8000"
-    environment:
-      - PORT=8000
+      - 8000:8000
