@@ -1,0 +1,18 @@
+import { Request, RequestHandler, response, Response } from 'express';
+import Users from '../models/user';
+
+export const getUser: RequestHandler = async (req: Request, res: Response) => {
+  let id = req.session.userId;
+  
+  const user = await Users.findByPk(id);
+
+  res.status(200).json({
+    user: {
+      id: user?.id,
+      name: user?.name,
+      email: user?.email
+    },
+    msg: 'Already logged in!',
+  });
+}
+
