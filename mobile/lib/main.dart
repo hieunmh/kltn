@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: true,
         title: 'KLTN',
         getPages: AppPages.pages,
-        initialRoute: AppRoutes.signin,
+        initialRoute: AppRoutes.splash,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeController().isDark.value ? ThemeMode.dark : ThemeMode.light,
