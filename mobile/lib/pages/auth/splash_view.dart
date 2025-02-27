@@ -12,7 +12,7 @@ class SplashView extends StatelessWidget {
         toolbarHeight: 0,
         scrolledUnderElevation: 0.0,
       ),
-      body:Padding(
+      body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +88,7 @@ class SplashView extends StatelessWidget {
                           'Create Account',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -116,7 +116,7 @@ class SplashView extends StatelessWidget {
                           'Already have an account',
                           style: TextStyle(
                             color: Color(0xFF4a66f0),
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
