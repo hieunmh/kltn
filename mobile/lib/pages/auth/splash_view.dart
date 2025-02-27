@@ -75,7 +75,7 @@ class SplashView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.offAllNamed(AppRoutes.signin);
+                      Get.offNamed(AppRoutes.signup);
                     },
                     child: Container(
                       height: 70,
@@ -100,7 +100,7 @@ class SplashView extends StatelessWidget {
 
                   GestureDetector(
                     onTap: () {
-                      // Get.offAllNamed(AppRoutes.signin);
+                      Get.offNamed(AppRoutes.signin);
                     },
                     child: Container(
                       height: 70,

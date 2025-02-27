@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/pages/auth/sign_in/signin_controller.dart';
+import 'package:mobile/pages/auth/sign_up/signup_controller.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:mobile/widgets/auth/input_field.dart';
-import 'package:icons_plus/icons_plus.dart';
 
-
-class SigninView extends GetView<SigninController> {
-  const SigninView({super.key});
+class SignupView extends GetView<SignupController> {
+  const SignupView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class SigninView extends GetView<SigninController> {
                 Row(
                   children: [
                     Text(
-                      'Login Account',
+                      'Create Account',
                       style: TextStyle(
                         color: Color(0xFF4a66f0),
                         fontSize: 28,
@@ -37,10 +36,10 @@ class SigninView extends GetView<SigninController> {
                 Row(
                   children: [
                     Text(
-                      'Welcome back!',
+                      'Sign up to get started!',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w600
                       ),
                     )
@@ -58,7 +57,7 @@ class SigninView extends GetView<SigninController> {
                   errorMsg: ''
                 ),
         
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
         
                 InputField(
                   hintText: 'Password', 
@@ -70,30 +69,23 @@ class SigninView extends GetView<SigninController> {
                   onTap: controller.toggleShowPassword,
                 ),
         
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Get.toNamed('/forgot-password');
-                      },
-                      child: Text(
-                        'Forgot password?',
-                        style: TextStyle(
-                          color: Color(0xFF4a66f0),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600
-                        ),
-                      ),
-                    )
-                  ],
+                const SizedBox(height: 5),
+
+                InputField(
+                  hintText: 'Confirm password', 
+                  placeholder: 'Re-enter password', 
+                  obscureText: controller.showRePassword.value, 
+                  ctrler: controller.rePasswordController, 
+                  borderColor: Colors.grey.shade300, 
+                  errorMsg: '',
+                  onTap: controller.toggleShowRePassword,
                 ),
-        
+
                 const SizedBox(height: 20),
         
                 GestureDetector(
                   onTap: () {
-
+        
                   },
                   child: Container(
                     height: 70,
@@ -104,7 +96,7 @@ class SigninView extends GetView<SigninController> {
                     ),
                     child: Center(
                       child: Text(
-                        'Sign in',
+                        'Sign up',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -128,7 +120,7 @@ class SigninView extends GetView<SigninController> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        'Or sign in with',
+                        'Or continue with',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Colors.grey.shade500,
@@ -178,7 +170,7 @@ class SigninView extends GetView<SigninController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account?',
+                      'Already have an account?',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -188,10 +180,10 @@ class SigninView extends GetView<SigninController> {
         
                     GestureDetector(
                       onTap: () {
-                        Get.offNamed(AppRoutes.signup);
+                        Get.offAllNamed(AppRoutes.signin);
                       },
                       child: Text(
-                        ' Create Account',
+                        ' Sign in',
                         style: TextStyle(
                           color: Color(0xFF4a66f0),
                           fontSize: 14,
