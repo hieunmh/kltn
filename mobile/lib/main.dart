@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() =>
       GetMaterialApp(
-        debugShowCheckedModeBanner: true,
+        debugShowCheckedModeBanner: false,
         title: 'KLTN',
         getPages: AppPages.pages,
-        initialRoute: AppRoutes.splash,
+        initialRoute: AppRoutes.signup,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeController().isDark.value ? ThemeMode.dark : ThemeMode.light,

@@ -51,7 +51,7 @@ class SplashView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Schedit',
+                    'ABF',
                     style: TextStyle(
                       color: Color(0xFF4a66f0),
                       fontSize: 30,
@@ -75,7 +75,7 @@ class SplashView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.offNamed(AppRoutes.signup);
+                      Get.toNamed(AppRoutes.signup);
                     },
                     child: Container(
                       height: 70,
@@ -100,7 +100,7 @@ class SplashView extends StatelessWidget {
 
                   GestureDetector(
                     onTap: () {
-                      Get.offNamed(AppRoutes.signin);
+                      Get.toNamed(AppRoutes.signin);
                     },
                     child: Container(
                       height: 70,

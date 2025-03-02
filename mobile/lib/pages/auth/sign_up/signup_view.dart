@@ -5,6 +5,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:mobile/widgets/auth/input_field.dart';
 
+
 class SignupView extends GetView<SignupController> {
   const SignupView({super.key});
 
@@ -36,7 +37,7 @@ class SignupView extends GetView<SignupController> {
                 Row(
                   children: [
                     Text(
-                      'Sign up to get started!',
+                      'Sign up to abf!',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -54,7 +55,7 @@ class SignupView extends GetView<SignupController> {
                   obscureText: false, 
                   ctrler: controller.emailController, 
                   borderColor: Colors.grey.shade300, 
-                  errorMsg: ''
+                  errorMsg: controller.emailError.value
                 ),
         
                 const SizedBox(height: 5),
@@ -65,7 +66,7 @@ class SignupView extends GetView<SignupController> {
                   obscureText: controller.showPassword.value, 
                   ctrler: controller.passwordController, 
                   borderColor: Colors.grey.shade300, 
-                  errorMsg: '',
+                  errorMsg: controller.passwordError.value,
                   onTap: controller.toggleShowPassword,
                 ),
         
@@ -77,7 +78,7 @@ class SignupView extends GetView<SignupController> {
                   obscureText: controller.showRePassword.value, 
                   ctrler: controller.rePasswordController, 
                   borderColor: Colors.grey.shade300, 
-                  errorMsg: '',
+                  errorMsg: controller.repasswordError.value,
                   onTap: controller.toggleShowRePassword,
                 ),
 
@@ -85,7 +86,7 @@ class SignupView extends GetView<SignupController> {
         
                 GestureDetector(
                   onTap: () {
-        
+                    controller.signup();
                   },
                   child: Container(
                     height: 70,
@@ -95,7 +96,16 @@ class SignupView extends GetView<SignupController> {
                       color: Color(0xFF4a66f0)
                     ),
                     child: Center(
-                      child: Text(
+                      child: controller.isLoading.value ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                          
+                          // value: 0.1,
+                        ),
+                      ) : Text(
                         'Sign up',
                         style: TextStyle(
                           color: Colors.white,
@@ -106,8 +116,22 @@ class SignupView extends GetView<SignupController> {
                     ),
                   ),
                 ),
-        
-                const SizedBox(height: 20),
+
+                const SizedBox(height: 5),
+
+                controller.commonError.value.isNotEmpty ? SizedBox(
+                  height: 20,
+                  child: Text(
+                    controller.commonError.value,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ) : const SizedBox(height: 20),
+
+                const SizedBox(height: 5),
         
                 Row(
                   children: [
@@ -144,7 +168,7 @@ class SignupView extends GetView<SignupController> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Get.toNamed('/forgot-password');
+                        
                       },
                       child: Container(
                         height: 100,
@@ -180,7 +204,7 @@ class SignupView extends GetView<SignupController> {
         
                     GestureDetector(
                       onTap: () {
-                        Get.offAllNamed(AppRoutes.signin);
+                        Get.toNamed(AppRoutes.signin);
                       },
                       child: Text(
                         ' Sign in',
