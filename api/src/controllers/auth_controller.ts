@@ -4,17 +4,17 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { UserType } from '../types/types';
 
-export const register: RequestHandler = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+export const signup: RequestHandler = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
 
-  if (!name || !email || ! password) {
+  if (!email || ! password) {
     res.status(400).json({ message: 'Please fill all fields' });
     return;
   }
 
   await Users.create({
     id: uuidv4(),
-    name: name,
+    name: '',
     email: email,
     password: bcrypt.hashSync(password, 10)
   }).then((user: UserType) => {
@@ -29,10 +29,14 @@ export const register: RequestHandler = async (req: Request, res: Response) => {
       id: req.session.cookie,
       msg: 'User created successfully!'
     });
+  }).catch(e => {
+    res.status(400).json({
+      msg: e.errors[0].message
+    })
   })
 }
 
-export const login: RequestHandler = async (req: Request, res: Response) => {
+export const signin: RequestHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -66,7 +70,7 @@ export const login: RequestHandler = async (req: Request, res: Response) => {
   });
 }
 
-export const logout: RequestHandler = async (req: Request, res: Response) => {
+export const signout: RequestHandler = async (req: Request, res: Response) => {
   if (!req.session.userId) {
     res.status(200).json({ msg: 'Logout error!' });
     return;

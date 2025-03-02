@@ -14,7 +14,7 @@ class Users extends Model<UserType> {
   })
   id!: string
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column({ type: DataType.STRING })
   name!: string;
 

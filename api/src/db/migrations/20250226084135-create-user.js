@@ -10,12 +10,16 @@ module.exports = {
         type: Sequelize.UUID
       },
       name: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        unique: true,
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {
