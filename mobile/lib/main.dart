@@ -4,13 +4,22 @@ import 'package:mobile/routes/pages.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/app_theme.dart';
 import 'package:mobile/theme/theme_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final userid = prefs.getString('user_id');
+
+  final initRoute = userid!.isEmpty ? AppRoutes.signup : AppRoutes.application;
+
+  runApp(MyApp(initRoute: initRoute));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.initRoute});
+
+  final String initRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +28,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'KLTN',
         getPages: AppPages.pages,
-        initialRoute: AppRoutes.signup,
+        initialRoute: initRoute,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeController().isDark.value ? ThemeMode.dark : ThemeMode.light,

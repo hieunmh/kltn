@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/models/user.dart';
+import 'package:mobile/routes/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupController extends GetxController {
   final emailController = TextEditingController();
@@ -44,9 +49,11 @@ class SignupController extends GetxController {
     emailError.value = '';
 
     if (password != rePassword) {
-      repasswordError.value = '';
+      repasswordError.value = 'Comfirm password not match';
       return;
     }
+
+    repasswordError.value = '';
 
     try {
       isLoading.value = true;
@@ -54,13 +61,22 @@ class SignupController extends GetxController {
         'email': email,
         'password': password,
       });
+      print(res.statusCode);
 
       if (res.statusCode == 400) {
         commonError.value = 'Email have been registered!';
       } 
-      else if (res.statusCode == 200) {
-        // Get.toNamed(AppRoutes.application);
+      else if (res.statusCode == 200 || res.statusCode == 201) {
+        User user = User.fromJson(json.decode(res.body)['user']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString('user_id', user.id);
+        await prefs.setString('email', user.email);
+        await prefs.setString('name', user.name);
+
+        Get.toNamed(AppRoutes.application);
       }
+
 
     } finally {
       isLoading.value = false;
