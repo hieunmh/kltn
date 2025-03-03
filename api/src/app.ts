@@ -34,17 +34,17 @@ app.use(cookieParser());
 app.use(morgan('combined'));
 
 app.use(session({
-  name: process.env.SESSION_NAME,
+  name: 'sid',
   resave: false,
   saveUninitialized: false,
   secret: 'secret',
   store: sessionStore,
   proxy: true,
   cookie: {
-    sameSite: process.env.SAME_SITE as 'none' | 'lax' | 'strict',
-    secure: process.env.COOKIE_SECURE === 'true',
-    httpOnly: process.env.COOKIE_HTTP_ONLY === 'true',
-    // maxAge: 30 * 24 * 60 * 60 * 1000,
+    sameSite: 'none',
+    secure: false,  
+    httpOnly: false,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   }
 }))
 

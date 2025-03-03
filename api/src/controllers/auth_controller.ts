@@ -23,7 +23,7 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
     res.status(201).json({
       user: {
         id: user.id,
-        name: user.name,
+        name: user.name ?? '',
         email: user.email
       },
       id: req.session.cookie,
@@ -59,31 +59,32 @@ export const signin: RequestHandler = async (req: Request, res: Response) => {
     return;
   } 
   req.session.userId = user.id;
-
+  req.session.save();
+  
+  
   res.status(200).json({
     user: {
       id: user.id,
       name: user.name,
       email: user.email
     },
-    msg: 'Login successfully!'
+    msg: 'Sign in successfully!'
   });
 }
 
 export const signout: RequestHandler = async (req: Request, res: Response) => {
   if (!req.session.userId) {
-    res.status(200).json({ msg: 'Logout error!' });
+    res.status(400).json({ msg: 'No user signed in!' }); 
     return;
   }
 
   req.session.destroy((err) => {
     if (err) {
-      res.status(500).json({ msg: 'Internal error!' });
-      return;
+      return res.status(500).json({ msg: 'Internal error!' });
     }
-  })
+    
+    res.clearCookie('sid');
+    res.status(200).json({ msg: 'Sign out successfully!' });
+  });
 
-  res.clearCookie('sid');
-
-  res.status(200).json({ msg: 'Logout successfully!' });
-}
+};
