@@ -9,9 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final userid = prefs.getString('user_id');
+  final userid = prefs.getString('user_id') ?? '';
 
-  final initRoute = userid!.isEmpty ? AppRoutes.signup : AppRoutes.application;
+  final initRoute = userid.isEmpty ? AppRoutes.signup : AppRoutes.application;
 
   runApp(MyApp(initRoute: initRoute));
 }

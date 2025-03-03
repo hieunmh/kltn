@@ -61,7 +61,6 @@ class SignupController extends GetxController {
         'email': email,
         'password': password,
       });
-      print(res.statusCode);
 
       if (res.statusCode == 400) {
         commonError.value = 'Email have been registered!';
@@ -69,12 +68,15 @@ class SignupController extends GetxController {
       else if (res.statusCode == 200 || res.statusCode == 201) {
         User user = User.fromJson(json.decode(res.body)['user']);
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        final rawCookie = res.headers['set-cookie'] ?? '';
+
 
         await prefs.setString('user_id', user.id);
         await prefs.setString('email', user.email);
         await prefs.setString('name', user.name);
+        await prefs.setString('cookie', rawCookie);
 
-        Get.toNamed(AppRoutes.application);
+        Get.offAllNamed(AppRoutes.application);
       }
 
 

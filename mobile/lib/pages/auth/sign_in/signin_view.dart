@@ -54,7 +54,7 @@ class SigninView extends GetView<SigninController> {
                   obscureText: false, 
                   ctrler: controller.emailController, 
                   borderColor: Colors.grey.shade300, 
-                  errorMsg: ''
+                  errorMsg: controller.emailError.value
                 ),
         
                 const SizedBox(height: 10),
@@ -65,7 +65,7 @@ class SigninView extends GetView<SigninController> {
                   obscureText: controller.showPassword.value, 
                   ctrler: controller.passwordController, 
                   borderColor: Colors.grey.shade300, 
-                  errorMsg: '',
+                  errorMsg: controller.passwordError.value,
                   onTap: controller.toggleShowPassword,
                 ),
         
@@ -92,7 +92,7 @@ class SigninView extends GetView<SigninController> {
         
                 GestureDetector(
                   onTap: () {
-
+                    controller.signin();
                   },
                   child: Container(
                     height: 70,
@@ -102,7 +102,16 @@ class SigninView extends GetView<SigninController> {
                       color: Color(0xFF4a66f0)
                     ),
                     child: Center(
-                      child: Text(
+                      child: controller.isLoading.value ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                          
+                          // value: 0.1,
+                        ),
+                      ) : Text(
                         'Sign in',
                         style: TextStyle(
                           color: Colors.white,
@@ -114,7 +123,21 @@ class SigninView extends GetView<SigninController> {
                   ),
                 ),
         
-                const SizedBox(height: 20),
+                const SizedBox(height: 5),
+
+                controller.commonError.value.isNotEmpty ? SizedBox(
+                  height: 20,
+                  child: Text(
+                    controller.commonError.value,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ) : const SizedBox(height: 20),
+
+                const SizedBox(height: 5),
         
                 Row(
                   children: [
