@@ -3,8 +3,10 @@ import 'package:mobile/pages/app/app_bindings.dart';
 import 'package:mobile/pages/app/app_view.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_view.dart';
-import 'package:mobile/pages/auth/forgot-pw/reset_pw_view.dart';
-import 'package:mobile/pages/auth/forgot-pw/verify_code_view.dart';
+import 'package:mobile/pages/auth/reset-pw/reset_pw_bindings.dart';
+import 'package:mobile/pages/auth/reset-pw/reset_pw_view.dart';
+import 'package:mobile/pages/auth/verify/verify_code_bindings.dart';
+import 'package:mobile/pages/auth/verify/verify_code_view.dart';
 import 'package:mobile/pages/auth/sign_in/signin_bindings.dart';
 import 'package:mobile/pages/auth/sign_in/signin_view.dart';
 import 'package:mobile/pages/auth/sign_up/signup_bindings.dart';
@@ -27,12 +29,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.verifycode, 
       page: () => VerifyCodeView(),
-      binding: ForgotPwBindings()
+      binding: VerifyCodeBindings()
     ),
     GetPage(
       name: AppRoutes.resetpassword, 
       page: () => ResetPwView(),
-      binding: ForgotPwBindings()
+      binding: ResetPwBindings()
     ),
     GetPage(
       name: AppRoutes.forgotpassword, 

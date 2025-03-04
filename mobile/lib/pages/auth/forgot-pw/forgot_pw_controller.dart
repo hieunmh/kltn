@@ -11,11 +11,6 @@ class ForgotPwController extends GetxController {
   final RxString commonError = ''.obs;
   final RxString serverSuccess = 'Please check your mail to get reset code!'.obs;  
 
-  Future<void> verifyCode() async {
-    print(code.value);
-    Get.offNamed(AppRoutes.resetpassword);
-  }
-
   Future<void> forgotPassword() async {
     if (emailController.text.isEmpty) {
       commonError.value = 'Please enter email address!';
@@ -29,7 +24,7 @@ class ForgotPwController extends GetxController {
 
     commonError.value = '';
 
-    Get.offNamed(AppRoutes.verifycode);
+    Get.offNamed(AppRoutes.verifycode, arguments: emailController.text);
 
     // try {
     //   isLoading.value = true;

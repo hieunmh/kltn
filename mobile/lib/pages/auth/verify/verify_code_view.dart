@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:mobile/pages/auth/forgot-pw/forgot_pw_controller.dart';
+import 'package:mobile/pages/auth/verify/verify_code_controller.dart';
 import 'package:pinput/pinput.dart';
 
-class VerifyCodeView extends GetView<ForgotPwController> {
+class VerifyCodeView extends GetView<VerifyCodeController> {
   const VerifyCodeView({super.key});
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 50),
@@ -22,8 +24,8 @@ class VerifyCodeView extends GetView<ForgotPwController> {
                   Text(
                     'Verification',
                     style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
                       color: Color(0xFF4a66f0)
                     ),
                   )
@@ -34,7 +36,7 @@ class VerifyCodeView extends GetView<ForgotPwController> {
                   Text(
                     'Enter the code to continue',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   )
@@ -50,19 +52,21 @@ class VerifyCodeView extends GetView<ForgotPwController> {
                 ),
               ),
 
-              Text(
-                controller.emailController.text,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: Color(0xff4a66f0)
+              Obx(() =>
+                Text(
+                  controller.email.value,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Color(0xff4a66f0)
+                  ),
                 ),
               ),
 
               const SizedBox(height: 20),
 
               Pinput(
-                onCompleted: (value) {
+                onChanged: (value) {
                   controller.code.value = value;
                 },
                 defaultPinTheme: PinTheme(
@@ -91,7 +95,23 @@ class VerifyCodeView extends GetView<ForgotPwController> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 5),
+
+              Obx(() =>
+                controller.commonError.value.isNotEmpty ? SizedBox(
+                  height: 20,
+                  child: Text(
+                    controller.commonError.value,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ) : const SizedBox(height: 20),
+              ),
+
+              const SizedBox(height: 5),
               
               GestureDetector(
                 onTap: () {

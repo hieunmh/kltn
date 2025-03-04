@@ -11,7 +11,9 @@ class ForgotPwView extends GetView<ForgotPwController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+      ),
       body: Obx(() =>
         SingleChildScrollView(
           child: Padding(
@@ -23,11 +25,23 @@ class ForgotPwView extends GetView<ForgotPwController> {
                     Text(
                       'Forgot Password?',
                       style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w800,
                         color: Color(0xFF4a66f0)
                       ),
                     ),
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    Text(
+                      'No worries, we got you',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
                   ],
                 ),
         
@@ -64,7 +78,7 @@ class ForgotPwView extends GetView<ForgotPwController> {
                             strokeWidth: 2,
                           ),
                         ) : Text(
-                          'Send code',
+                          'Send Code',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,

@@ -40,7 +40,7 @@ class SignupView extends GetView<SignupController> {
                       'Sign up to abf!',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600
                       ),
                     )

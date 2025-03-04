@@ -37,7 +37,6 @@ class AppController extends GetxController {
     prefs.remove('name');
     prefs.remove('email');
     // Get.offNamed(AppRoutes.signup);
-    print(res.statusCode);
     if (res.statusCode == 200) {
       Get.offNamed(AppRoutes.signup);
     }
