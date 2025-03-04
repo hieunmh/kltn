@@ -22,6 +22,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      resetCode: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
+      resetCodeExpires: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

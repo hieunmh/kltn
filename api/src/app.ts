@@ -34,7 +34,7 @@ app.use(cookieParser());
 app.use(morgan('combined'));
 
 app.use(session({
-  name: 'sid',
+  name: process.env.SESSION_NAME,
   resave: false,
   saveUninitialized: false,
   secret: 'secret',

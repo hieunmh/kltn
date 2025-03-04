@@ -3,6 +3,7 @@ import Users from '../models/user';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { UserType } from '../types/types';
+import nodemailer from 'nodemailer';
 
 export const signup: RequestHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -88,3 +89,83 @@ export const signout: RequestHandler = async (req: Request, res: Response) => {
   });
 
 };
+
+export const forgotPassword: RequestHandler = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  if (!email) {
+    res.status(400).json({ msg: 'Please enter you email!' });
+    return;
+  }
+
+  const user = await Users.findOne({ where: { email: email }});
+
+  if (!user) {
+    res.status(400).json({ msg: 'Email not registered!' });
+    return;
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: 'sandbox.smtp.mailtrap.io',
+    port: 2525,
+    auth: { user: '937e28ebc5bd4c', pass: 'b7311a9d4f41c9' }
+  })
+
+  const resetCode = Math.floor(1000 + Math.random() * 9000).toString();
+  const expires = Date.now() + 15 * 60 * 1000;
+
+  user.resetCode = resetCode;
+  user.resetCodeExpires = new Date(expires);
+  await user.save();
+
+  try {
+    await transporter.sendMail({
+      from: "'abf'",
+      to: email,
+      subject: `Reset password for ${email}`,
+      html: `<p>Your password reset code is: <strong>${resetCode}</strong></p>
+            <p>This code is valid for 15 minutes.</p>`
+    })
+  
+    res.status(200).json({ msg: 'Email sent successfully!'});  
+  } catch (error) {
+    res.status(500).json({ msg: 'Error sending email!' });
+  }
+}
+
+export const verifyCode: RequestHandler = async (req: Request, res: Response) => {
+  const { resetcode, email } = req.body;
+
+  const user = await Users.findOne({
+    where: { email: email }
+  });
+
+  if (user?.resetCode !== resetcode) {
+    res.status(400).json({ msg: 'Wrong reset code!' });
+    return;
+  }
+
+  if (!user?.resetCodeExpires || user.resetCodeExpires.getTime() < Date.now()) {
+    res.status(400).json({ msg: 'Reset code expired!' });
+    return;
+  }
+
+  res.status(200).json({ msg: 'Code verified successfully!' });
+}
+
+export const resetPassword: RequestHandler = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const user = await Users.findOne({
+    where: { email: email }
+  });
+
+  if (!user) return;
+
+  user.password = bcrypt.hashSync(password, 10);
+  user.resetCode = null;
+  user.resetCodeExpires = null;
+  await user.save();
+
+  res.status(200).json({ msg: 'Password reset successfully!' });
+}

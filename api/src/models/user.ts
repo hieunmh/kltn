@@ -26,6 +26,14 @@ class Users extends Model<UserType> {
   @AllowNull(false)
   @Column({ type: DataType.STRING })
   password!: string;
+
+  @AllowNull(true)
+  @Column({ type: DataType.STRING })
+  resetCode!: string | null;
+
+  @AllowNull(true)
+  @Column({ type: DataType.DATE })
+  resetCodeExpires!: Date | null;
 }
 
 export default Users;
