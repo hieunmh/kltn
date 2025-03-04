@@ -6,4 +6,10 @@ class AppRoutes {
   static const String signup = '/signup';
 
   static const String splash = '/splash';
+
+  static const String forgotpassword = '/forgotpassword';
+
+  static const String verifycode = '/verifycode';
+
+  static const String resetpassword = '/resetpassword';
 }
