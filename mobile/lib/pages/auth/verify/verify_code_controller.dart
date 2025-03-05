@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:mobile/routes/routes.dart';
+import 'package:http/http.dart' as http;
 
 class VerifyCodeController extends GetxController {
   final RxString email = ''.obs;
@@ -26,6 +29,23 @@ class VerifyCodeController extends GetxController {
     }
 
     commonError.value = '';
-    Get.offNamed(AppRoutes.resetpassword);
+
+    try {
+      isLoading.value = true;
+      final res = await http.post(Uri.parse('http://localhost:8000/verify-code'), body: {
+        'email': email.value,
+        'resetcode': code.value
+      });
+
+      if (res.statusCode == 400) {
+        commonError.value = json.decode(res.body)['msg'];
+      } else if (res.statusCode == 200) {
+        Get.offNamed(AppRoutes.resetpassword, arguments: email.value);
+      }
+    } finally {
+      isLoading.value = false;
+    }
+    
+
   }
 }
