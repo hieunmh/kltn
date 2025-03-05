@@ -72,6 +72,14 @@ class SigninController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
 
+    void goToForgotPw() {
+      emailController.clear();
+      passwordController.clear();
+      emailError.value = '';
+      commonError.value = '';
+      passwordError.value = '';
+      Get.toNamed(AppRoutes.forgotpassword);
   }
 }

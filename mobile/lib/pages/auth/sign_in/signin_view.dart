@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/pages/auth/sign_in/signin_controller.dart';
-import 'package:mobile/routes/routes.dart';
 import 'package:mobile/widgets/auth/input_field.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -75,7 +74,7 @@ class SigninView extends GetView<SigninController> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed(AppRoutes.forgotpassword);
+                        controller.goToForgotPw();
                       },
                       child: Text(
                         'Forgot password?',

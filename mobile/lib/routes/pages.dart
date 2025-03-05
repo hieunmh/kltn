@@ -5,6 +5,7 @@ import 'package:mobile/pages/auth/forgot-pw/forgot_pw_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_view.dart';
 import 'package:mobile/pages/auth/reset-pw/reset_pw_bindings.dart';
 import 'package:mobile/pages/auth/reset-pw/reset_pw_view.dart';
+import 'package:mobile/pages/auth/reset-pw/reset_success_view.dart';
 import 'package:mobile/pages/auth/verify/verify_code_bindings.dart';
 import 'package:mobile/pages/auth/verify/verify_code_view.dart';
 import 'package:mobile/pages/auth/sign_in/signin_bindings.dart';
@@ -35,6 +36,10 @@ class AppPages {
       name: AppRoutes.resetpassword, 
       page: () => ResetPwView(),
       binding: ResetPwBindings()
+    ),
+    GetPage(
+      name:  AppRoutes.resetsuccess,
+      page: () => ResetSuccessView(),
     ),
     GetPage(
       name: AppRoutes.forgotpassword, 

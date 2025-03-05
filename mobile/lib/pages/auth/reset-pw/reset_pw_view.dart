@@ -65,7 +65,7 @@ class ResetPwView extends GetView<ResetPwController> {
                   obscureText: controller.showRePassword.value, 
                   ctrler: controller.rePasswordController, 
                   borderColor: Colors.grey.shade300, 
-                  errorMsg: controller.passwordError.value,
+                  errorMsg: controller.repasswordError.value,
                   onTap: controller.toggleShowRePassword,
                 ),
 
@@ -73,7 +73,7 @@ class ResetPwView extends GetView<ResetPwController> {
 
                 GestureDetector(
                   onTap: () {
-                    
+                    controller.resetPassword();
                   },
                   child: Container(
                     height: 70,
@@ -89,8 +89,6 @@ class ResetPwView extends GetView<ResetPwController> {
                         child: CircularProgressIndicator(
                           color: Colors.white,
                           strokeWidth: 2,
-                          
-                          // value: 0.1,
                         ),
                       ) : Text(
                         'Reset Password',
@@ -130,6 +128,22 @@ class ResetPwView extends GetView<ResetPwController> {
                     ],
                   )
                 ),
+
+                const SizedBox(height: 5),
+        
+                controller.commonError.value.isNotEmpty ? SizedBox(
+                  height: 20,
+                  child: Text(
+                    controller.commonError.value,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                ) : const SizedBox(height: 20),
+        
+                const SizedBox(height: 5),
 
               ],
             ),
