@@ -101,7 +101,7 @@ export const forgotPassword: RequestHandler = async (req: Request, res: Response
   const user = await Users.findOne({ where: { email: email }});
 
   if (!user) {
-    res.status(400).json({ msg: 'Email not registered!' });
+    res.status(404).json({ msg: 'Email not registered!' });
     return;
   }
 
@@ -160,7 +160,10 @@ export const resetPassword: RequestHandler = async (req: Request, res: Response)
     where: { email: email }
   });
 
-  if (!user) return;
+  if (!user) {
+    res.status(404).json({ msg: 'Email not registered!' });
+    return;
+  };
 
   user.password = bcrypt.hashSync(password, 10);
   user.resetCode = null;
