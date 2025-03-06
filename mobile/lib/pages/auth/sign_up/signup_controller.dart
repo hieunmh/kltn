@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/config/env.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,8 @@ class SignupController extends GetxController {
   final passwordError = ''.obs;
   final repasswordError = ''.obs;
   final commonError = ''.obs;
+
+  final serverHost = Env.serverhost;
 
   void toggleShowPassword() {
     showPassword.value = !showPassword.value;
@@ -57,7 +60,7 @@ class SignupController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('http://localhost:8000/signup'), body: {
+      final res = await http.post(Uri.parse('$serverHost/signup'), body: {
         'email': email,
         'password': password,
       });

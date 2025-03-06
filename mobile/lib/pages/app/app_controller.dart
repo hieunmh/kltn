@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mobile/config/env.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,8 @@ class AppController extends GetxController {
   final RxString userid = ''.obs;
   final RxString name = ''.obs;
   final RxString email = ''.obs;
+
+  final serverHost = Env.serverhost;
 
   @override
   void onInit() {
@@ -26,7 +29,7 @@ class AppController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final res = await http.post(Uri.parse('http://localhost:8000/signout'), headers: {
+    final res = await http.post(Uri.parse('$serverHost/signout'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Connection': 'keep-alive',

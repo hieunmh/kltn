@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/config/env.dart';
 import 'package:mobile/models/user.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,8 @@ class SigninController extends GetxController {
   final passwordError = ''.obs;
   final commonError = ''.obs;
   final isLoading = false.obs;
+
+  final serverHost = Env.serverhost;
 
   void toggleShowPassword() {
     showPassword.value = !showPassword.value;
@@ -43,7 +46,7 @@ class SigninController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('http://localhost:8000/signin'), 
+      final res = await http.post(Uri.parse('$serverHost/signin'), 
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

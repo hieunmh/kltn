@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/config/env.dart';
 import 'package:mobile/routes/routes.dart';
 
 class ForgotPwController extends GetxController {
@@ -9,6 +10,8 @@ class ForgotPwController extends GetxController {
 
   final RxBool isLoading = false.obs;
   final RxString commonError = ''.obs; 
+
+  final serverHost = Env.serverhost;
 
   Future<void> forgotPassword() async {
     if (emailController.text.isEmpty) {
@@ -25,7 +28,7 @@ class ForgotPwController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('http://localhost:8000/forgot-password'), body: {
+      final res = await http.post(Uri.parse('$serverHost/forgot-password'), body: {
         'email': emailController.text
       });
 

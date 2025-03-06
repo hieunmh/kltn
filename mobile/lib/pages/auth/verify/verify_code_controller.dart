@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:mobile/config/env.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +10,8 @@ class VerifyCodeController extends GetxController {
   final RxString code = ''.obs;
   final RxBool isLoading = false.obs;
   final RxString commonError = ''.obs;
+
+  final serverHost = Env.serverhost;
 
   @override
   void onInit() {
@@ -32,7 +35,7 @@ class VerifyCodeController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('http://localhost:8000/verify-code'), body: {
+      final res = await http.post(Uri.parse('$serverHost/verify-code'), body: {
         'email': email.value,
         'resetcode': code.value
       });

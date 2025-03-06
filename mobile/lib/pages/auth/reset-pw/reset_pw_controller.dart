@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/config/env.dart';
 import 'package:mobile/routes/routes.dart';
 
 class ResetPwController extends GetxController {
@@ -15,6 +16,8 @@ class ResetPwController extends GetxController {
   final commonError = ''.obs;
 
   final RxBool isLoading = false.obs;
+
+  final serverHost = Env.serverhost;
 
   void toggleShowPassword() {
     showPassword.value = !showPassword.value;
@@ -46,7 +49,7 @@ class ResetPwController extends GetxController {
 
     try {
       isLoading.value = true;
-      await http.patch(Uri.parse('http://localhost:8000/reset-password'), body: {
+      await http.patch(Uri.parse('$serverHost/reset-password'), body: {
         'email': Get.arguments as String,
         'password': passwordController.text
       });
