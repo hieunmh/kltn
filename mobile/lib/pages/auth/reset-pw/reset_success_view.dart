@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ResetSuccessView extends StatelessWidget{
   const ResetSuccessView({super.key});
@@ -40,6 +41,48 @@ class ResetSuccessView extends StatelessWidget{
               ),
 
               const SizedBox(height: 20),
+
+              Text(
+                'Your password has been reset',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18
+                ),
+              ),
+
+              Text(
+                'Successfully!',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child:Container(
+                  height: 70,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF4a66f0)
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              )
 
             ],
           ),
