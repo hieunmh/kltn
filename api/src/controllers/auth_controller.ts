@@ -1,4 +1,4 @@
-import { Request, RequestHandler, response, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import Users from '../models/user';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
@@ -25,9 +25,9 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
       user: {
         id: user.id,
         name: user.name ?? '',
-        email: user.email
+        email: user.email,
+        createdAt: user.createdAt ?? ''
       },
-      id: req.session.cookie,
       msg: 'User created successfully!'
     });
   }).catch(e => {
@@ -46,7 +46,7 @@ export const signin: RequestHandler = async (req: Request, res: Response) => {
   }
 
   const user = await Users.findOne({
-    attributes: ['id', 'name', 'email', 'password'],
+    attributes: ['id', 'name', 'email', 'password', 'createdAt'],
     where: { email: email}
   });
 
@@ -67,7 +67,8 @@ export const signin: RequestHandler = async (req: Request, res: Response) => {
     user: {
       id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      created_at: user.createdAt,
     },
     msg: 'Sign in successfully!'
   });

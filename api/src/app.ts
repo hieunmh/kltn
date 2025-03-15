@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import session from 'express-session';
 
-import indexRouter from './routes/index_router';
+import indexRouter from './routes/index_route';
 import connection from './config/connection';
 import sessionStore from './config/session';
 

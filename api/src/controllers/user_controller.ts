@@ -10,7 +10,8 @@ export const getUser: RequestHandler = async (req: Request, res: Response) => {
     user: {
       id: user?.id,
       name: user?.name,
-      email: user?.email
+      email: user?.email,
+      createdAt: user?.createdAt
     },
     msg: 'Already logged in!',
   });

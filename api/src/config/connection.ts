@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize-typescript';
 import Users from '../models/user';
+import Posts from '../models/post';
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ const connection = new Sequelize({
       rejectUnauthorized: false,
     }
   },
-  models: [Users]
+  models: [Users, Posts]
 })
 
 export default connection;

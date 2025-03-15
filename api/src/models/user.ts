@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType, Unique, PrimaryKey, AllowNull } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Unique, PrimaryKey, AllowNull, HasMany } from 'sequelize-typescript';
 import { UserType } from '../types/types';
+import Post from './post';
 
 @Table({
   tableName: 'Users',
@@ -9,9 +10,7 @@ import { UserType } from '../types/types';
 class Users extends Model<UserType> {
   @PrimaryKey
   @AllowNull(false)
-  @Column({
-    type: DataType.UUID,
-  })
+  @Column({ type: DataType.UUID })
   id!: string
 
   @AllowNull(true)
@@ -34,6 +33,9 @@ class Users extends Model<UserType> {
   @AllowNull(true)
   @Column({ type: DataType.DATE })
   resetCodeExpires!: Date | null;
+
+  @HasMany(() => Post, { as: 'Posts' })
+  posts!: Post[]
 }
 
 export default Users;
