@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/app_controller.dart';
+import 'package:mobile/pages/app/post/post_view.dart';
+import 'package:mobile/pages/app/profile/profile_view.dart';
 
 class AppView extends GetView<AppController> {
   const AppView({super.key});
@@ -9,51 +12,59 @@ class AppView extends GetView<AppController> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(),
-      body: Obx(() =>
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 50),
-          child: Center(
-            child: Column(
-              children: [
-                Text(
-                  controller.userid.value
-                ),
-                Text(
-                  controller.email.value
-                ),
-                Text(
-                  controller.name.value
-                ),
-          
-                GestureDetector(
-                    onTap: () {
-                      controller.signout();
-                    },
-                    child: Container(
-                      height: 70,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFF4a66f0)
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Sign out',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+      body: PageView(
+        controller: controller.pageController,
+        onPageChanged: (value) => controller.changePage(value),
+        children: [
+          PostView(),
+          ProfileView()
+        ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.grey,
+              width: 0.5
+            )
+          )
         ),
-      )
+        child: Theme(
+          data: ThemeData(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent
+          ), 
+          child: Obx(() =>
+            BottomNavigationBar(
+              backgroundColor: Colors.white,
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 12
+              ),
+              selectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 12
+              ),
+              unselectedItemColor: Colors.grey,
+              selectedItemColor: Colors.blue,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesome.rectangle_list),
+                  activeIcon: Icon(FontAwesome.rectangle_list_solid),
+                  label: 'Home'
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesome.user),
+                  activeIcon: Icon(FontAwesome.user_solid),
+                  label: 'Profile'
+                ),
+              ],
+              currentIndex: controller.currentPage.value,
+              onTap: (value) => controller.handleNavBarTap(value),
+            ),
+          )
+        ),
+      ),
     );
   }
 }
