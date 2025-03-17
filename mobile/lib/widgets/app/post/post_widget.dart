@@ -13,7 +13,15 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey.shade400,
+            width: 0.5
+          )
+        )
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -21,21 +29,36 @@ class PostWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Row(
               children: [
+                (post.user.imageUrl ?? '').isNotEmpty ? 
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
-                  child: (post.imageUrl ?? '').isNotEmpty 
-                  ? Image.network(
+                  child: Image.network(
                       post.imageUrl!, 
                       height: 40,
                       width: 40,
                       fit: BoxFit.cover,
                       // ...
                     )
-                  : Image.network('https://placehold.co/400', 
+          
+                ) : Container(
+                  width: 40, 
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle, 
+                    border: Border.all( 
+                      color: Colors.grey.shade400, 
+                      width: 1.5,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/image/user-placeholder.png',
                       height: 40,
                       width: 40,
                       fit: BoxFit.cover,
                     ),
+                  ),
                 ),
 
                 SizedBox(width: 10),
@@ -53,47 +76,49 @@ class PostWidget extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          Image.network(
-            post.imageUrl ?? 'https://placehold.co/400',
-            height: 200,
+          (post.imageUrl ?? '').isNotEmpty ? Image.network(
+            post.imageUrl!,
             width: double.infinity,
             fit: BoxFit.cover,
-          ),
+          ) : Container(),
 
-          const SizedBox(height: 10),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+          (post.imageUrl ?? '').isNotEmpty ? Column(
+            children: [
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      children: [
+                        Icon(
+                          BoxIcons.bx_message_rounded,
+                          size: 24
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          '90',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                
                     Icon(
-                      BoxIcons.bx_message_rounded,
+                      BoxIcons.bx_bookmark,
+                      // Iconsax.save_2_outline,
                       size: 24
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      '90',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
+                    )
                   ],
                 ),
-            
-                Icon(
-                  BoxIcons.bx_tag,
-                  // Iconsax.save_2_outline,
-                  size: 24
-                )
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 10),
+              ),
+              const SizedBox(height: 5),
+            ],
+          ) : SizedBox(),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -102,14 +127,19 @@ class PostWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      post.user.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14
-                      ),
-                    ),
-                    const SizedBox(width: 5),
+                    (post.imageUrl ?? '').isNotEmpty ? Row(
+                      children: [
+                        Text(
+                          post.user.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                      ],
+                    ): SizedBox(),
+
                     Text(
                       post.title,
                       style: TextStyle(
@@ -129,12 +159,49 @@ class PostWidget extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 1),
+          (post.imageUrl ?? '').isEmpty ? Column(
+            children: [
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          BoxIcons.bx_message_rounded,
+                          size: 24
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          '90',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                
+                    Icon(
+                      BoxIcons.bx_bookmark,
+                      // Iconsax.save_2_outline,
+                      size: 24
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 5),
+            ],
+          ) : SizedBox(),
+
+          const SizedBox(height: 5),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              DateFormat('EEEE, MMMM dd, yyyy').format(DateTime.parse(post.createdAt)),
+              '${DateFormat('EEEE, MMMM dd, yyyy').format(DateTime.parse(post.createdAt))} at ${DateFormat('HH:mm').format(DateTime.parse(post.createdAt))}',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey

@@ -22,7 +22,7 @@ class PostController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final postlist = await http.get(Uri.parse('$serverHost/get-post-by-condition?subject=math'), headers: {
+    final postlist = await http.get(Uri.parse('$serverHost/get-post-by-condition'), headers: {
       'cookie': rawCookie
     });
     if (postlist.statusCode == 200) {

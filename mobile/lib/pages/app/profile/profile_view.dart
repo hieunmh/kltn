@@ -10,12 +10,32 @@ class ProfileView extends GetView<ProfileController> {
         title: Text('ProfileView'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          'ProfileView is working', 
-          style: TextStyle(fontSize:20),
-        ),
-      ),
+      body: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              controller.signout();
+            },
+            child: Container(
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Center(
+                child: Text(
+                  'Sign Out',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      )
     );
   }
 }
