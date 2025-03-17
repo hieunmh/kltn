@@ -17,6 +17,10 @@ class Users extends Model<UserType> {
   @Column({ type: DataType.STRING })
   name!: string;
 
+  @AllowNull(true)
+  @Column({ type: DataType.TEXT })
+  image_url!: string;
+
   @Unique
   @AllowNull(false)
   @Column({ type: DataType.STRING })

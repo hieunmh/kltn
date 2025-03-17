@@ -11,7 +11,11 @@ module.exports = {
       },
       name: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
+      },
+      image_url: {
+        allowNull: true,
+        type: Sequelize.TEXT
       },
       email: {
         allowNull: false,

@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from 'express';
 import Posts from '../models/post';
 import { v4 as uuidv4 } from 'uuid';
+import Users from '../models/user';
 
 export const getAllPost: RequestHandler = async (req: Request, res: Response) => {
   const posts = await Posts.findAll();
@@ -24,7 +25,14 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
   }
   
   const posts = await Posts.findAll({
-    where: whereClause
+    where: whereClause,
+    include: [
+      {
+        model: Users,
+        as: 'user',
+        attributes: ['id', 'name', 'email']
+      }
+    ]
   });
 
   if (posts.length == 0) {

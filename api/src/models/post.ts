@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, PrimaryKey, AllowNull, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { PostType } from '../types/types';
-import User from './user';
+import Users from './user';
 
 @Table({
   tableName: 'Posts',
@@ -13,7 +13,7 @@ class Posts extends Model<PostType> {
   @Column({ type: DataType.UUID })
   id!: string
 
-  @ForeignKey(() => User)
+  @ForeignKey(() => Users)
   @AllowNull(true)
   @Column({ type: DataType.UUID })
   user_id!: string;
@@ -34,8 +34,8 @@ class Posts extends Model<PostType> {
   @Column({ type: DataType.STRING })
   image_url!: string | null;
 
-  @BelongsTo(() => User, { as: 'User' })
-  user!: User
+  @BelongsTo(() => Users, { as: 'user' })
+  user!: Users
 }
 
 export default Posts;
