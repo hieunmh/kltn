@@ -21,3 +21,22 @@ export type PostType = {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export type ChatType = {
+  id: string;
+  user_id: string;
+  name: string;
+
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type MessageType = {
+  id: string;
+  chat_id: string;
+  user_content: string;
+  ai_response: string;
+
+  createdAt?: string;
+  updatedAt?: string;
+}

@@ -2,32 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Posts', {
+    await queryInterface.createTable('Messages', {
       id: {
         allowNull: false,
         autoIncrement: false,
         primaryKey: true,
         type: Sequelize.UUID
       },
-      user_id: {
+      chat_id: {
         allowNull: false,
         type: Sequelize.UUID
       },
-      subject: {
+      user_content: {
         allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
-      title: {
+      ai_response: {
         allowNull: false,
-        type: Sequelize.TEXT
-      },
-      content: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      image_url: {
-        allowNull: false,
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Posts');
+    await queryInterface.dropTable('Messages');
   }
 };

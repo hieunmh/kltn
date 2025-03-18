@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Posts', {
+    await queryInterface.createTable('Chats', {
       id: {
         allowNull: false,
         autoIncrement: false,
@@ -13,19 +13,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID
       },
-      subject: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      title: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      content: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
-      image_url: {
+      name: {
         allowNull: false,
         type: Sequelize.TEXT
       },
@@ -40,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Posts');
+    await queryInterface.dropTable('Conversations');
   }
 };

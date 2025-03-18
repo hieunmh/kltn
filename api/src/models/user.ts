@@ -1,13 +1,14 @@
 import { Table, Column, Model, DataType, Unique, PrimaryKey, AllowNull, HasMany } from 'sequelize-typescript';
 import { UserType } from '../types/types';
 import Post from './post';
+import Chat from './chat';
 
 @Table({
   tableName: 'Users',
   timestamps: true,
 })
 
-class Users extends Model<UserType> {
+class User extends Model<UserType> {
   @PrimaryKey
   @AllowNull(false)
   @Column({ type: DataType.UUID })
@@ -38,8 +39,11 @@ class Users extends Model<UserType> {
   @Column({ type: DataType.DATE })
   resetCodeExpires!: Date | null;
 
-  @HasMany(() => Post, { as: 'Posts' })
+  @HasMany(() => Post, { as: 'posts' })
   posts!: Post[]
+
+  @HasMany(() => Chat, { as: 'chats' })
+  chats!: Chat[]
 }
 
-export default Users;
+export default User;

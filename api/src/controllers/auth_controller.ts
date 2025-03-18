@@ -1,5 +1,5 @@
 import { Request, RequestHandler, Response } from 'express';
-import Users from '../models/user';
+import User from '../models/user';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { UserType } from '../types/types';
@@ -13,7 +13,7 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
     return;
   }
 
-  await Users.create({
+  await User.create({
     id: uuidv4(),
     name: '',
     email: email,
@@ -45,7 +45,7 @@ export const signin: RequestHandler = async (req: Request, res: Response) => {
     return;
   }
 
-  const user = await Users.findOne({
+  const user = await User.findOne({
     attributes: ['id', 'name', 'email', 'password', 'createdAt'],
     where: { email: email}
   });
@@ -99,7 +99,7 @@ export const forgotPassword: RequestHandler = async (req: Request, res: Response
     return;
   }
 
-  const user = await Users.findOne({ where: { email: email }});
+  const user = await User.findOne({ where: { email: email }});
 
   if (!user) {
     res.status(404).json({ msg: 'Email not registered!' });
@@ -137,7 +137,7 @@ export const forgotPassword: RequestHandler = async (req: Request, res: Response
 export const verifyCode: RequestHandler = async (req: Request, res: Response) => {
   const { resetcode, email } = req.body;
 
-  const user = await Users.findOne({
+  const user = await User.findOne({
     where: { email: email }
   });
 
@@ -157,7 +157,7 @@ export const verifyCode: RequestHandler = async (req: Request, res: Response) =>
 export const resetPassword: RequestHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  const user = await Users.findOne({
+  const user = await User.findOne({
     where: { email: email }
   });
 

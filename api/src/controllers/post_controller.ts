@@ -1,10 +1,10 @@
 import { Request, RequestHandler, Response } from 'express';
-import Posts from '../models/post';
+import Post from '../models/post';
 import { v4 as uuidv4 } from 'uuid';
 import Users from '../models/user';
 
 export const getAllPost: RequestHandler = async (req: Request, res: Response) => {
-  const posts = await Posts.findAll();
+  const posts = await Post.findAll();
 
   res.status(200).send({
     posts: posts
@@ -24,7 +24,7 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
     whereClause.user_id = user_id as string;
   }
   
-  const posts = await Posts.findAll({
+  const posts = await Post.findAll({
     where: whereClause,
     include: [
       {
@@ -55,7 +55,7 @@ export const createPost: RequestHandler = async (req: Request, res: Response) =>
     return;
   }
 
-  await Posts.create({
+  await Post.create({
     id: uuidv4(),
     user_id: id,
     subject: subject,
