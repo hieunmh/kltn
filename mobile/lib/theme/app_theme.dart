@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/theme/app_color.dart';
 
 class AppTheme {
 
@@ -14,9 +15,9 @@ class AppTheme {
   // dark theme
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: const Color(0xff1f2630),
+    scaffoldBackgroundColor: AppColor.bgDarkThemeColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xff1f2630)
-    )
+      backgroundColor: AppColor.bgDarkThemeColor,
+    ),
   );
 }

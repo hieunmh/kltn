@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
 import 'package:mobile/models/post.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PostController extends GetxController {
@@ -11,6 +12,7 @@ class PostController extends GetxController {
 
   final serverHost = Env.serverhost;
 
+  final ThemeController themeController = Get.find<ThemeController>();
 
   @override
   void onInit() {

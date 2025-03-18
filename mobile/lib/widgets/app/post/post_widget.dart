@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
+  final Color color;
 
-
-  const PostWidget({super.key, required this.post});
+  const PostWidget({super.key, required this.post, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +15,7 @@ class PostWidget extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
+        color: color,
         border: Border(
           top: BorderSide(
             color: Colors.grey.shade400,

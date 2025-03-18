@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/app_controller.dart';
 import 'package:mobile/pages/app/post/post_view.dart';
-import 'package:mobile/pages/app/profile/profile_view.dart';
+import 'package:mobile/pages/app/setting/setting_view.dart';
+import 'package:mobile/theme/app_color.dart';
 
 class AppView extends GetView<AppController> {
   const AppView({super.key});
@@ -17,7 +18,7 @@ class AppView extends GetView<AppController> {
         onPageChanged: (value) => controller.changePage(value),
         children: [
           PostView(),
-          ProfileView()
+          SettingView()
         ],
       ),
       bottomNavigationBar: Container(
@@ -36,7 +37,7 @@ class AppView extends GetView<AppController> {
           ), 
           child: Obx(() =>
             BottomNavigationBar(
-              backgroundColor: Colors.white,
+              backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
               unselectedLabelStyle: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12
@@ -46,17 +47,17 @@ class AppView extends GetView<AppController> {
                 fontSize: 12
               ),
               unselectedItemColor: Colors.grey,
-              selectedItemColor: Colors.blue,
+              selectedItemColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(FontAwesome.rectangle_list),
-                  activeIcon: Icon(FontAwesome.rectangle_list_solid),
+                  icon: Icon(Iconsax.home_2_outline),
+                  activeIcon: Icon(Iconsax.home_2_bold),
                   label: 'Home'
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(FontAwesome.user),
-                  activeIcon: Icon(FontAwesome.user_solid),
-                  label: 'Profile'
+                  icon: Icon(Iconsax.setting_outline),
+                  activeIcon: Icon(Iconsax.setting_bold),
+                  label: 'Setting'
                 ),
               ],
               currentIndex: controller.currentPage.value,
