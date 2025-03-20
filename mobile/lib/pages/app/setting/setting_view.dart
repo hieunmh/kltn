@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:icons_plus/icons_plus.dart';
@@ -16,23 +18,34 @@ class SettingView extends GetView<SettingController> {
     return Obx(() =>
       Scaffold(
         appBar: AppBar(
-          backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
-          title: Row(
-            children: [
-              Text(
-                'Setting',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                ),
+        backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
+        title: Row(
+          children: [
+            Text(
+              'Setting',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,  
               ),
-            ],
-          ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(0),
-            child: Container(color: Colors.grey.shade400, height: 0.5),
+            ),
+          ],
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: Container(
+            color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
+            height: 0.5
           ),
         ),
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: Container(
+              color: Colors.transparent
+            ),
+          ),
+        ),
+      ),
         backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -44,7 +57,7 @@ class SettingView extends GetView<SettingController> {
                 decoration: BoxDecoration(
                   color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
                   border: Border.all(
-                    color: Colors.grey.shade400,
+                    color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
                     width: 0.5
                   ),
                   borderRadius: BorderRadius.circular(10),

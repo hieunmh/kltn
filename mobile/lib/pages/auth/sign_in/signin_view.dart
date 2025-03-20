@@ -57,7 +57,7 @@ class SigninView extends GetView<SigninController> {
                   errorMsg: controller.emailError.value
                 ),
         
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
         
                 InputField(
                   hintText: 'Password', 

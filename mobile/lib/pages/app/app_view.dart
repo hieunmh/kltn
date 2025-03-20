@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/app_controller.dart';
+import 'package:mobile/pages/app/chat/chat_view.dart';
 import 'package:mobile/pages/app/post/post_view.dart';
 import 'package:mobile/pages/app/setting/setting_view.dart';
 import 'package:mobile/theme/app_color.dart';
@@ -18,6 +19,7 @@ class AppView extends GetView<AppController> {
         onPageChanged: (value) => controller.changePage(value),
         children: [
           PostView(),
+          ChatView(),
           SettingView()
         ],
       ),
@@ -53,6 +55,11 @@ class AppView extends GetView<AppController> {
                   icon: Icon(Iconsax.home_2_outline),
                   activeIcon: Icon(Iconsax.home_2_bold),
                   label: 'Home'
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Iconsax.message_text_outline),
+                  activeIcon: Icon(Iconsax.message_text_1_bold),
+                  label: 'Chat'
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.setting_outline),

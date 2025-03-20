@@ -16,12 +16,6 @@ class PostWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: color,
-        border: Border(
-          top: BorderSide(
-            color: Colors.grey.shade400,
-            width: 0.5
-          )
-        )
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

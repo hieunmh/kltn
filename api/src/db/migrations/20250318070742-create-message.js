@@ -13,13 +13,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID
       },
-      user_content: {
+      role: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
-      ai_response: {
+      message: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

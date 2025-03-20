@@ -60,6 +60,6 @@ class AppController extends GetxController {
   }
 
   void handleNavBarTap(int index) {
-    pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
+    pageController.jumpToPage(index);
   }
 }

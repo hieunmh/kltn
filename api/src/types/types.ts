@@ -34,8 +34,8 @@ export type ChatType = {
 export type MessageType = {
   id: string;
   chat_id: string;
-  user_content: string;
-  ai_response: string;
+  role: string;
+  message: string;
 
   createdAt?: string;
   updatedAt?: string;

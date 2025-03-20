@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 import { Sequelize } from 'sequelize-typescript';
-import Users from '../models/user';
-import Posts from '../models/post';
+import User from '../models/user';
+import Post from '../models/post';
+import Chat from '../models/chat';
+import Message from '../models/message';
 
 dotenv.config();
 
@@ -18,7 +20,7 @@ const connection = new Sequelize({
       rejectUnauthorized: false,
     }
   },
-  models: [Users, Posts]
+  models: [User, Post, Chat, Message]
 })
 
 export default connection;

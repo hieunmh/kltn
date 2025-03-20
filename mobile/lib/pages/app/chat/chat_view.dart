@@ -2,17 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile/pages/app/post/post_controller.dart';
-import 'package:mobile/theme/app_color.dart';
-import 'package:mobile/widgets/app/post/post_widget.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:mobile/pages/app/chat/chat_controller.dart';
+import 'package:mobile/theme/app_color.dart';
 
-class PostView extends GetView<PostController> {
-  const PostView({super.key});
+class ChatView extends GetView<ChatController> {
+  const ChatView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -20,7 +18,7 @@ class PostView extends GetView<PostController> {
         title: Row(
           children: [
             Text(
-              'Posts',
+              'Messages',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,  
@@ -33,7 +31,7 @@ class PostView extends GetView<PostController> {
             onPressed: () {
               // Get.toNamed('/post/create');
             },
-            icon: Icon(BoxIcons.bx_add_to_queue),
+            icon: Icon(BoxIcons.bx_message_add),
             iconSize: 24,
           )
         ],
@@ -53,32 +51,33 @@ class PostView extends GetView<PostController> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: Get.height - 90,
-              width: double.infinity,
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Obx(() =>
-                ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                    color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300,
-                    height: 0.5,
-                  ),
-                  itemCount: controller.posts.length,
-                  itemBuilder: (context, index) {
-                    return PostWidget(
-                      post: controller.posts[index],
-                      color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
-                    );
-                  },
-                ),
+      body: controller.chatList.isEmpty ? Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              'No message found',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
               ),
-            )
-          ],
-        )
-      )
+            ),
+          )
+        ],
+      ) : SingleChildScrollView(
+        child: Container(
+          child: ListView.builder(
+            itemCount: controller.chatList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(controller.chatList[index].name),
+                // subtitle: Text(controller.chatList[index].message),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

@@ -21,7 +21,11 @@ class Message extends Model<MessageType> {
 
   @AllowNull(false)
   @Column({ type: DataType.TEXT })
-  name!: string;
+  role!: string;
+
+  @AllowNull(false)
+  @Column({ type: DataType.TEXT })
+  message!: string;
 
   @BelongsTo(() => Chat, { as: 'chat' })
   chat!: Chat
