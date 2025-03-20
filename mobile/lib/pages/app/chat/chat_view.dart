@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/chat/chat_controller.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/app_color.dart';
 
 class ChatView extends GetView<ChatController> {
@@ -29,7 +30,7 @@ class ChatView extends GetView<ChatController> {
         actions: [
           IconButton(
             onPressed: () {
-              // Get.toNamed('/post/create');
+              Get.toNamed(AppRoutes.message);
             },
             icon: Icon(BoxIcons.bx_message_add),
             iconSize: 24,

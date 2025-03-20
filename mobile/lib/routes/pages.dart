@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:mobile/pages/app/app_bindings.dart';
 import 'package:mobile/pages/app/app_view.dart';
+import 'package:mobile/pages/app/chat/message/msg_bindings.dart';
+import 'package:mobile/pages/app/chat/message/msg_view.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_view.dart';
 import 'package:mobile/pages/auth/reset-pw/reset_pw_bindings.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: AppRoutes.signup, 
       page: () => SignupView(),
       binding: SignupBindings()
+    ),
+    GetPage(
+      name: AppRoutes.message, 
+      page: () => MsgView(),
+      binding: MsgBindings()
     ),
     GetPage(
       name: AppRoutes.splash, 

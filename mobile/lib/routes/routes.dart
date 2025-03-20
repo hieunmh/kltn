@@ -14,4 +14,6 @@ class AppRoutes {
   static const String resetpassword = '/resetpassword';
 
   static const String resetsuccess = '/resetsuccess';
+
+  static const String message = '/message';
 }

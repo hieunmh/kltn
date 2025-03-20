@@ -63,7 +63,7 @@ class SignoutSetting extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.person, size: 16),
+                Icon(BoxIcons.bx_log_out, size: 16),
                 const SizedBox(width: 10),
                 Text(
                   'Sign out',
@@ -73,12 +73,7 @@ class SignoutSetting extends StatelessWidget {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                // Navigator.pushNamed(context, '/profile');
-              },
-              child: Icon(FontAwesome.chevron_right_solid, size: 16),
-            )
+            Icon(FontAwesome.chevron_right_solid, size: 16),
           ],
         ),
       ),

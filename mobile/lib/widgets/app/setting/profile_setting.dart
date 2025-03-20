@@ -14,7 +14,7 @@ class ProfileSetting extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.person, size: 16),
+              Icon(BoxIcons.bxs_user, size: 16),
               const SizedBox(width: 10),
               Text(
                 name,
