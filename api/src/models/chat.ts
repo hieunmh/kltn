@@ -19,7 +19,7 @@ class Chat extends Model<ChatType> {
   @Column({ type: DataType.UUID })
   user_id!: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column({ type: DataType.TEXT })
   name!: string;
 

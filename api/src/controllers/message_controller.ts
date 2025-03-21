@@ -18,6 +18,7 @@ export const createMessage: RequestHandler = async (req: Request, res: Response)
   }).then((message) => {
     res.status(201).send({
       msg: 'Create message successfully!',
+      message: message
     });
   }).catch((e) => {
     res.status(400).send({ message: e });

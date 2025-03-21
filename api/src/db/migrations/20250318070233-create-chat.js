@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.UUID
       },
       name: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT
       },
       createdAt: {
