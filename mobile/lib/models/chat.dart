@@ -17,7 +17,7 @@ class Chat {
     return Chat(
       id: json['id'],
       userid: json['user_id'],
-      name: json['name'],
+      name: json['name'] ?? '',
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt']
     );

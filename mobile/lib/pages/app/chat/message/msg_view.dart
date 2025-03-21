@@ -13,112 +13,112 @@ class MsgView extends GetView<MsgController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar:AppBar(
-        scrolledUnderElevation: 0.0,
-        backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
-        title: Row(
+    return Obx(() =>
+      Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar:AppBar(
+          scrolledUnderElevation: 0.0,
+          backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
+          title: Row(
+            children: [
+              Text(
+                'Chat AI',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,  
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                // Get.toNamed('/post/create');
+              },
+              icon: Icon(BoxIcons.bx_dots_horizontal_rounded),
+              iconSize: 24,
+            )
+          ],
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(0),
+            child: Container(
+              color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
+              height: 0.5
+            ),
+          ),
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+              child: Container(
+                color: Colors.transparent
+              ),
+            ),
+          ),
+        ),
+        backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Chat AI',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,  
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: 20),
+                  itemCount: controller.messages.length,
+                  itemBuilder: (context, index) {
+                    return MessageBox(
+                      message: controller.messages[index],
+                      isDark: controller.themeController.isDark.value,
+                    );
+                  }, 
+                ),
+              )
+            ),
+      
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: controller.themeController.isDark.value ? Colors.grey.shade800 : Colors.grey.shade300,
+                    width: 1
+                  ),
+                ), 
+              ),
+              child: Container(
+                height: 90,
+                width: double.infinity,
+                color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                child: Row(
+                  children: [
+                    Icon(Iconsax.add_circle_bold),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: controller.msgController,
+                        cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                        decoration: InputDecoration(
+                          hintText: 'Type a message',
+                          hintStyle: TextStyle(
+                            color: Colors.grey.shade400
+                          ),
+                          border: InputBorder.none
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        // controller.createChat();
+                      },
+                      child: Icon(Iconsax.send_1_bold),
+                    )
+                  ],
+                ),
               ),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // Get.toNamed('/post/create');
-            },
-            icon: Icon(BoxIcons.bx_dots_horizontal_rounded),
-            iconSize: 24,
-          )
-        ],
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: Container(
-            color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
-            height: 0.5
-          ),
-        ),
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-            child: Container(
-              color: Colors.transparent
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-              child: ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(height: 20),
-                itemCount: controller.messages.length,
-                itemBuilder: (context, index) {
-                  return MessageBox(
-                    message: controller.messages[index],
-                    isDark: controller.themeController.isDark.value,
-                  );
-                }, 
-              ),
-            )
-          ),
-
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: controller.themeController.isDark.value ? Colors.grey.shade800 : Colors.grey.shade300,
-                  width: 1
-                ),
-              ),
-              
-              
-            ),
-            child: Container(
-              height: 90,
-              width: double.infinity,
-              color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
-              padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-              child: Row(
-                children: [
-                  Icon(Iconsax.add_circle_bold),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      // controller: controller.msgController,
-                      cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                      decoration: InputDecoration(
-                        hintText: 'Type a message',
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade400
-                        ),
-                        border: InputBorder.none
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () {
-                      // controller.sendMessage();
-                    },
-                    child: Icon(Iconsax.send_1_bold),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

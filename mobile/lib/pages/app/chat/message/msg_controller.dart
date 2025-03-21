@@ -1,46 +1,74 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile/config/env.dart';
+import 'package:mobile/models/chat.dart';
 import 'package:mobile/models/message.dart';
+import 'package:http/http.dart' as http;
+import 'package:mobile/pages/app/chat/chat_controller.dart';
 import 'package:mobile/theme/theme_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MsgController extends GetxController {
-  RxList<Message> messages = <Message>[
-    Message(
-      id: '1', 
-      chatid: '1', 
-      role: 'user', 
-      message: 'Hello',
-      updatedAt: '2021-08-01 12:00:00',
-      createdAt: '2021-08-01 12:00:00' 
-    ),
-    Message(
-      id: '2', 
-      chatid: '1', 
-      role: 'assistant', 
-      message: 'Hi, how can I help you?',
-      updatedAt: '2021-08-01 12:01:00',
-      createdAt: '2021-08-01 12:01:00'
-    ),
-    Message(
-      id: '3', 
-      chatid: '1', 
-      role: 'user', 
-      message: 'I have a problem with, ngày Bác Hồ ra đi tìm đường cứu nước?',
-      updatedAt: '2021-08-01 12:02:00',
-      createdAt: '2021-08-01 12:02:00'
-    ),
-    Message(
-      id: '4', 
-      chatid: '1', 
-      role: 'assistant', 
-      message: 'Chủ tịch Hồ Chí Minh, tên khai sinh là Nguyễn Sinh Cung, đã ra đi tìm đường cứu nước vào ngày 5 tháng 6 năm 1911. Vào ngày này, Người rời cảng Nhà Rồng, Sài Gòn trên con tàu Latouche-Tréville để hướng tới Pháp, bắt đầu hành trình tìm kiếm con đường giải phóng dân tộc Việt Nam.',
-      updatedAt: '2021-08-01 12:03:00',
-      createdAt: '2021-08-01 12:03:00'
-    ),
-  ].obs;
 
+  final serverHost = Env.serverhost;
 
-  RxString chatName = 'Chat'.obs;
+  RxList<Message> messages = <Message>[].obs;
+
+  final msgController = TextEditingController(text: '');
 
   final ThemeController themeController = Get.find<ThemeController>();
-  
+  final ChatController chatController = Get.find<ChatController>();
+
+  @override
+  void onInit() {
+    super.onInit();
+    messages.add(Get.arguments['message'] as Message);  
+    createAiMessage();
+  }
+
+  Future<void> createAiMessage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final usermsg = Get.arguments['message'] as Message;
+    final chat = Get.arguments['chat'] as Chat;
+
+    // get AI response
+    final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
+      'text': usermsg.message,
+      'model': 'gemini-2.0-pro-exp-02-05'
+    });
+
+    print(json.decode(aires.body)['response']['title']);
+
+    // creaste AI message
+    final aimsg = await http.post(Uri.parse('$serverHost/create-message'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'role': 'assistant',
+      'chat_id': usermsg.chatid,
+      'message': json.decode(aires.body)['response']['content']
+    });
+
+    if (aimsg.statusCode == 200 || aimsg.statusCode == 201) {
+      final data = json.decode(aimsg.body)['message'] as Map<String, dynamic>;
+      messages.add(Message.fromJson(data));
+      await http.post(Uri.parse('$serverHost/update-chat'), headers: {
+        'cookie': rawCookie
+      }, body: {
+        'chat_id': usermsg.chatid,
+        'chat_name': json.decode(aires.body)['response']['title']
+      });
+
+      chatController.chatList.add(Chat(
+        id: chat.id,
+        userid: chat.userid,
+        name: json.decode(aires.body)['response']['title'],
+        createdAt: chat.createdAt,
+        updatedAt: chat.updatedAt
+      )); 
+    }
+  }  
 }
