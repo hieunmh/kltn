@@ -66,6 +66,7 @@ class MsgView extends GetView<MsgController> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                 child: ListView.separated(
+                  controller: controller.scrollController,
                   separatorBuilder: (context, index) => SizedBox(height: 20),
                   itemCount: controller.messages.length,
                   itemBuilder: (context, index) {
@@ -112,7 +113,7 @@ class MsgView extends GetView<MsgController> {
                     SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
-                        // controller.createChat();
+                        controller.createMessage();
                       },
                       child: Icon(Iconsax.send_1_bold),
                     )

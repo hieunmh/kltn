@@ -11,16 +11,16 @@ import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MsgController extends GetxController {
-
   final serverHost = Env.serverhost;
 
   RxList<Message> messages = <Message>[].obs;
-
   final msgController = TextEditingController(text: '');
+  final ScrollController scrollController = ScrollController();
 
   final ThemeController themeController = Get.find<ThemeController>();
   final ChatController chatController = Get.find<ChatController>();
   RxString chatName = ''.obs;
+  RxString chatId = ''.obs;
 
   @override
   void onInit() {
@@ -30,16 +30,36 @@ class MsgController extends GetxController {
       createAiMessage();
     } else {
       chatName.value = Get.arguments['chat_name'];
+      chatId.value = Get.arguments['chat_id'];
       getChatMessage(Get.arguments['chat_id']);
     }
 
+    ever(messages, (_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      });
+    });
+
+    Future.delayed(Duration(milliseconds: 300), () {
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    });
+  }
+
+  void scrollToBottom() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 
   Future<void> createAiMessage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final usermsg = Get.arguments['message'][0] as Message;
+    final usermsg = Get.arguments['message'] as Message;
     final chat = Get.arguments['chat'] as Chat;
 
     // get AI response
@@ -79,7 +99,6 @@ class MsgController extends GetxController {
     }
   }  
 
-
   Future<void> getChatMessage(chatid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
@@ -97,6 +116,65 @@ class MsgController extends GetxController {
 
         return Message.fromJson(messageData); 
       }).toList();
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollToBottom();
+    });
+  }
+
+  Future<void> createMessage() async {
+    print(1);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    if (msgController.text.isEmpty) {
+      return;
+    }
+
+    final usertext = msgController.text;
+
+    // create user message
+    final usermsg = await http.post(Uri.parse('$serverHost/create-message'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'chat_id': chatId.value,
+      'role': 'user',
+      'message': usertext,
+    });
+
+    if (usermsg.statusCode == 200 || usermsg.statusCode == 201) {
+      final data = json.decode(usermsg.body)['message'] as Map<String, dynamic>;
+      messages.add(Message.fromJson(data));
+      msgController.clear();
+      
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        scrollToBottom();
+      });
+    }
+
+    //  get AI response
+    final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
+      'text': usertext,
+      'model': 'gemini-2.0-pro-exp-02-05',
+      'history': messages.map((m) => '${m.role}: ${m.message}\n').toList().join(' ')
+    });
+
+    // creaste AI message
+    final aimsg = await http.post(Uri.parse('$serverHost/create-message'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'role': 'assistant',
+      'chat_id': chatId.value,
+      'message': json.decode(aires.body)['response']['content']
+    });
+
+    if (aimsg.statusCode == 200 || aimsg.statusCode == 201) {
+      final data = json.decode(aimsg.body)['message'] as Map<String, dynamic>;
+      messages.add(Message.fromJson(data));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        scrollToBottom();
+      });
     }
   }
 }
