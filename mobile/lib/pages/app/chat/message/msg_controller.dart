@@ -20,19 +20,26 @@ class MsgController extends GetxController {
 
   final ThemeController themeController = Get.find<ThemeController>();
   final ChatController chatController = Get.find<ChatController>();
+  RxString chatName = ''.obs;
 
   @override
   void onInit() {
-    super.onInit();
-    messages.add(Get.arguments['message'] as Message);  
-    createAiMessage();
+    super.onInit(); 
+    if (Get.arguments['message'] != null) {
+      messages.add(Get.arguments['message'] as Message); 
+      createAiMessage();
+    } else {
+      chatName.value = Get.arguments['chat_name'];
+      getChatMessage(Get.arguments['chat_id']);
+    }
+
   }
 
   Future<void> createAiMessage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final usermsg = Get.arguments['message'] as Message;
+    final usermsg = Get.arguments['message'][0] as Message;
     final chat = Get.arguments['chat'] as Chat;
 
     // get AI response
@@ -40,8 +47,6 @@ class MsgController extends GetxController {
       'text': usermsg.message,
       'model': 'gemini-2.0-pro-exp-02-05'
     });
-
-    print(json.decode(aires.body)['response']['title']);
 
     // creaste AI message
     final aimsg = await http.post(Uri.parse('$serverHost/create-message'), headers: {
@@ -55,12 +60,14 @@ class MsgController extends GetxController {
     if (aimsg.statusCode == 200 || aimsg.statusCode == 201) {
       final data = json.decode(aimsg.body)['message'] as Map<String, dynamic>;
       messages.add(Message.fromJson(data));
-      await http.post(Uri.parse('$serverHost/update-chat'), headers: {
+      await http.put(Uri.parse('$serverHost/update-chat'), headers: {
         'cookie': rawCookie
       }, body: {
         'chat_id': usermsg.chatid,
         'chat_name': json.decode(aires.body)['response']['title']
       });
+
+      chatName.value = json.decode(aires.body)['response']['title'];
 
       chatController.chatList.add(Chat(
         id: chat.id,
@@ -71,4 +78,25 @@ class MsgController extends GetxController {
       )); 
     }
   }  
+
+
+  Future<void> getChatMessage(chatid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final chatmsg = await http.get(Uri.parse('$serverHost/get-chat-by-id?chat_id=$chatid'), headers: {
+      'cookie': rawCookie
+    });
+
+    if (chatmsg.statusCode == 200) {
+      final msgs = json.decode(chatmsg.body)['chat']['messages'] as List;
+      
+      messages.value = msgs.map((p) {
+        final messageData = Map<String, dynamic>.from(p); 
+        messageData['chat_id'] = chatid; 
+
+        return Message.fromJson(messageData); 
+      }).toList();
+    }
+  }
 }

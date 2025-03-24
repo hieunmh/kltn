@@ -18,7 +18,6 @@ class ChatController extends GetxController {
 
   final ThemeController themeController = Get.find<ThemeController>();
 
-  RxString chatName = 'Chat'.obs;
   RxString model = 'gemini-2.0-pro-exp-02-05'.obs;
   final msgController = TextEditingController(text: '');
 
@@ -29,7 +28,6 @@ class ChatController extends GetxController {
   }
 
   Future<void> getAllChat() async {
-    print('get all chat');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
@@ -43,11 +41,9 @@ class ChatController extends GetxController {
       final data = json.decode(chat.body)['chats'] as List;
       chatList.value = data.map((p) => Chat.fromJson(p as Map<String, dynamic>)).toList();
     }
-
-    print(chatList[0].name);
   }
 
- Future<void> createChat() async {
+  Future<void> createChat() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
@@ -93,5 +89,13 @@ class ChatController extends GetxController {
         ) 
       }
     );
+  }
+
+
+  void getChatMessage(String chatid, String chatName) async {
+    Get.toNamed(AppRoutes.message, arguments: {
+      'chat_id': chatid,
+      'chat_name': chatName
+    });
   }
 }

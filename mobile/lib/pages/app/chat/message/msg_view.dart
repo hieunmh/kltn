@@ -21,11 +21,14 @@ class MsgView extends GetView<MsgController> {
           backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
           title: Row(
             children: [
-              Text(
-                'Chat AI',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,  
+              Expanded(
+                child: Text(
+                  controller.chatName.value,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,  
+                  ),
                 ),
               ),
             ],

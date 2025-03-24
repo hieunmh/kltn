@@ -178,19 +178,29 @@ class ChatView extends GetView<ChatController> {
             )
           ],
         ) : Container(
+            padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
             child: ListView.separated(
             separatorBuilder: (context, index) => SizedBox(height: 20),
             itemCount: controller.chatList.length,
             itemBuilder: (context, index) {
               final chat = controller.chatList[index];
               return Container(
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                decoration: BoxDecoration(
+                  color: controller.themeController.isDark.value ? Colors.white.withAlpha(15) : Colors.grey.shade200,
+                ),
                 width: double.infinity,
-                child: Center(
-                  child: Text(
-                    chat.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                child: GestureDetector(
+                  onTap: () {
+                    controller.getChatMessage(chat.id, chat.name);
+                  },
+                  child: Center(
+                    child: Text(
+                      chat.name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
