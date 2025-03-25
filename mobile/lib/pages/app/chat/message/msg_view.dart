@@ -94,8 +94,7 @@ class MsgView extends GetView<MsgController> {
             controller.isAIresponding.value ? Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  height: 30,
+                  padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
                   child: Text(
                     'AI is responding...'
                   ),

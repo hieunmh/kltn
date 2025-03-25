@@ -14,18 +14,18 @@ class PostView extends GetView<PostController> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      // extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.white.withAlpha(120),
-        toolbarHeight: 40,
+        scrolledUnderElevation: 0.0,
+        backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
         title: Row(
           children: [
-            Text(
-              'Posts',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-      
+            Expanded(
+              child: Text(
+                'Posts',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,  
+                ),
               ),
             ),
           ],
@@ -39,6 +39,21 @@ class PostView extends GetView<PostController> {
             iconSize: 24,
           )
         ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: Container(
+            color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
+            height: 0.5
+          ),
+        ),
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            child: Container(
+              color: Colors.transparent
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

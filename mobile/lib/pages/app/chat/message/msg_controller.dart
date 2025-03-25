@@ -43,6 +43,8 @@ class MsgController extends GetxController {
     final usermsg = Get.arguments['message'] as Message;
     final chat = Get.arguments['chat'] as Chat;
 
+    isAIresponding.value = true;
+
     // get AI response
     final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
       'text': usermsg.message,
@@ -67,6 +69,8 @@ class MsgController extends GetxController {
         'chat_id': usermsg.chatid,
         'chat_name': json.decode(aires.body)['response']['title']
       });
+      
+      isAIresponding.value = false;
 
       chatName.value = json.decode(aires.body)['response']['title'];
 

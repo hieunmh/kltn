@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -239,6 +240,56 @@ class ChatView extends GetView<ChatController> {
                           ),
 
                           PopupMenuItem(
+                            onTap: () {
+                              showCupertinoModalPopup(
+                                context: context, 
+                                builder: (context) => CupertinoActionSheet(
+                                  title: Text(
+                                    'Are you sure to delete this conversation?',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey.shade500
+                                    ),
+                                  ),
+                                  actions: [
+                                    CupertinoActionSheetAction(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        controller.deleteChat(chat.id);
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Delete conversation successfully!'),
+                                            duration: Duration(seconds: 1),
+                                          )
+                                        );
+                                      },
+                                      child: Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  cancelButton: CupertinoActionSheetAction(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                          color: Colors.blue,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700
+                                        ),
+                                      ),
+                                  ),
+                                )
+                              );
+                            },
                             value: 'delete',
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,

@@ -91,11 +91,25 @@ class ChatController extends GetxController {
     );
   }
 
-
   void getChatMessage(String chatid, String chatName) async {
     Get.toNamed(AppRoutes.message, arguments: {
       'chat_id': chatid,
       'chat_name': chatName
     });
+  }
+
+  Future<void> deleteChat(String chatid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final chat = await http.delete(Uri.parse('$serverHost/delete-chat'), 
+      headers: { 'cookie': rawCookie },
+      body: { 'chat_id': chatid }
+    );
+
+    if (chat.statusCode == 200) {
+      chatList.removeWhere((chat) => chat.id == chatid);
+    }
+    
   }
 }
