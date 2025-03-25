@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/chat/message/msg_controller.dart';
 import 'package:mobile/theme/app_color.dart';
@@ -10,13 +11,12 @@ import 'package:mobile/widgets/app/chat/message_box.dart';
 class MsgView extends GetView<MsgController> {
   const MsgView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Obx(() =>
       Scaffold(
         extendBodyBehindAppBar: true,
-        appBar:AppBar(
+        appBar: AppBar(
           scrolledUnderElevation: 0.0,
           backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
           title: Row(
@@ -63,23 +63,48 @@ class MsgView extends GetView<MsgController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                child: ListView.separated(
-                  controller: controller.scrollController,
-                  separatorBuilder: (context, index) => SizedBox(height: 20),
-                  itemCount: controller.messages.length,
-                  itemBuilder: (context, index) {
-                    return MessageBox(
-                      message: controller.messages[index],
-                      isDark: controller.themeController.isDark.value,
-                    );
-                  }, 
+              child: controller.messages.isEmpty ? Padding(
+                padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+                child: Center(
+                  child: Text(
+                    'Loading messages...',
+                    style: TextStyle(
+                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
+              ) : GroupedListView(
+                // ignore: invalid_use_of_protected_member
+                elements: controller.messages.value, 
+                padding: const EdgeInsets.fromLTRB(15, 115, 15, 0),
+                groupBy: (msg) => msg.createdAt,
+                groupSeparatorBuilder: (msg) => SizedBox(height: 15),
+                order: GroupedListOrder.DESC,
+                reverse: true,
+                itemBuilder: (context, element) {
+                  return MessageBox(
+                    message: element,
+                    isDark: controller.themeController.isDark.value,
+                  );
+                },
               )
             ),
+
+            controller.isAIresponding.value ? Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  height: 30,
+                  child: Text(
+                    'AI is responding...'
+                  ),
+                ),
+              ],
+            ) : SizedBox(),
       
             Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0), 
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(

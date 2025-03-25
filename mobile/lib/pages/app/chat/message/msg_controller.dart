@@ -15,12 +15,12 @@ class MsgController extends GetxController {
 
   RxList<Message> messages = <Message>[].obs;
   final msgController = TextEditingController(text: '');
-  final ScrollController scrollController = ScrollController();
 
   final ThemeController themeController = Get.find<ThemeController>();
   final ChatController chatController = Get.find<ChatController>();
   RxString chatName = ''.obs;
   RxString chatId = ''.obs;
+  RxBool isAIresponding = false.obs;
 
   @override
   void onInit() {
@@ -33,27 +33,8 @@ class MsgController extends GetxController {
       chatId.value = Get.arguments['chat_id'];
       getChatMessage(Get.arguments['chat_id']);
     }
-
-    ever(messages, (_) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollController.jumpTo(scrollController.position.maxScrollExtent);
-      });
-    });
-
-    Future.delayed(Duration(milliseconds: 300), () {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-    });
   }
 
-  void scrollToBottom() {
-    if (scrollController.hasClients) {
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
-  }
 
   Future<void> createAiMessage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -117,14 +98,9 @@ class MsgController extends GetxController {
         return Message.fromJson(messageData); 
       }).toList();
     }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollToBottom();
-    });
   }
 
   Future<void> createMessage() async {
-    print(1);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
@@ -147,11 +123,9 @@ class MsgController extends GetxController {
       final data = json.decode(usermsg.body)['message'] as Map<String, dynamic>;
       messages.add(Message.fromJson(data));
       msgController.clear();
-      
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollToBottom();
-      });
     }
+
+    isAIresponding.value = true;
 
     //  get AI response
     final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
@@ -172,9 +146,7 @@ class MsgController extends GetxController {
     if (aimsg.statusCode == 200 || aimsg.statusCode == 201) {
       final data = json.decode(aimsg.body)['message'] as Map<String, dynamic>;
       messages.add(Message.fromJson(data));
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        scrollToBottom();
-      });
+      isAIresponding.value = false;
     }
   }
 }
