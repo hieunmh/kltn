@@ -7,6 +7,7 @@ class Post {
   final String title;
   final String content;
   final String? imageUrl;
+  final int commentCount;
   final String createdAt;
   final String updatedAt;  
   final User user;
@@ -18,6 +19,7 @@ class Post {
     required this.title,
     required this.content,
     this.imageUrl,
+    required this.commentCount,
     required this.createdAt,
     required this.updatedAt,
     required this.user
@@ -31,6 +33,7 @@ class Post {
       title: json['title'],
       content: json['content'],
       imageUrl: json['image_url'],
+      commentCount: int.parse(json['comment_count']),
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       user: User.fromJson(json['user'])

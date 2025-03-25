@@ -66,12 +66,103 @@ class PostView extends GetView<PostController> {
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Obx(() =>
-                ListView.builder(
+                ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                    color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
+                    thickness: 0.5,
+                  ),
                   itemCount: controller.posts.length,
                   itemBuilder: (context, index) {
                     return PostWidget(
                       post: controller.posts[index],
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                      ontap: () => {
+                        controller.getCommentByPost(controller.posts[index].id),
+                        Get.bottomSheet(
+                          Container(
+                            height: Get.height / 2, // Đặt chiều cao bằng 1/2 màn hình
+                            decoration: BoxDecoration(
+                              color: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Obx(() {
+                                  return controller.isLoadingComment.value ? Expanded(
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                      ),
+                                    ),
+                                  ) : controller.comments.isEmpty ? Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        'No comments',
+                                        style: TextStyle(
+                                          color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ) : Expanded( // Giúp ListView hiển thị đúng
+                                    child: ListView.builder(
+                                      reverse: true,
+                                      itemCount: controller.comments.length,
+                                      itemBuilder: (context, index) {
+                                        return ListTile(
+                                          title: Text(controller.comments[index].content),
+                                          subtitle: Text(controller.comments[index].createdAt),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }),
+
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: controller.themeController.isDark.value ? Colors.grey.shade800 : Colors.grey.shade300,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(Iconsax.add_circle_bold),
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: TextField(
+                                          controller: controller.commentController,
+                                          cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                          decoration: InputDecoration(
+                                            hintText: 'Type a message',
+                                            hintStyle: TextStyle(color: Colors.grey.shade400),
+                                            border: InputBorder.none,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      GestureDetector(
+                                        onTap: () {
+                                          controller.createComment(controller.posts[index].id);
+                                        },
+                                        child: Icon(Iconsax.send_1_bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          isScrollControlled: true, // Cho phép bottom sheet mở rộng theo nội dung
+                        )
+                      },
                     );
                   },
                 ),

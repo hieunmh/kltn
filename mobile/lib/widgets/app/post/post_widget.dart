@@ -6,8 +6,9 @@ import 'package:intl/intl.dart';
 class PostWidget extends StatelessWidget {
   final Post post;
   final Color color;
+  final Function ontap;
 
-  const PostWidget({super.key, required this.post, required this.color});
+  const PostWidget({super.key, required this.post, required this.color, required this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -86,21 +87,26 @@ class PostWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          BoxIcons.bx_message_rounded,
-                          size: 24
-                        ),
-                        SizedBox(width: 5),
-                        Text(
-                          '90',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold
+                    GestureDetector(
+                      onTap: () {
+                        ontap();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            BoxIcons.bx_message_rounded,
+                            size: 24
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 5),
+                          Text(
+                            post.commentCount.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                 
                     Icon(
@@ -162,21 +168,26 @@ class PostWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          BoxIcons.bx_message_rounded,
-                          size: 24
-                        ),
-                        SizedBox(width: 5),
-                        Text(
-                          '90',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold
+                    GestureDetector(
+                      onTap: () {
+                        ontap();
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            BoxIcons.bx_message_rounded,
+                            size: 24
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 5),
+                          Text(
+                            post.commentCount.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                 
                     Icon(

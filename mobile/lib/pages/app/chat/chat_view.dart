@@ -31,7 +31,6 @@ class ChatView extends GetView<ChatController> {
           actions: [
             IconButton(
               onPressed: () {
-                // Get.toNamed(AppRoutes.message);
                 showModalBottomSheet(
                   isScrollControlled: true,
                   context: context, 
