@@ -26,7 +26,7 @@ class Chat extends Model<ChatType> {
   @BelongsTo(() => User, { as: 'user' })
   user!: User
 
-  @HasMany(() => Message, { as: 'messages' })
+  @HasMany(() => Message, { as: 'messages', onDelete: 'CASCADE' })
   messages!: Message[]
 }
 

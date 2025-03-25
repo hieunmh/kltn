@@ -78,3 +78,23 @@ export const getChatbyId: RequestHandler = async (req: Request, res: Response) =
     res.status(400).send({ message: e });
   })
 }
+
+
+export const deleteChat: RequestHandler = async (req: Request, res: Response) => {
+  const { chat_id } = req.body;
+
+  if (!chat_id) {
+    res.status(400).send({ message: 'Please fill all fields' })
+    return;
+  }
+
+  await Chat.destroy({
+    where: { id: chat_id },
+  }).then(() => {
+    res.status(200).send({
+      msg: 'Delete chat successfully!'
+    });
+  }).catch((e) => {
+    res.status(400).send({ message: e });
+  })
+}

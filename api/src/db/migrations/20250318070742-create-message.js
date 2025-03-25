@@ -11,7 +11,12 @@ module.exports = {
       },
       chat_id: {
         allowNull: false,
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Chats',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       role: {
         allowNull: false,

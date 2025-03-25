@@ -13,11 +13,11 @@ const open_ai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const prompt = `
   Đây là câu hỏi gửi từ ứng dụng chat với AI, tao muốn trả về response dưới dạng json hợp lệ 
   (có thể decode trực tiếp bằng json.decode trong flutter) 
-  gồm 3 field title, subject và content: đầu tiên là field đặt tên cho đoạn chat dựa 
-  trên nội dung câu hỏi, field thứ 2 là môn học dựa trên nội dung câu hỏi
-  (nếu không chưa nội dung môn học thì trả về null), field thứ 3 là nội dung đoạn chat. 
+  gồm 2 field title, content: đầu tiên là field đặt tên cho đoạn chat dựa 
+  trên nội dung câu hỏi, field thứ 2 là nội dung đoạn chat. 
   Trả lời chính xác (có thể tham khảo từ nguồn tin chính thống như wikipedia, 
-  các trang web tin cậy khác), hỏi gì trả lời đấy, trả lời bằng tiếng Việt.
+  các trang web tin cậy khác, không cần trả về link tham khảo), nếu có lịch 
+  sử hội thoại thì trả lời dựa trên lịch sử, hỏi gì trả lời đấy, trả lời bằng tiếng Việt.
 `
 
 
@@ -41,20 +41,23 @@ export const ollamaModel: RequestHandler = async (req: Request, res: Response) =
 
 
 export const geminiAI: RequestHandler = async (req: Request, res: Response) => {
-  const { text, model } = req.body;
+  const { text, model, history } = req.body;
 
   if (!text || !model) {
     res.status(400).send({ message: 'Please fill model name & prompt' });
     return;
   }
 
+  const fullPrompt = history ? `${history}\nuser: ${text}` : `user: ${text}`;
+
   const gemini_model = gemini_ai.getGenerativeModel({ model: model });
 
-    await gemini_model.generateContent([text + prompt]).then((response) => {
-      res.status(200).send({ 
-        res: response.response.candidates?.[0]?.content.parts?.[0]?.text,
-        response: JSON.parse(response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```json|```/g, "").trim() as string)
-      });
+
+  await gemini_model.generateContent([fullPrompt + prompt]).then((response) => {
+    res.status(200).send({ 
+      res: response.response.candidates?.[0]?.content.parts?.[0]?.text,
+      response: JSON.parse(response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```json|```/g, "").trim() as string)
+    });
     
   }).catch((e) => {
       res.status(400).send({ message: e.message }); 
@@ -72,7 +75,8 @@ export const openAI: RequestHandler = async (req: Request, res: Response) => {
   await open_ai.chat.completions.create({
     model: model,
     messages: [
-      { role: 'user', content: text + prompt },
+      { role: 'user', content: text },
+      { role: 'system', content: prompt}
     ],
   }).then((response) => {
     res.status(200).send({ response: response });
