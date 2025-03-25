@@ -2,6 +2,8 @@ import { Request, RequestHandler, Response } from 'express';
 import Post from '../models/post';
 import { v4 as uuidv4 } from 'uuid';
 import Users from '../models/user';
+import { Sequelize } from 'sequelize-typescript';
+import Comment from '../models/comment';
 
 export const getAllPost: RequestHandler = async (req: Request, res: Response) => {
   const posts = await Post.findAll();
@@ -26,13 +28,23 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
   
   const posts = await Post.findAll({
     where: whereClause,
+    attributes: {
+      include: [
+        [Sequelize.fn('COUNT', Sequelize.col('comments.id')), 'comment_count']
+      ]
+    },
     include: [
       {
+        model: Comment,
+        attributes: []
+      },
+      { 
         model: Users,
         as: 'user',
         attributes: ['id', 'name', 'email']
       }
-    ]
+    ],
+    group: ['Post.id', 'user.id'],
   });
 
   if (posts.length == 0) {

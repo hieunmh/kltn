@@ -2,6 +2,7 @@ import { Table, Column, Model, DataType, Unique, PrimaryKey, AllowNull, HasMany 
 import { UserType } from '../types/types';
 import Post from './post';
 import Chat from './chat';
+import Comment from './comment';
 
 @Table({
   tableName: 'Users',
@@ -44,6 +45,9 @@ class User extends Model<UserType> {
 
   @HasMany(() => Chat, { as: 'chats' })
   chats!: Chat[]
+
+  @HasMany(() => Comment, { as: 'comments' })
+  comments!: Comment[]
 }
 
 export default User;

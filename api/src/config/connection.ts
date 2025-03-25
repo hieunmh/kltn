@@ -4,6 +4,7 @@ import User from '../models/user';
 import Post from '../models/post';
 import Chat from '../models/chat';
 import Message from '../models/message';
+import Comment from '../models/comment';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const connection = new Sequelize({
       rejectUnauthorized: false,
     }
   },
-  models: [User, Post, Chat, Message]
+  models: [User, Post, Chat, Message, Comment]
 })
 
 export default connection;

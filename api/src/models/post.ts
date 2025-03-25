@@ -1,6 +1,7 @@
-import { Table, Column, Model, DataType, PrimaryKey, AllowNull, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, PrimaryKey, AllowNull, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { PostType } from '../types/types';
 import User from './user';
+import Comment from './comment';
 
 @Table({
   tableName: 'Posts',
@@ -36,6 +37,9 @@ class Post extends Model<PostType> {
 
   @BelongsTo(() => User, { as: 'user' })
   user!: User
+
+  @HasMany(() => Comment, { as: 'comments', onDelete: 'CASCADE' })
+  comments!: Comment[]
 }
 
 export default Post;

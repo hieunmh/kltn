@@ -40,3 +40,14 @@ export type MessageType = {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export type CommentType = {
+  id: string;
+  post_id: string;
+  user_id: string;
+  content: string;
+  image_url?: string;
+
+  createdAt?: string;
+  updatedAt?: string;
+}
