@@ -6,7 +6,7 @@ import 'package:mobile/pages/app/post/post_controller.dart';
 import 'package:mobile/theme/app_color.dart';
 import 'package:mobile/widgets/app/post/post_widget.dart';
 import 'package:icons_plus/icons_plus.dart';
-
+import 'package:mobile/widgets/app/post/comment_box.dart';
 class PostView extends GetView<PostController> {
   const PostView({super.key});
 
@@ -80,17 +80,38 @@ class PostView extends GetView<PostController> {
                         controller.getCommentByPost(controller.posts[index].id),
                         Get.bottomSheet(
                           Container(
-                            height: Get.height / 2, // Đặt chiều cao bằng 1/2 màn hình
+                            height: Get.height * 0.5,
                             decoration: BoxDecoration(
                               color: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white,
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(40),
+                                topRight: Radius.circular(40),
                               ),
                             ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                Container(
+                                  width: double.infinity, 
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: controller.themeController.isDark.value ? Colors.grey.shade800 : Colors.grey.shade300,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Comments',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Obx(() {
                                   return controller.isLoadingComment.value ? Expanded(
                                     child: Center(
@@ -101,23 +122,24 @@ class PostView extends GetView<PostController> {
                                   ) : controller.comments.isEmpty ? Expanded(
                                     child: Center(
                                       child: Text(
-                                        'No comments',
+                                        'Be the first to comment',
                                         style: TextStyle(
                                           color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                                          fontSize: 16,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ),
-                                  ) : Expanded( // Giúp ListView hiển thị đúng
-                                    child: ListView.builder(
-                                      reverse: true,
-                                      itemCount: controller.comments.length,
-                                      itemBuilder: (context, index) {
-                                        return ListTile(
-                                          title: Text(controller.comments[index].content),
-                                          subtitle: Text(controller.comments[index].createdAt),
-                                        );
-                                      },
+                                  ) : Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      child: ListView.separated(
+                                        separatorBuilder: (context, index) => SizedBox(height: 25),
+                                        itemCount: controller.comments.length,
+                                        itemBuilder: (context, index) {
+                                          return CommentBox(comment: controller.comments[index]);
+                                        },
+                                      ),
                                     ),
                                   );
                                 }),
@@ -141,7 +163,7 @@ class PostView extends GetView<PostController> {
                                           controller: controller.commentController,
                                           cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                                           decoration: InputDecoration(
-                                            hintText: 'Type a message',
+                                            hintText: 'Comment for ${controller.posts[index].user.name} ...',
                                             hintStyle: TextStyle(color: Colors.grey.shade400),
                                             border: InputBorder.none,
                                           ),
@@ -160,7 +182,7 @@ class PostView extends GetView<PostController> {
                               ],
                             ),
                           ),
-                          isScrollControlled: true, // Cho phép bottom sheet mở rộng theo nội dung
+                          isScrollControlled: true,
                         )
                       },
                     );

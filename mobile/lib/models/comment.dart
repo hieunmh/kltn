@@ -1,3 +1,5 @@
+import 'package:mobile/models/user.dart';
+
 class Comment {
   final String id;
   final String postid;
@@ -6,6 +8,7 @@ class Comment {
   final String? imageurl;
   final String createdAt;
   final String updatedAt;
+  final User user;
 
   Comment({
     required this.id,
@@ -14,7 +17,8 @@ class Comment {
     required this.content,
     this.imageurl,
     required this.createdAt,
-    required this.updatedAt
+    required this.updatedAt,
+    required this.user
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
@@ -25,7 +29,8 @@ class Comment {
       content: json['content'],
       imageurl: json['image_url'] ?? '',
       createdAt: json['createdAt'],
-      updatedAt: json['updatedAt']
+      updatedAt: json['updatedAt'],
+      user: User.fromJson(json['user'])
     );
   }
 }
