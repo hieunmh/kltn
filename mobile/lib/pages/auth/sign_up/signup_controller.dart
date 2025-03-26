@@ -77,6 +77,7 @@ class SignupController extends GetxController {
         await prefs.setString('user_id', user.id);
         await prefs.setString('email', user.email);
         await prefs.setString('name', user.name);
+        await prefs.setString('image_url', user.imageUrl ?? '');
         await prefs.setString('cookie', rawCookie);
 
         Get.offAllNamed(AppRoutes.application);

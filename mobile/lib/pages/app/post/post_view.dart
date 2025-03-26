@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:mobile/pages/app/post/post_controller.dart';
 import 'package:mobile/theme/app_color.dart';
 import 'package:mobile/widgets/app/post/post_widget.dart';
@@ -80,7 +81,7 @@ class PostView extends GetView<PostController> {
                         controller.getCommentByPost(controller.posts[index].id),
                         Get.bottomSheet(
                           Container(
-                            height: Get.height * 0.5,
+                            height: Get.height * 0.55,
                             decoration: BoxDecoration(
                               color: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white,
                               borderRadius: BorderRadius.only(
@@ -89,7 +90,7 @@ class PostView extends GetView<PostController> {
                               ),
                             ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   width: double.infinity, 
@@ -112,6 +113,7 @@ class PostView extends GetView<PostController> {
                                     ),
                                   ),
                                 ),
+
                                 Obx(() {
                                   return controller.isLoadingComment.value ? Expanded(
                                     child: Center(
@@ -131,13 +133,20 @@ class PostView extends GetView<PostController> {
                                       ),
                                     ),
                                   ) : Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      child: ListView.separated(
-                                        separatorBuilder: (context, index) => SizedBox(height: 25),
-                                        itemCount: controller.comments.length,
-                                        itemBuilder: (context, index) {
-                                          return CommentBox(comment: controller.comments[index]);
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                                      child: GroupedListView(
+                                        // ignore: invalid_use_of_protected_member
+                                        elements: controller.comments.value, 
+                                        groupBy: (comment) => comment.createdAt,
+                                        groupSeparatorBuilder: (comment) => SizedBox(height: 15),
+                                        order: GroupedListOrder.DESC,
+                                        reverse: false,
+                                        itemBuilder: (context, element) {
+                                          return CommentBox(
+                                            comment: element,
+                                            userid: controller.appController.userid.value,
+                                          );
                                         },
                                       ),
                                     ),
@@ -145,37 +154,84 @@ class PostView extends GetView<PostController> {
                                 }),
 
                                 Container(
-                                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 25),
                                   decoration: BoxDecoration(
                                     border: Border(
                                       top: BorderSide(
                                         color: controller.themeController.isDark.value ? Colors.grey.shade800 : Colors.grey.shade300,
-                                        width: 1,
+                                        width: 0.5,
                                       ),
                                     ),
                                   ),
                                   child: Row(
                                     children: [
-                                      Icon(Iconsax.add_circle_bold),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        child: TextField(
-                                          controller: controller.commentController,
-                                          cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                                          decoration: InputDecoration(
-                                            hintText: 'Comment for ${controller.posts[index].user.name} ...',
-                                            hintStyle: TextStyle(color: Colors.grey.shade400),
-                                            border: InputBorder.none,
+                                      controller.appController.imageUrl.isNotEmpty ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.network(
+                                          controller.appController.imageUrl.value, 
+                                          height: 40,
+                                          width: 40,
+                                          fit: BoxFit.cover,
+                                        )                          
+                                      ) : Container(
+                                        width: 40, 
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle, 
+                                          border: Border.all( 
+                                            color: Colors.grey.shade400, 
+                                            width: 1.5,
+                                          ),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(20),
+                                          child: Image.asset(
+                                            'assets/image/user-placeholder.png',
+                                            height: 40,
+                                            width: 40,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 10),
-                                      GestureDetector(
-                                        onTap: () {
-                                          controller.createComment(controller.posts[index].id);
-                                        },
-                                        child: Icon(Iconsax.send_1_bold),
-                                      ),
+
+                                      const SizedBox(width: 10),
+
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300,
+                                            ),
+                                            borderRadius: BorderRadius.circular(40)
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(Iconsax.add_circle_bold),
+                                              SizedBox(width: 10),
+                                              Expanded(
+                                                child: TextField(
+                                                  controller: controller.commentController,
+                                                  cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Comment for ${controller.posts[index].user.name}',
+                                                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                                                    border: InputBorder.none,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  controller.createComment(controller.posts[index].id);
+                                                },
+                                                child: Icon(Iconsax.send_1_bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -183,7 +239,9 @@ class PostView extends GetView<PostController> {
                             ),
                           ),
                           isScrollControlled: true,
-                        )
+                        ).then((value) {
+                          controller.commentController.clear();
+                        })
                       },
                     );
                   },

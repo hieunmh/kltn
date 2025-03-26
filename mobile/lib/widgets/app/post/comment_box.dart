@@ -1,80 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/models/comment.dart';
 
 class CommentBox extends StatelessWidget {
   final Comment comment;
+  final String userid;
 
-
-  const CommentBox({super.key, required this.comment});
+  const CommentBox({super.key, required this.comment, required this.userid});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          (comment.user.imageUrl ?? '').isNotEmpty ? ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.network(
-                comment.user.imageUrl!, 
-                height: 40,
-                width: 40,
-                fit: BoxFit.cover,
-                // ...
-              )
-    
-          ) : Container(
-            width: 40, 
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle, 
-              border: Border.all( 
-                color: Colors.grey.shade400, 
-                width: 1.5,
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/image/user-placeholder.png',
-                height: 40,
-                width: 40,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ), 
-
-          SizedBox(width: 5),
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    comment.user.name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14
-                    )
-                  ),
-                  SizedBox(width: 5),
-
-                  Text(
-                    _getTimeAgo(DateTime.parse(comment.createdAt)),
-                    style: TextStyle(
-                      color: Colors.grey
-                    ),
+              (comment.user.imageUrl ?? '').isNotEmpty ? ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.network(
+                    comment.user.imageUrl!, 
+                    height: 40,
+                    width: 40,
+                    fit: BoxFit.cover,
+                    // ...
                   )
+        
+              ) : Container(
+                width: 40, 
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, 
+                  border: Border.all( 
+                    color: Colors.grey.shade400, 
+                    width: 1.5,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    'assets/image/user-placeholder.png',
+                    height: 40,
+                    width: 40,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ), 
+
+              SizedBox(width: 5),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        comment.user.name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14
+                        )
+                      ),
+                      SizedBox(width: 5),
+
+                      Text(
+                        _getTimeAgo(DateTime.parse(comment.createdAt)),
+                        style: TextStyle(
+                          color: Colors.grey
+                        ),
+                      )
+                    ],
+                  ),
+                  Text(comment.content),
                 ],
               ),
-              Text(comment.content),
             ],
-          )      
+          ),
+
+
+          comment.user.id == userid ? IconButton(
+            icon: Icon(BoxIcons.bx_dots_horizontal_rounded),
+            onPressed: () {
+
+            },
+          ) : Container()     
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
+import 'package:mobile/models/user.dart';
 import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,14 @@ class AppController extends GetxController {
   final RxString userid = ''.obs;
   final RxString name = ''.obs;
   final RxString email = ''.obs;
+  final RxString imageUrl = ''.obs;
   final RxBool isDarkMode = false.obs;
+  final user = User(
+    id: '',
+    name: '',
+    email: '',
+    imageUrl: '',
+  ).obs;
 
   final currentPage = 0.obs;
 
@@ -33,7 +41,15 @@ class AppController extends GetxController {
     userid.value = prefs.getString('user_id') ?? '';
     name.value = prefs.getString('name') ?? '';
     email.value = prefs.getString('email') ?? '';
+    imageUrl.value = prefs.getString('image_url') ?? '';
     isDarkMode.value = themeController.isDark.value;
+
+    user.value = User(
+      id: prefs.getString('user_id') ?? '',
+      name: prefs.getString('name') ?? '',
+      email: prefs.getString('email') ?? '',
+      imageUrl: prefs.getString('image_url') ?? '',
+    );
   }
 
   Future<void> getInfo() async {

@@ -29,7 +29,7 @@ class PostWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(
-                      post.imageUrl!, 
+                      post.user.imageUrl!, 
                       height: 40,
                       width: 40,
                       fit: BoxFit.cover,

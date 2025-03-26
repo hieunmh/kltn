@@ -26,7 +26,8 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
         id: user.id,
         name: user.name ?? '',
         email: user.email,
-        createdAt: user.createdAt ?? ''
+        createdAt: user.createdAt ?? '',
+        image_url: user.image_url 
       },
       msg: 'User created successfully!'
     });
@@ -46,7 +47,7 @@ export const signin: RequestHandler = async (req: Request, res: Response) => {
   }
 
   const user = await User.findOne({
-    attributes: ['id', 'name', 'email', 'password', 'createdAt'],
+    attributes: ['id', 'name', 'email', 'password', 'createdAt', 'image_url'],
     where: { email: email}
   });
 
@@ -69,6 +70,7 @@ export const signin: RequestHandler = async (req: Request, res: Response) => {
       name: user.name,
       email: user.email,
       created_at: user.createdAt,
+      image_url: user.image_url
     },
     msg: 'Sign in successfully!'
   });

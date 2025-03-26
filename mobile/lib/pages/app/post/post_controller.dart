@@ -6,6 +6,7 @@ import 'package:mobile/config/env.dart';
 import 'package:mobile/models/comment.dart';
 import 'package:mobile/models/post.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/pages/app/app_controller.dart';
 import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,7 @@ class PostController extends GetxController {
   final serverHost = Env.serverhost;
 
   final ThemeController themeController = Get.find<ThemeController>();
+  final AppController appController = Get.find<AppController>();
 
   final commentController = TextEditingController();
 
@@ -58,17 +60,49 @@ class PostController extends GetxController {
   }
 
   Future<void> createComment(String postid) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // final rawCookie = prefs.getString('cookie') ?? '';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
 
-    // // create comment
-    // await http.post(Uri.parse('$serverHost/create-comment'), headers: {
-    //   'cookie': rawCookie
-    // }, body: {
-    //   'post_id': postid,
-    //   'content': commentController.text,
-    // });
-    print(postid);
+    if (commentController.text.isEmpty) {
+      return;
+    }
+
+    // create comment
+    final comment = await http.post(Uri.parse('$serverHost/create-comment'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'post_id': postid,
+      'content': commentController.text,
+    });
+
+    if (comment.statusCode == 200 || comment.statusCode == 201) {
+
+      final data = json.decode(comment.body)['comment'];
+
+      comments.add(
+        Comment(
+          id: data['id'], 
+          postid: postid,
+          userid: appController.user.value.id, 
+          content: data['content'], 
+          createdAt: data['createdAt'], 
+          updatedAt: data['updatedAt'], 
+          user: appController.user.value
+        )
+      );
+
+
+      for (var post in posts) {
+        if (post.id == postid) {
+          post.commentCount += 1;
+          posts.refresh();
+          break;
+        }
+      }
+
+      commentController.clear();
+    }
+
   }
 
 }

@@ -7,7 +7,7 @@ class Post {
   final String title;
   final String content;
   final String? imageUrl;
-  final int commentCount;
+  int commentCount;
   final String createdAt;
   final String updatedAt;  
   final User user;

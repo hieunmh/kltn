@@ -49,3 +49,15 @@ export const getAllCommentByPost: RequestHandler = async (req: Request, res: Res
     res.status(400).send({ message: e });
   })
 }
+
+export const deleteComment: RequestHandler = async (req: Request, res: Response) => {
+  const { comment_id } = req.body;
+
+  await Comment.destroy({
+    where: { id: comment_id }
+  }).then(() => {
+    res.status(200).send({ msg: 'Delete comment successfully!' });
+  }).catch((e) => {
+    res.status(400).send({ message: e });
+  })
+}
