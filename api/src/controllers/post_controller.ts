@@ -41,7 +41,7 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
       { 
         model: Users,
         as: 'user',
-        attributes: ['id', 'name', 'email']
+        attributes: ['id', 'name', 'email', 'image_url']
       }
     ],
     group: ['Post.id', 'user.id'],
