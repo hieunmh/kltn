@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:mobile/pages/app/post/post_controller.dart';
@@ -134,17 +136,79 @@ class PostView extends GetView<PostController> {
                                     ),
                                   ) : Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                       child: GroupedListView(
                                         // ignore: invalid_use_of_protected_member
                                         elements: controller.comments.value, 
                                         groupBy: (comment) => comment.createdAt,
                                         groupSeparatorBuilder: (comment) => SizedBox(height: 15),
                                         order: GroupedListOrder.DESC,
-                                        reverse: false,
-                                        itemBuilder: (context, element) {
-                                          return CommentBox(
-                                            comment: element,
+                                        reverse: true,
+                                        itemBuilder: (context, comment) {
+                                          return comment.user.id == controller.appController.userid.value ? Slidable(
+                                            key: ValueKey(comment.id),
+                                            endActionPane: ActionPane(
+                                              motion: ScrollMotion(), 
+                                              extentRatio: 0.25,
+                                              children: [                                              
+                                                SlidableAction(
+                                                  onPressed: (context) {
+                                                    Slidable.of(context)?.close();
+                                                    showCupertinoModalPopup(
+                                                      context: context, 
+                                                      builder: (context) => CupertinoActionSheet(
+                                                        title: Text(
+                                                          'Are you sure to delete this comment?',
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w500,
+                                                            color: Colors.grey.shade500
+                                                          ),
+                                                        ),
+                                                        actions: [
+                                                          CupertinoActionSheetAction(
+                                                            onPressed: () {
+                                                              Navigator.pop(context);
+                                                              controller.deleteComment(comment.id, controller.posts[index].id);
+                                                            },
+                                                            child: Text(
+                                                              'Delete',
+                                                              style: TextStyle(
+                                                                color: Colors.red,
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.w500
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                        cancelButton: CupertinoActionSheetAction(
+                                                          onPressed: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Text(
+                                                              'Cancel',
+                                                              style: TextStyle(
+                                                                color: Colors.blue,
+                                                                fontSize: 18,
+                                                                fontWeight: FontWeight.w700
+                                                              ),
+                                                            ),
+                                                        ),
+                                                      )
+                                                    );
+                                                  },
+                                                  icon: BoxIcons.bx_trash,
+                                                  backgroundColor: Colors.red,
+                                                  foregroundColor: Colors.white,
+                                                )
+                                              ]
+                                            ),
+                                            child: CommentBox(
+                                              comment: comment,
+                                              userid: controller.appController.userid.value,
+                                            ),
+                                          ) : CommentBox(
+                                            comment: comment,
                                             userid: controller.appController.userid.value,
                                           );
                                         },

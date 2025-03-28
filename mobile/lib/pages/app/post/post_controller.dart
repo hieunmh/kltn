@@ -102,7 +102,27 @@ class PostController extends GetxController {
 
       commentController.clear();
     }
-
   }
 
+  Future<void> deleteComment(String commentid, String postid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final comment = await http.delete(Uri.parse('$serverHost/delete-comment'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'comment_id': commentid
+    });
+
+    if (comment.statusCode == 200) {
+      for (var post in posts) {
+        if (post.id == postid) {
+          post.commentCount -= 1;
+          posts.refresh();
+          break;
+        }
+      }
+      comments.removeWhere((element) => element.id == commentid);
+    }
+  }
 }

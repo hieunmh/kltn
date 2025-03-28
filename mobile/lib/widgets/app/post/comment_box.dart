@@ -11,7 +11,7 @@ class CommentBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -48,7 +48,7 @@ class CommentBox extends StatelessWidget {
                 ),
               ), 
 
-              SizedBox(width: 5),
+              SizedBox(width: 10),
 
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -77,11 +77,11 @@ class CommentBox extends StatelessWidget {
                 ],
               ),
             ],
-          ),
+          ),    
 
 
           comment.user.id == userid ? IconButton(
-            icon: Icon(BoxIcons.bx_dots_horizontal_rounded),
+            icon: Icon(BoxIcons.bx_chevron_left),
             onPressed: () {
 
             },
