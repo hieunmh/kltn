@@ -11,7 +11,12 @@ module.exports = {
       },
       user_id: {
         allowNull: false,
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       post_id: {
         allowNull: false,
