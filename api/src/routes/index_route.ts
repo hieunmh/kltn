@@ -6,7 +6,6 @@ import aiRoute from './ai_route';
 import chatRoute from './chat_route';
 import messageRoute from './message_route';
 import commentRoute from './comment_route';
-import uploadRoute from './upload_route';
 
 const router: Router = Router();
 
@@ -17,6 +16,5 @@ router.use('/', aiRoute);
 router.use('/', chatRoute);
 router.use('/', messageRoute);
 router.use('/', commentRoute);
-router.use('/', uploadRoute);
 
 export default router;
