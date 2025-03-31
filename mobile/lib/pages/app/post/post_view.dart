@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:mobile/pages/app/post/post_controller.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/app_color.dart';
 import 'package:mobile/widgets/app/post/post_widget.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -36,7 +37,7 @@ class PostView extends GetView<PostController> {
         actions: [
           IconButton(
             onPressed: () {
-              // Get.toNamed('/post/create');
+              Get.toNamed(AppRoutes.createpost);
             },
             icon: Icon(BoxIcons.bx_add_to_queue),
             iconSize: 24,
@@ -77,6 +78,7 @@ class PostView extends GetView<PostController> {
                   itemCount: controller.posts.length,
                   itemBuilder: (context, index) {
                     return PostWidget(
+                      supabaseUrl: controller.supabaseUrl,
                       post: controller.posts[index],
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
                       ontap: () => {

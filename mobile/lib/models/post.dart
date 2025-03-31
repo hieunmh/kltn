@@ -33,7 +33,7 @@ class Post {
       title: json['title'],
       content: json['content'],
       imageUrl: json['image_url'],
-      commentCount: int.parse(json['comment_count']),
+      commentCount: int.parse(json['comment_count']) ?? 0,
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       user: User.fromJson(json['user'])

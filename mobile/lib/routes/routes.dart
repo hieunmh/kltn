@@ -16,4 +16,6 @@ class AppRoutes {
   static const String resetsuccess = '/resetsuccess';
 
   static const String message = '/message';
+
+  static const String createpost = '/createpost';
 }

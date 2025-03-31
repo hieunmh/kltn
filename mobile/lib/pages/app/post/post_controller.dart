@@ -14,6 +14,8 @@ class PostController extends GetxController {
   final RxList<Post> posts = <Post>[].obs;
 
   final serverHost = Env.serverhost;
+  final supabaseUrl = '${Env.supabaseUrl}/storage/v1/object/public/';
+  
 
   final ThemeController themeController = Get.find<ThemeController>();
   final AppController appController = Get.find<AppController>();

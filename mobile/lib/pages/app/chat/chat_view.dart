@@ -240,22 +240,33 @@ class ChatView extends GetView<ChatController> {
 
                           PopupMenuItem(
                             onTap: () {
-                              showCupertinoModalPopup(
-                                context: context, 
-                                builder: (context) => CupertinoActionSheet(
-                                  title: Text(
-                                    'Are you sure to delete this conversation?',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey.shade500
-                                    ),
-                                  ),
+                              Get.dialog(
+                                CupertinoAlertDialog(
+                                  content: Text('Are you sure to delete this conversation?'),
                                   actions: [
-                                    CupertinoActionSheetAction(
+                                    CupertinoDialogAction(
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                          color: Colors.blue.shade600,
+                                          fontWeight: FontWeight.w500
+                                        ),
+                                      ),
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        Get.back();
+                                      },
+                                    ),
+                                    CupertinoDialogAction(
+                                      child: Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      onPressed: () {
                                         controller.deleteChat(chat.id);
+                                        Get.back();
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
                                             content: Text('Delete conversation successfully!'),
@@ -263,30 +274,9 @@ class ChatView extends GetView<ChatController> {
                                           )
                                         );
                                       },
-                                      child: Text(
-                                        'Delete',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500
-                                        ),
-                                      ),
                                     ),
                                   ],
-                                  cancelButton: CupertinoActionSheetAction(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(
-                                        'Cancel',
-                                        style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700
-                                        ),
-                                      ),
-                                  ),
-                                )
+                                ),
                               );
                             },
                             value: 'delete',

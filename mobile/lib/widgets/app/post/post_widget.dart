@@ -7,8 +7,15 @@ class PostWidget extends StatelessWidget {
   final Post post;
   final Color color;
   final Function ontap;
+  final String supabaseUrl;
 
-  const PostWidget({super.key, required this.post, required this.color, required this.ontap});
+  const PostWidget({
+    super.key, 
+    required this.post, 
+    required this.color, 
+    required this.ontap,
+    required this.supabaseUrl
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +80,7 @@ class PostWidget extends StatelessWidget {
           const SizedBox(height: 10),
 
           (post.imageUrl ?? '').isNotEmpty ? Image.network(
-            post.imageUrl!,
+            supabaseUrl + post.imageUrl!,
             width: double.infinity,
             fit: BoxFit.cover,
           ) : Container(),
