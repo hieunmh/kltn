@@ -25,10 +25,6 @@ class Post extends Model<PostType> {
 
   @AllowNull(false)
   @Column({ type: DataType.TEXT })
-  title!: string;
-
-  @AllowNull(false)
-  @Column({ type: DataType.TEXT })
   content!: string;
 
   @AllowNull(true)

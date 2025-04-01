@@ -30,15 +30,18 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
   
   const posts = await Post.findAll({
     where: whereClause,
-    attributes: {
-      include: [
-        [Sequelize.fn('COUNT', Sequelize.col('comments.id')), 'comment_count']
-      ]
-    },
     include: [
       {
         model: Comment,
-        attributes: []
+        as: 'comments',
+        attributes: [
+          'id', 'user_id', 'post_id', 'content', 'createdAt', 'updatedAt'
+        ],
+        include: [{
+          model: Users,
+          as: 'user',
+          attributes: ['id', 'name', 'email', 'image_url']
+        }]
       },
       { 
         model: Users,
@@ -46,7 +49,6 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
         attributes: ['id', 'name', 'email', 'image_url']
       }
     ],
-    group: ['Post.id', 'user.id'],
     order: [['createdAt', 'DESC']]
   });
 
@@ -62,7 +64,7 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
 
 
 export const createPost: RequestHandler = async (req: Request, res: Response) => {
-  const { subject, title, content } = req.body;
+  const { subject, content } = req.body;
   let user_id = req.session.userId as string;
 
   if (!subject || !content) {
@@ -95,7 +97,6 @@ export const createPost: RequestHandler = async (req: Request, res: Response) =>
     id: uuidv4(),
     user_id: user_id,
     subject: subject,
-    title: title ?? '',
     content: content,
     image_url: image_url
   }).then((post) => {
@@ -105,7 +106,6 @@ export const createPost: RequestHandler = async (req: Request, res: Response) =>
         id: post.id,
         user_id: post.user_id,
         subject: post.subject,
-        title: post.title,
         content: post.content,
         image_url: post.image_url ?? '',
         createdAt: post.createdAt,

@@ -22,10 +22,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT
       },
-      title: {
-        allowNull: false,
-        type: Sequelize.TEXT
-      },
       content: {
         allowNull: false,
         type: Sequelize.TEXT
