@@ -72,13 +72,12 @@ class CreatePostController extends GetxController {
         id: postres['id'], 
         userid: postController.appController.userid.value, 
         subject: postres['subject'], 
-        title: postres['title'],
         content: postres['content'],
-        commentCount: 0,
         imageUrl: postres['image_url'],
         createdAt: postres['createdAt'],
         updatedAt: postres['updatedAt'],
-        user: postController.appController.user.value
+        user: postController.appController.user.value,
+        comments: []
       );
 
       postController.posts.insert(0, newPost);

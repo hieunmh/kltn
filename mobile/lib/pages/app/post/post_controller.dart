@@ -22,9 +22,6 @@ class PostController extends GetxController {
 
   final commentController = TextEditingController();
 
-  final RxList<Comment> comments = <Comment>[].obs;
-  final RxBool isLoadingComment = false.obs;
-
   @override
   void onInit() {
     super.onInit();
@@ -44,22 +41,6 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> getCommentByPost(String postid) async {
-    comments.value = [];
-    isLoadingComment.value = true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final rawCookie = prefs.getString('cookie') ?? '';
-
-    final commentlist = await http.get(Uri.parse('$serverHost/get-comment-by-post?post_id=$postid'), headers: {
-      'cookie': rawCookie
-    });
-    isLoadingComment.value = false;
-
-    if (commentlist.statusCode == 200) {
-      final data = json.decode(commentlist.body)['comments'] as List;
-      comments.value = data.map((p) => Comment.fromJson(p as Map<String, dynamic>)).toList();
-    }
-  }
 
   Future<void> createComment(String postid) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -81,26 +62,18 @@ class PostController extends GetxController {
 
       final data = json.decode(comment.body)['comment'];
 
-      comments.add(
+      posts.firstWhere((element) => element.id == postid).comments.add(
         Comment(
-          id: data['id'], 
-          postid: postid,
-          userid: appController.user.value.id, 
-          content: data['content'], 
-          createdAt: data['createdAt'], 
-          updatedAt: data['updatedAt'], 
+          id: data['id'],
+          postid: data['post_id'],
+          userid: data['user_id'],
+          content: data['content'],
+          createdAt: data['createdAt'],
+          updatedAt: data['updatedAt'],
           user: appController.user.value
         )
       );
-
-
-      for (var post in posts) {
-        if (post.id == postid) {
-          post.commentCount += 1;
-          posts.refresh();
-          break;
-        }
-      }
+      posts.refresh();
 
       commentController.clear();
     }
@@ -117,14 +90,9 @@ class PostController extends GetxController {
     });
 
     if (comment.statusCode == 200) {
-      for (var post in posts) {
-        if (post.id == postid) {
-          post.commentCount -= 1;
-          posts.refresh();
-          break;
-        }
-      }
-      comments.removeWhere((element) => element.id == commentid);
+      // comments.removeWhere((element) => element.id == commentid);
+      posts.firstWhere((element) => element.id == postid).comments.removeWhere((element) => element.id == commentid);
+      posts.refresh();
     }
   }
 }

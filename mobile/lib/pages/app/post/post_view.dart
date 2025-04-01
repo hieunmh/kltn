@@ -70,7 +70,16 @@ class PostView extends GetView<PostController> {
               width: double.infinity,
               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Obx(() =>
-                ListView.separated(
+                controller.posts.isEmpty ? Center(
+                  child: Text(
+                    'No posts available',
+                    style: TextStyle(
+                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ) : ListView.separated(
                   separatorBuilder: (context, index) => Divider(
                     color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
                     thickness: 0.5,
@@ -82,7 +91,6 @@ class PostView extends GetView<PostController> {
                       post: controller.posts[index],
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
                       ontap: () => {
-                        controller.getCommentByPost(controller.posts[index].id),
                         Get.bottomSheet(
                           Container(
                             height: Get.height * 0.55,
@@ -119,13 +127,7 @@ class PostView extends GetView<PostController> {
                                 ),
 
                                 Obx(() {
-                                  return controller.isLoadingComment.value ? Expanded(
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                                      ),
-                                    ),
-                                  ) : controller.comments.isEmpty ? Expanded(
+                                  return controller.posts[index].comments.isEmpty ? Expanded(
                                     child: Center(
                                       child: Text(
                                         'Be the first to comment',
@@ -141,7 +143,7 @@ class PostView extends GetView<PostController> {
                                       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                       child: GroupedListView(
                                         // ignore: invalid_use_of_protected_member
-                                        elements: controller.comments.value, 
+                                        elements: controller.posts[index].comments, 
                                         groupBy: (comment) => comment.createdAt,
                                         groupSeparatorBuilder: (comment) => SizedBox(height: 15),
                                         order: GroupedListOrder.DESC,

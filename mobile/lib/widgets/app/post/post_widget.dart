@@ -106,7 +106,7 @@ class PostWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            post.commentCount.toString(),
+                            post.comments.length.toString(),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold
@@ -130,39 +130,35 @@ class PostWidget extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    (post.imageUrl ?? '').isNotEmpty ? Row(
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black, // Hoặc màu chữ phù hợp
+                      ),
                       children: [
-                        Text(
-                          post.user.name,
-                          style: TextStyle(
+                        (post.imageUrl ?? '').isNotEmpty ? TextSpan(
+                          text: '${post.user.name} ',
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 14
+                          ),
+                        ) : const TextSpan(),
+                        
+
+                        TextSpan(
+                          text: post.content,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
-                        const SizedBox(width: 5),
                       ],
-                    ): SizedBox(),
-
-                    Text(
-                      post.title,
-                      style: TextStyle(
-                        fontSize: 14
-                      ),
-                    ),
-                  ],
-                ),
-
-                Text(
-                  post.content,
-                  style: TextStyle(
-                    fontSize: 14
+                    ), 
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -187,7 +183,7 @@ class PostWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            post.commentCount.toString(),
+                            post.comments.length.toString(),
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold

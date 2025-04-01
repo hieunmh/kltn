@@ -23,6 +23,7 @@ dependencies:
   flutter_slidable: ^4.0.0
   image_picker: ^1.1.2
   http_parser: ^4.1.2
+  mime: ^2.0.0
 
 dev_dependencies:
   flutter_test:
