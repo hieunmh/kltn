@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/config/env.dart';
+import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PwController extends GetxController {
   final oldPw = TextEditingController();
   final newPw = TextEditingController();
   final reNewPw = TextEditingController();
+
+  final ThemeController themeController = Get.find<ThemeController>();
 
   final serverHost = Env.serverhost;
 

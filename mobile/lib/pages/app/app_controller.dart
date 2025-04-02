@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
@@ -57,16 +59,22 @@ class AppController extends GetxController {
     final rawCookie = prefs.getString('cookie') ?? '';
 
     final res = await http.get(Uri.parse('$serverHost/user'), headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Connection': 'keep-alive',
       'Cookie': rawCookie
     });
 
     if (res.statusCode == 200) {
-      final data = res.body;
-      prefs.setString('user_id', data);
-      userid.value = data;
+      final data = json.decode(res.body)['user'];
+      userid.value = data['id'];
+      name.value = data['name'];
+      email.value = data['email'];
+      imageUrl.value = data['image_url'];
+
+      user.value = User(
+        id: data['id'],
+        name: data['name'],
+        email: data['email'],
+        imageUrl: data['image_url'],
+      ); 
     }
   }
 

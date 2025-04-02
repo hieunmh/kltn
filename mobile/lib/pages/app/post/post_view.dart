@@ -210,10 +210,12 @@ class PostView extends GetView<PostController> {
                                             child: CommentBox(
                                               comment: comment,
                                               userid: controller.appController.userid.value,
+                                              supabaseUrl: controller.supabaseUrl,
                                             ),
                                           ) : CommentBox(
                                             comment: comment,
                                             userid: controller.appController.userid.value,
+                                            supabaseUrl: controller.supabaseUrl,
                                           );
                                         },
                                       ),

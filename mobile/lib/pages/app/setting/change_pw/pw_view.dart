@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/pages/app/setting/change_pw/pw_controller.dart';
-import 'package:mobile/widgets/auth/input_field.dart';
+import 'package:mobile/widgets/app/setting/input_field.dart';
 
 class PwView extends GetView<PwController> {
   const PwView({super.key});
@@ -35,7 +35,6 @@ class PwView extends GetView<PwController> {
                     Text(
                       'Create an unique password',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.w600
                       ),
@@ -50,7 +49,7 @@ class PwView extends GetView<PwController> {
                   placeholder: 'Enter old password', 
                   obscureText: !controller.showOldPw.value, 
                   ctrler: controller.oldPw, 
-                  borderColor: Colors.grey.shade300, 
+                  borderColor: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300, 
                   errorMsg: controller.oldPwError.value,
                   onTap: () => controller.showOldPw.value = !controller.showOldPw.value,
                 ),
@@ -62,7 +61,7 @@ class PwView extends GetView<PwController> {
                   placeholder: 'Enter new password', 
                   obscureText: !controller.showNewPw.value, 
                   ctrler: controller.newPw, 
-                  borderColor: Colors.grey.shade300, 
+                  borderColor: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300, 
                   errorMsg: controller.newPwError.value,
                   onTap: () => controller.showNewPw.value = !controller.showNewPw.value,
                 ),
@@ -74,7 +73,7 @@ class PwView extends GetView<PwController> {
                   placeholder: 'Enter new password again', 
                   obscureText: !controller.showReNewPw.value, 
                   ctrler: controller.reNewPw, 
-                  borderColor: Colors.grey.shade300, 
+                  borderColor: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300, 
                   errorMsg: controller.reNewPwError.value,
                   onTap: () => controller.showReNewPw.value = !controller.showReNewPw.value,
                 ),

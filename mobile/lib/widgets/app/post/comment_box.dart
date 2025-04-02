@@ -5,8 +5,9 @@ import 'package:mobile/models/comment.dart';
 class CommentBox extends StatelessWidget {
   final Comment comment;
   final String userid;
+  final String supabaseUrl;
 
-  const CommentBox({super.key, required this.comment, required this.userid});
+  const CommentBox({super.key, required this.comment, required this.userid, required this.supabaseUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class CommentBox extends StatelessWidget {
               (comment.user.imageUrl ?? '').isNotEmpty ? ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: Image.network(
-                    comment.user.imageUrl!, 
+                    supabaseUrl + comment.user.imageUrl!, 
                     height: 40,
                     width: 40,
                     fit: BoxFit.cover,
