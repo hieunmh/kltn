@@ -5,6 +5,10 @@ import 'package:mobile/pages/app/chat/message/msg_bindings.dart';
 import 'package:mobile/pages/app/chat/message/msg_view.dart';
 import 'package:mobile/pages/app/post/create/create_post_bindings.dart';
 import 'package:mobile/pages/app/post/create/create_post_view.dart';
+import 'package:mobile/pages/app/setting/change_pw/pw_bindings.dart';
+import 'package:mobile/pages/app/setting/change_pw/pw_view.dart';
+import 'package:mobile/pages/app/setting/profile/profile_view.dart';
+import 'package:mobile/pages/app/setting/setting_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_view.dart';
 import 'package:mobile/pages/auth/reset-pw/reset_pw_bindings.dart';
@@ -64,6 +68,16 @@ class AppPages {
       name: AppRoutes.createpost, 
       page: () => CreatePostView(),
       binding: CreatePostBindings()
+    ),
+    GetPage(
+      name: AppRoutes.profile, 
+      page: () => ProfileView(),
+      binding: ProfileBindings()
+    ),
+    GetPage(
+      name: AppRoutes.changepw, 
+      page: () => PwView(),
+      binding: PwBindings()
     ),
     GetPage(
       name: AppRoutes.splash, 

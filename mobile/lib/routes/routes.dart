@@ -18,4 +18,8 @@ class AppRoutes {
   static const String message = '/message';
 
   static const String createpost = '/createpost';
+
+  static const String profile = '/profile';
+
+  static const String changepw = '/changepw';
 }

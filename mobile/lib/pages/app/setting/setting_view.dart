@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/setting/setting_controller.dart';
 import 'package:mobile/theme/app_color.dart';
+import 'package:mobile/widgets/app/setting/change_pw.dart';
 import 'package:mobile/widgets/app/setting/id_setting.dart';
 import 'package:mobile/widgets/app/setting/profile_setting.dart';
 import 'package:mobile/widgets/app/setting/signout_setting.dart';
@@ -76,6 +76,10 @@ class SettingView extends GetView<SettingController> {
                       isDarkMode: controller.themeController.isDark.value,
                       setDarkTheme: (value) => controller.themeController.changeTheme(value),
                     ),
+
+                    const SizedBox(height: 5),
+
+                    ChangePw(),
                     
                     const SizedBox(height: 5),
                 

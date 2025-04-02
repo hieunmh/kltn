@@ -63,7 +63,7 @@ class SignoutSetting extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(BoxIcons.bx_log_out, size: 16),
+                Icon(BoxIcons.bxs_log_out, size: 16),
                 const SizedBox(width: 10),
                 Text(
                   'Sign out',
