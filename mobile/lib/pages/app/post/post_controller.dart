@@ -95,4 +95,20 @@ class PostController extends GetxController {
       posts.refresh();
     }
   }
+
+  Future<void> deletePost(String postid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final post = await http.delete(Uri.parse('$serverHost/delete-post'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'post_id': postid
+    });
+
+    if (post.statusCode == 200) {
+      posts.removeWhere((element) => element.id == postid);
+      posts.refresh();
+    }
+  }
 }

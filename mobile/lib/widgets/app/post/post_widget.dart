@@ -1,20 +1,30 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mobile/models/post.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/theme/theme_controller.dart';
 
 class PostWidget extends StatelessWidget {
   final Post post;
   final Color color;
   final Function ontap;
   final String supabaseUrl;
+  final String userid;
+  final ThemeController themeController;
+  final Function(String) deletePost;
+
 
   const PostWidget({
     super.key, 
     required this.post, 
     required this.color, 
     required this.ontap,
-    required this.supabaseUrl
+    required this.supabaseUrl,
+    required this.userid,
+    required this.themeController,
+    required this.deletePost
   });
 
   @override
@@ -31,48 +41,142 @@ class PostWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                (post.user.imageUrl ?? '').isNotEmpty ? 
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                      supabaseUrl + post.user.imageUrl!, 
+                Row(
+                  children: [
+                    (post.user.imageUrl ?? '').isNotEmpty ? 
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Image.network(
+                          supabaseUrl + post.user.imageUrl!, 
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                          // ...
+                        )
+              
+                    ) : Container(
+                      width: 40, 
                       height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
-                      // ...
-                    )
-          
-                ) : Container(
-                  width: 40, 
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle, 
-                    border: Border.all( 
-                      color: Colors.grey.shade400, 
-                      width: 1.5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle, 
+                        border: Border.all( 
+                          color: Colors.grey.shade400, 
+                          width: 1.5,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          'assets/image/user-placeholder.png',
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/image/user-placeholder.png',
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
+
+                    SizedBox(width: 10),
+
+                    Text(
+                      post.user.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16
+                      ),
                     ),
-                  ),
-                ),
+                  ],
+                )
+,
+                userid == post.user.id ? PopupMenuButton(
+                  color: color,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
+                        width: 0.5
+                      )
+                    ),
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(BoxIcons.bx_pencil),
+                            SizedBox(width: 5),
+                            Text(
+                              'Edit',
+                            ),
+                          ],
+                        ),
+                      ),
 
-                SizedBox(width: 10),
-
-                Text(
-                  post.user.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16
+                      PopupMenuItem(
+                        onTap: () {
+                          Get.dialog(
+                            CupertinoAlertDialog(
+                              content: Text('Are you sure to delete this post?'),
+                              actions: [
+                                CupertinoDialogAction(
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      color: Colors.blue.shade600,
+                                      fontWeight: FontWeight.w500
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                                CupertinoDialogAction(
+                                  child: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    deletePost(post.id);
+                                    Get.back();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Delete post successfully!'),
+                                        duration: Duration(seconds: 1),
+                                      )
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        value: 'delete',
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(BoxIcons.bx_trash, color: Colors.red),
+                            SizedBox(width: 5),
+                            Text(
+                              'Delete',
+                              style: TextStyle(
+                                color: Colors.red
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ];
+                  },
+                  child:  Icon(
+                    BoxIcons.bx_dots_horizontal_rounded,
+                    size: 24, 
                   ),
-                ),
+                ) : SizedBox(),
               ],
             ),
           ),

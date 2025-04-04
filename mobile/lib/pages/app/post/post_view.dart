@@ -87,9 +87,12 @@ class PostView extends GetView<PostController> {
                   itemCount: controller.posts.length,
                   itemBuilder: (context, index) {
                     return PostWidget(
+                      deletePost: controller.deletePost,
+                      themeController: controller.themeController,
                       supabaseUrl: controller.supabaseUrl,
                       post: controller.posts[index],
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                      userid: controller.appController.userid.value,
                       ontap: () => {
                         Get.bottomSheet(
                           Container(
