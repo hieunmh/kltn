@@ -5,6 +5,7 @@ import 'package:mobile/pages/app/app_controller.dart';
 import 'package:mobile/pages/app/chat/chat_view.dart';
 import 'package:mobile/pages/app/post/post_view.dart';
 import 'package:mobile/pages/app/setting/setting_view.dart';
+import 'package:mobile/pages/app/voice/voice_view.dart';
 import 'package:mobile/theme/app_color.dart';
 
 class AppView extends GetView<AppController> {
@@ -18,6 +19,7 @@ class AppView extends GetView<AppController> {
         controller: controller.pageController,
         onPageChanged: (value) => controller.changePage(value),
         children: [
+          VoiceView(),
           PostView(),
           ChatView(),
           SettingView()
@@ -39,6 +41,7 @@ class AppView extends GetView<AppController> {
           ), 
           child: Obx(() =>
             BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
               backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
               unselectedLabelStyle: const TextStyle(
                 fontWeight: FontWeight.w700,
@@ -52,9 +55,14 @@ class AppView extends GetView<AppController> {
               selectedItemColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Iconsax.home_2_outline),
-                  activeIcon: Icon(Iconsax.home_2_bold),
-                  label: 'Home'
+                  icon: Icon(Iconsax.book_1_outline),
+                  activeIcon: Icon(Iconsax.book_1_bold),
+                  label: 'TutorAI'
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Iconsax.card_outline),
+                  activeIcon: Icon(Iconsax.card_bold),
+                  label: 'Q&A'
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.message_text_outline),

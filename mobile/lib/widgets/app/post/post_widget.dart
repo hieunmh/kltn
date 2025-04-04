@@ -240,23 +240,21 @@ class PostWidget extends StatelessWidget {
                 Expanded(
                   child: RichText(
                     text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black, // Hoặc màu chữ phù hợp
-                      ),
                       children: [
                         (post.imageUrl ?? '').isNotEmpty ? TextSpan(
                           text: '${post.user.name} ',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: themeController.isDark.value ? Colors.white : Colors.black,
                           ),
                         ) : const TextSpan(),
                         
-
                         TextSpan(
                           text: post.content,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.normal,
+                            color: themeController.isDark.value ? Colors.white : Colors.black,
                           ),
                         ),
                       ],

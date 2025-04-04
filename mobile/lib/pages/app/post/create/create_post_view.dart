@@ -85,7 +85,7 @@ class CreatePostView extends GetView<CreatePostController> {
                   cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(
                         color: controller.themeController.isDark.value ? Colors.grey.shade500 : Colors.grey.shade300,
                         width: 2
@@ -93,7 +93,7 @@ class CreatePostView extends GetView<CreatePostController> {
                     ),
                     hintText: 'Write something...',
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(
                         color: controller.themeController.isDark.value ? Colors.grey.shade500 : Colors.grey.shade300,
                         width: 2,
@@ -112,7 +112,7 @@ class CreatePostView extends GetView<CreatePostController> {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.file(
                         controller.image.value!,
                         fit: BoxFit.cover,
@@ -151,7 +151,7 @@ class CreatePostView extends GetView<CreatePostController> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
