@@ -238,7 +238,7 @@ class PostView extends GetView<PostController> {
                                       controller.appController.imageUrl.isNotEmpty ? ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
                                       child: Image.network(
-                                          controller.appController.imageUrl.value, 
+                                          controller.supabaseUrl + controller.appController.imageUrl.value, 
                                           height: 40,
                                           width: 40,
                                           fit: BoxFit.cover,

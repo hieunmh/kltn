@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/pages/app/setting/profile/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -17,20 +18,54 @@ class ProfileView extends GetView<ProfileController> {
           child: Obx(() =>
             Column(
               children: [
-                GestureDetector(
-                  onTap: () => {
-                    // print(controller.nameController.text != controller.name.value)
-                  },
-                  child: Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        controller.supabaseUrl + controller.appController.imageUrl.value,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
+                Center(
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () => {
+                          print(1)
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(60),
+                            child: Image.network(
+                              controller.supabaseUrl + controller.appController.imageUrl.value,
+                              width: 120,
+                              height: 120,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),                 
                       ),
-                    ),
+                      Positioned(
+                        bottom: 3,
+                        right: 3,
+                        child: GestureDetector(
+                          onTap: () {
+                            print(2);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withAlpha(150),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              BoxIcons.bxs_pencil,
+                              color: Colors.white,
+                              size: 24
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                   
