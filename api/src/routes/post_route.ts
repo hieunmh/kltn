@@ -9,5 +9,6 @@ const router: Router = Router();
 router.post('/create-post', isAuth, upload.single('post_image'), postController.createPost);
 router.get('/get-all-post', isAuth, postController.getAllPost);
 router.get('/get-post-by-condition', isAuth, postController.getPostByCondition);
+router.delete('/delete-post', isAuth, postController.deletePost);
 
 export default router;
