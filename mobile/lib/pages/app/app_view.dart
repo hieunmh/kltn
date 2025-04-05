@@ -5,7 +5,7 @@ import 'package:mobile/pages/app/app_controller.dart';
 import 'package:mobile/pages/app/chat/chat_view.dart';
 import 'package:mobile/pages/app/post/post_view.dart';
 import 'package:mobile/pages/app/setting/setting_view.dart';
-import 'package:mobile/pages/app/voice/voice_view.dart';
+import 'package:mobile/pages/app/tutor/tutor_view.dart';
 import 'package:mobile/theme/app_color.dart';
 
 class AppView extends GetView<AppController> {
@@ -19,7 +19,7 @@ class AppView extends GetView<AppController> {
         controller: controller.pageController,
         onPageChanged: (value) => controller.changePage(value),
         children: [
-          VoiceView(),
+          TutorView(),
           PostView(),
           ChatView(),
           SettingView()

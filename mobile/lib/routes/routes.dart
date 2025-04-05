@@ -22,4 +22,6 @@ class AppRoutes {
   static const String profile = '/profile';
 
   static const String changepw = '/changepw';
+
+  static const String review = '/review';
 }

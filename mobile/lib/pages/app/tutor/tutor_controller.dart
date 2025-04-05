@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
 import 'package:mobile/theme/theme_controller.dart';
 
-class VoiceController extends GetxController {
+class TutorController extends GetxController {
 
   ThemeController themeController = Get.find<ThemeController>();
 

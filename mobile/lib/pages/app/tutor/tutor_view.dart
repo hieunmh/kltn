@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:mobile/pages/app/voice/voice_controller.dart';
+import 'package:mobile/pages/app/tutor/tutor_controller.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/app_color.dart';
 
-class VoiceView extends GetView<VoiceController> {
-  const VoiceView({super.key});
+class TutorView extends GetView<TutorController> {
+  const TutorView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +102,7 @@ class VoiceView extends GetView<VoiceController> {
                   GestureDetector(
                     onTap: () {
                       // controller.getVoice();
+                      Get.toNamed(AppRoutes.review);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

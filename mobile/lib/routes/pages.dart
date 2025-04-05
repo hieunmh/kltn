@@ -9,6 +9,8 @@ import 'package:mobile/pages/app/setting/change_pw/pw_bindings.dart';
 import 'package:mobile/pages/app/setting/change_pw/pw_view.dart';
 import 'package:mobile/pages/app/setting/profile/profile_view.dart';
 import 'package:mobile/pages/app/setting/setting_bindings.dart';
+import 'package:mobile/pages/app/tutor/review/review_bindings.dart';
+import 'package:mobile/pages/app/tutor/review/review_view.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_view.dart';
 import 'package:mobile/pages/auth/reset-pw/reset_pw_bindings.dart';
@@ -73,6 +75,11 @@ class AppPages {
       name: AppRoutes.profile, 
       page: () => ProfileView(),
       binding: ProfileBindings()
+    ),
+    GetPage(
+      name: AppRoutes.review,
+      page: () => ReviewView(),
+      binding: ReviewBindings()
     ),
     GetPage(
       name: AppRoutes.changepw, 
