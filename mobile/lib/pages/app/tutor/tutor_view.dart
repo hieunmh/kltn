@@ -102,7 +102,7 @@ class TutorView extends GetView<TutorController> {
                   GestureDetector(
                     onTap: () {
                       // controller.getVoice();
-                      Get.toNamed(AppRoutes.review);
+                      Get.toNamed(AppRoutes.voice);
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

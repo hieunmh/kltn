@@ -24,4 +24,6 @@ class AppRoutes {
   static const String changepw = '/changepw';
 
   static const String review = '/review';
+
+  static const String voice = '/voice';
 }

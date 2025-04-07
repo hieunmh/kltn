@@ -135,7 +135,7 @@ class MsgController extends GetxController {
     final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
       'text': usertext,
       'model': 'gemini-2.0-pro-exp-02-05',
-      'history': messages.map((m) => '${m.role}: ${m.message}\n').toList().join(' ')
+      'history': messages.where((m) => m.role == 'user').map((m) => '${m.role}: ${m.message}\n').toList().join(' ')
     });
 
     // creaste AI message

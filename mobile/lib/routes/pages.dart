@@ -11,6 +11,8 @@ import 'package:mobile/pages/app/setting/profile/profile_view.dart';
 import 'package:mobile/pages/app/setting/setting_bindings.dart';
 import 'package:mobile/pages/app/tutor/review/review_bindings.dart';
 import 'package:mobile/pages/app/tutor/review/review_view.dart';
+import 'package:mobile/pages/app/tutor/tutor_bindings.dart';
+import 'package:mobile/pages/app/tutor/voice/voice_view.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_bindings.dart';
 import 'package:mobile/pages/auth/forgot-pw/forgot_pw_view.dart';
 import 'package:mobile/pages/auth/reset-pw/reset_pw_bindings.dart';
@@ -80,6 +82,11 @@ class AppPages {
       name: AppRoutes.review,
       page: () => ReviewView(),
       binding: ReviewBindings()
+    ),
+    GetPage(
+      name: AppRoutes.voice, 
+      page: () => VoiceView(),
+      binding: VoiceBindings()
     ),
     GetPage(
       name: AppRoutes.changepw, 
