@@ -7,4 +7,6 @@ router.post('/ollama', aiController.ollamaModel);
 router.post('/gemini_ai', aiController.geminiAI);
 router.post('/open_ai', aiController.openAI);
 
+router.post('/topic_geminiAI', aiController.topic_geminiAI);
+
 export default router;
