@@ -69,6 +69,9 @@ class TutorView extends GetView<TutorController> {
                     minLines: 1,
                     maxLines: null,
                     cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                    onChanged: (value) {
+                      controller.learnText.value = value;
+                    },
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         BoxIcons.bx_search,
@@ -96,12 +99,31 @@ class TutorView extends GetView<TutorController> {
                       )
                     ),
                   ),
+
+                  const SizedBox(height: 5),
+
+                  controller.learnTextError.isNotEmpty ? SizedBox(
+                    height: 20,
+                    width: double.infinity,
+                    child: Text(
+                      controller.learnTextError.value,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ) : const SizedBox(height: 20),
         
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
 
                   GestureDetector(
                     onTap: () {
                       // controller.getVoice();
+                      if (controller.learnText.isEmpty) {
+                        controller.learnTextError.value = 'Vui lòng nhập chủ đề bạn muốn học';
+                        return;
+                      }
                       Get.toNamed(AppRoutes.review, arguments: {
                         'topic': controller.learnController.text,
                       });
@@ -109,20 +131,24 @@ class TutorView extends GetView<TutorController> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       decoration: BoxDecoration(
-                        color: Color(0xFF4a66f0),
-                        borderRadius: BorderRadius.circular(10)
+                        color: controller.learnText.isEmpty ? Colors.transparent : Color(0xFF4a66f0),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Color(0xFF4a66f0),
+                          width: 2
+                        )
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(BoxIcons.bxs_graduation, color: Colors.white),
+                          Icon(BoxIcons.bxs_graduation, color: controller.learnText.isEmpty ? Color(0xff4a66f0) : Colors.white, size: 20),
                           const SizedBox(width: 5),
                           Text(
                             'Start',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
-                              color: Colors.white
+                              color: controller.learnText.isEmpty ? Color(0xff4a66f0) : Colors.white
                             ),
                           )
                         ],

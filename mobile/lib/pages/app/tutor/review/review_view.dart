@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/pages/app/tutor/review/review_controller.dart';
+import 'package:mobile/theme/app_color.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class ReviewView extends GetView<ReviewController> {
   const ReviewView({super.key});
@@ -11,47 +13,100 @@ class ReviewView extends GetView<ReviewController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 0.0,
         scrolledUnderElevation: 0.0,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: Container(
-            color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
-            height: 0.5
-          ),
-        ),
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-            child: Container(
-              color: Colors.transparent
-            ),
-          ),
-        ),
+        toolbarHeight: 0.0,
       ),
       body: Obx(() =>
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 50),
-            child: Column(
-              children: [
-                Center(
-                  child: Text(
-                    controller.topic.value,
+        Column(
+          children: [                        
+            Expanded(
+              child: controller.theory.isEmpty ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: LoadingIndicator(
+                        colors: controller.themeController.isDark.value ? [Colors.white] : [Colors.black],
+                        strokeWidth: 1,
+                        indicatorType: Indicator.lineScale,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'Loading...',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: controller.themeController.isDark.value ? Colors.white : Colors.black
+                      ),
+                    )
+                  ],
+                )
+            ) : Column(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      child: SingleChildScrollView(
+                        child: Text(
+                          controller.theory.value,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: controller.themeController.isDark.value ? Colors.white : Colors.black
+                          ),
+                        ),
+                      ),
+                    )
                   ),
-                ),
-            
-                const SizedBox(height: 20),
-            
-                controller.theory.isEmpty ? Text(
-                  'preparing theoretical content...',
-                ) : Text(
-                  controller.theory.value,
-                ),
-              ],
+
+                  Container(
+                    height: 150,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
+                      border: Border(
+                        top: BorderSide(
+                          color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
+                          width: 0.5
+                        )
+                      ) 
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 60,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
+                                width: 1
+                              ),
+                              color: controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Start testing',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800,
+                                  color: controller.themeController.isDark.value ? Colors.white : Colors.black
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ),
+                  )
+                ],
+              )
             ),
-          ),
-        )
+          ],
+        ),
       ),
     );
   }

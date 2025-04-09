@@ -11,4 +11,8 @@ class TutorController extends GetxController {
   final supabaseUrl = '${Env.supabaseUrl}/storage/v1/object/public/';
 
   final learnController = TextEditingController(text: '');
+  final learnText = ''.obs;
+  final learnTextError = ''.obs;
+
+  
 }
