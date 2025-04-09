@@ -15,20 +15,20 @@ const prompt = process.env.CHAT_AI_PROMPT ?? `
 `;
 
 const topic_prompt = `
-  Đây là chủ đề mà người dùng đưa ra, hãy tạo ra một lý thuyết cho chủ đề này, có thể chia thành nhiều đoạn văn,
+  Đây là chủ đề mà người dùng đưa ra, hãy tạo ra một lý thuyết (tóm tắt ngắn gọn) cho chủ đề này, có thể chia thành nhiều đoạn văn,
   trả về dưới dạng json với 2 cặp key, value là topic và theory, trong đó topic là chủ đề mà người dùng đưa ra,
   còn theory là lý thuyết mà bạn tạo ra cho chủ đề này, lý thuyết có thể chia thành nhiều đoạn văn
 `
 
 const review_prompt = `
   Đây là lý thuyết về chủ đề được gửi từ người dùng. Từ nội dung lý thuyết này và chủ đề, hãy tạo ra khoảng 
-  4 đến 5 câu hỏi, trả về dưới dạng Array (có thể decode trực tiếp bằng json.decode trong flutter),
+  4 đến 5 câu hỏi, trả về dưới dạng mảng các string (có thể decode trực tiếp bằng json.decode trong flutter),
 `
 
 const voice_prompt = `
   Đây là đoạn text đã được encode bằng json.encode trong flutter. Khi decode đoạn text này, 
-  tạo ra được 1 mảng json, trong đó mỗi json có 2 cặp key, value là question và answer, dựa vào 
-  answer ứng với câu hỏi đấy, hãy đánh giá mức độ chính xác (theo phần trăm), sau đó trả về 
+  tạo ra được 1 mảng json, trong đó mỗi json có 2 field là question và answer, dựa vào 
+  answer ứng với question đấy, hãy đánh giá mức độ chính xác (theo phần trăm), sau đó trả về mảng các mức độ đấy
 `
 
 
@@ -107,6 +107,22 @@ export const topic_geminiAI: RequestHandler = async (req: Request, res: Response
   const gemini_model = gemini_ai.getGenerativeModel({ model: model });
 
   await gemini_model.generateContent([topic + topic_prompt]).then((response) => {
+    res.status(200).send({ 
+      response: JSON.parse(response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```json|```/g, "").trim() as string)
+    });
+  }).catch((e) => {
+    res.status(400).send({ message: e.message })
+  });
+}
+
+export const review_geminiAI: RequestHandler = async (req: Request, res: Response) => {
+  const { theory, model } = req.body;
+  if (!theory || !model) {
+    res.status(400).send({ message: 'Please fill model name & prompt' });
+    return;
+  }
+  const gemini_model = gemini_ai.getGenerativeModel({ model: model });
+  await gemini_model.generateContent([theory + review_prompt]).then((response) => {
     res.status(200).send({ 
       response: JSON.parse(response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```json|```/g, "").trim() as string)
     });
