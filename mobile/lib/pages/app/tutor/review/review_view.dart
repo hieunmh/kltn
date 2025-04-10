@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/pages/app/tutor/review/review_controller.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/app_color.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
@@ -61,7 +62,7 @@ class ReviewView extends GetView<ReviewController> {
                   ),
 
                   Container(
-                    height: 150,
+                    height: 120,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
@@ -76,24 +77,31 @@ class ReviewView extends GetView<ReviewController> {
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       child: Column(
                         children: [
-                          Container(
-                            height: 60,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
-                                width: 1
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.voice, arguments: {
+                                'theory': controller.theory.value
+                              });
+                            },
+                            child: Container(
+                              height: 60,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
+                                  width: 1
+                                ),
+                                color: controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.white,
                               ),
-                              color: controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Start testing',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800,
-                                  color: controller.themeController.isDark.value ? Colors.white : Colors.black
+                              child: Center(
+                                child: Text(
+                                  'Start testing',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                    color: controller.themeController.isDark.value ? Colors.white : Colors.black
+                                  ),
                                 ),
                               ),
                             ),

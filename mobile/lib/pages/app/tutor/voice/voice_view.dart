@@ -16,11 +16,38 @@ class VoiceView extends GetView<VoiceController> {
         Center(
           child: Column(
             children: [
+              controller.questions.isEmpty ?
               Text(
-                controller.recognizedWords.value,
+                'No questions',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
+                ),
+              ) : Container(
+                height: 300,
+                child: ListView.builder(
+                  itemCount: controller.questions.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(controller.questions[index]),
+                    );
+                  },
+                ),
+              ),
+
+              controller.questions.isEmpty ? Text(
+                'No answers',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ) : Text(
+                controller.questions[controller.answers.length],
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.green,  
                 ),
               ),
 

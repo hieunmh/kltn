@@ -34,6 +34,8 @@ class ReviewController extends GetxController {
       'model': 'gemini-2.0-pro-exp-02-05'
     });
 
+    print(res.body);
+
     if (res.statusCode == 200) {
       theory.value = json.decode(res.body)['response']['theory'];
     } else {
