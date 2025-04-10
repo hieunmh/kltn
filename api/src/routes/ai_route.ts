@@ -9,4 +9,6 @@ router.post('/open_ai', aiController.openAI);
 
 router.post('/topic_geminiAI', aiController.topic_geminiAI);
 
+router.post('/review_geminiAI', aiController.review_geminiAI);
+
 export default router;

@@ -16,7 +16,7 @@ const prompt = process.env.CHAT_AI_PROMPT ?? `
 
 const topic_prompt = `
   Đây là chủ đề mà người dùng đưa ra, hãy tạo ra một lý thuyết (tóm tắt ngắn gọn) cho chủ đề này, có thể chia thành nhiều đoạn văn,
-  trả về dưới dạng json với 2 cặp key, value là topic và theory, trong đó topic là chủ đề mà người dùng đưa ra,
+  trả về dưới dạng json với 2 cặp key, value là topic và theory dưới dạng string, trong đó topic là chủ đề mà người dùng đưa ra,
   còn theory là lý thuyết mà bạn tạo ra cho chủ đề này, lý thuyết có thể chia thành nhiều đoạn văn
 `
 
@@ -28,7 +28,7 @@ const review_prompt = `
 const voice_prompt = `
   Đây là đoạn text đã được encode bằng json.encode trong flutter. Khi decode đoạn text này, 
   tạo ra được 1 mảng json, trong đó mỗi json có 2 field là question và answer, dựa vào 
-  answer ứng với question đấy, hãy đánh giá mức độ chính xác (theo phần trăm), sau đó trả về mảng các mức độ đấy
+  answer ứng với question đấy, hãy đánh giá đúng sai, đúng trả về 1, sai trả về 0, sau đó trả về mảng các đánh giá đấy
 `
 
 
@@ -131,19 +131,19 @@ export const review_geminiAI: RequestHandler = async (req: Request, res: Respons
   });
 }
 
-export const voice_geminiAI: RequestHandler = async (req: Request, res: Response) => {
-  const { text, model } = req.body;
+// export const voice_geminiAI: RequestHandler = async (req: Request, res: Response) => {
+//   const { text, model } = req.body;
 
-  if (!text || !model) {
-    res.status(400).send({ message: 'Please fill model name & prompt' });
-    return;
-  }
+//   if (!text || !model) {
+//     res.status(400).send({ message: 'Please fill model name & prompt' });
+//     return;
+//   }
 
-  const gemini_model = gemini_ai.getGenerativeModel({ model: model });
+//   const gemini_model = gemini_ai.getGenerativeModel({ model: model });
 
-  await gemini_model.generateContent([text]).then((response) => {
-    res.status(200).send({ response: response });
-  }).catch((e) => {
-    res.status(400).send({ message: e.message })
-  });
-}
+//   await gemini_model.generateContent([text]).then((response) => {
+//     res.status(200).send({ response: response });
+//   }).catch((e) => {
+//     res.status(400).send({ message: e.message })
+//   });
+// }
