@@ -61,6 +61,7 @@ class VoiceController extends GetxController {
     recognizedWords.value = '';
     await speedToText.listen(
       onResult: (result) {
+        recognizedWords.value = result.recognizedWords;
         if (result.finalResult && answers.length < questions.length - 1) {
           answers.add(result.recognizedWords);
         } else if (answers.length == questions.length - 1) {

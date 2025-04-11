@@ -51,6 +51,15 @@ class VoiceView extends GetView<VoiceController> {
                 ),
               ),
 
+              Text(
+                controller.recognizedWords.value,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.red,
+                ),
+              ),
+
               const SizedBox(height: 20),
           
               GestureDetector(
