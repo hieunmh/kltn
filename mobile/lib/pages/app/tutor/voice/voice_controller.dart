@@ -82,15 +82,15 @@ class VoiceController extends GetxController {
     await speedToText.stop();
   }
 
-  Future<void> sendAnswer() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final rawCookie = prefs.getString('cookie') ?? '';
-    final res = await http.post(Uri.parse('$serverHost/review_geminiAI'), headers: {
-      'cookie': rawCookie
-    }, body: {
-      'model': 'gemini-2.0-pro-exp-02-05',
-      'answer': answers.last,
-      'question': questions.last,
-    });
-  }
+  // Future<void> sendAnswer() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final rawCookie = prefs.getString('cookie') ?? '';
+  //   final res = await http.post(Uri.parse('$serverHost/review_geminiAI'), headers: {
+  //     'cookie': rawCookie
+  //   }, body: {
+  //     'model': 'gemini-2.0-pro-exp-02-05',
+  //     'answer': answers.last,
+  //     'question': questions.last,
+  //   });
+  // }
 }
