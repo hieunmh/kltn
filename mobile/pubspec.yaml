@@ -26,6 +26,8 @@ dependencies:
   mime: ^2.0.0
   speech_to_text: ^7.0.0
   loading_indicator: ^3.1.1
+  animated_text_kit: ^4.2.3
+  avatar_glow: ^3.0.1
 
 dev_dependencies:
   flutter_test:

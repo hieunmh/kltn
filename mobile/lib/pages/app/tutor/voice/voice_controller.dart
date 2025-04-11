@@ -16,6 +16,7 @@ class VoiceController extends GetxController {
 
   RxList<String> questions = <String>[].obs;
   RxList<String> answers = <String>[].obs;
+  RxInt currentQuestionIndex = 0.obs;
 
 
   @override
@@ -62,9 +63,13 @@ class VoiceController extends GetxController {
     await speedToText.listen(
       onResult: (result) {
         recognizedWords.value = result.recognizedWords;
-        if (result.finalResult && answers.length < questions.length - 1) {
+        if (result.finalResult) {
           answers.add(result.recognizedWords);
-        } else if (answers.length == questions.length - 1) {
+          if (answers.length < questions.length) {
+            currentQuestionIndex.value++;
+          }
+        } 
+        if (answers.length == questions.length) {
           print('gui api');
         }
       },
@@ -75,5 +80,17 @@ class VoiceController extends GetxController {
   void stopListening() async {
     isListening.value = false;
     await speedToText.stop();
+  }
+
+  Future<void> sendAnswer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+    final res = await http.post(Uri.parse('$serverHost/review_geminiAI'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'model': 'gemini-2.0-pro-exp-02-05',
+      'answer': answers.last,
+      'question': questions.last,
+    });
   }
 }
