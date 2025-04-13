@@ -77,20 +77,35 @@ class VoiceController extends GetxController {
     );
   }
 
+
   void stopListening() async {
     isListening.value = false;
     await speedToText.stop();
   }
 
-  // Future<void> sendAnswer() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final rawCookie = prefs.getString('cookie') ?? '';
-  //   final res = await http.post(Uri.parse('$serverHost/review_geminiAI'), headers: {
-  //     'cookie': rawCookie
-  //   }, body: {
-  //     'model': 'gemini-2.0-pro-exp-02-05',
-  //     'answer': answers.last,
-  //     'question': questions.last,
-  //   });
-  // }
+  Future<void> sendAnswer() async {
+    print(1);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+    List<Map<String, String>> jsonData = [];
+    for (int i = 0; i < questions.length; i++) {
+      jsonData.add({
+        'question': questions[i],
+        'answer': answers[i]
+      });
+    }
+    final res = await http.post(Uri.parse('$serverHost/voice_geminiAI'), headers: {
+        'cookie': rawCookie
+      }, 
+      body: {
+        'model': 'gemini-2.0-pro-exp-02-05',
+        'data': json.encode(jsonData)
+      }
+    );
+
+    if (res.statusCode == 200) {
+      final data = json.decode(res.body);
+      print(data);
+    }
+  }
 }

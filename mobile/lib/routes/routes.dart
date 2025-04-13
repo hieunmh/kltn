@@ -26,4 +26,6 @@ class AppRoutes {
   static const String review = '/review';
 
   static const String voice = '/voice';
+
+  static const String result = '/result';
 }

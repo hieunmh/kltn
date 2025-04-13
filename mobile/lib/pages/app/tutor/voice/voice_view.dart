@@ -29,14 +29,16 @@ class VoiceView extends GetView<VoiceController> {
                   ),
                 ),
             
-                controller.questions.isEmpty ?
-                Text(
+                Container(
+                  color: Colors.red,  
+                  height: 100,
+                  child: controller.questions.isEmpty ? Text(
                   'No questions',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
-                ) :  AnimatedTextKit(
+                ) : AnimatedTextKit(
                   key: ValueKey(controller.answers.length),
                   animatedTexts: [
                     TypewriterAnimatedText(
@@ -45,9 +47,8 @@ class VoiceView extends GetView<VoiceController> {
                     ),
                   ],
                   totalRepeatCount: 1,
-                ),
-            
-                
+                ),         
+                ) ,                    
             
                 AvatarGlow(
                   startDelay: const Duration(milliseconds: 1000),
@@ -82,7 +83,7 @@ class VoiceView extends GetView<VoiceController> {
                   ),
                 ),
             
-                controller.questions.isEmpty ? Text(
+                controller.answers.isEmpty ? Text(
                   'No answers',
                   style: const TextStyle(
                     fontSize: 20,
@@ -100,6 +101,14 @@ class VoiceView extends GetView<VoiceController> {
                     },
                   ),
                 ),
+
+
+                GestureDetector(
+                  onTap: () {
+                    controller.sendAnswer();
+                  },
+                  child: const Text('Send Answer'),
+                )
               ],
             ),
           ),
