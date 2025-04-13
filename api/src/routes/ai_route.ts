@@ -11,4 +11,6 @@ router.post('/topic_geminiAI', aiController.topic_geminiAI);
 
 router.post('/review_geminiAI', aiController.review_geminiAI);
 
+router.post('/voice_geminiAI', aiController.voice_geminiAI);
+
 export default router;

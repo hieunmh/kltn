@@ -28,7 +28,9 @@ const review_prompt = `
 const voice_prompt = `
   Đây là đoạn text đã được encode bằng json.encode trong flutter. Khi decode đoạn text này, 
   tạo ra được 1 mảng json, trong đó mỗi json có 2 field là question và answer, dựa vào 
-  answer ứng với question đấy, hãy đánh giá đúng sai, đúng trả về 1, sai trả về 0, sau đó trả về mảng các đánh giá đấy
+  answer ứng với question đấy, hãy đánh giá đúng sai, đúng trả về 1, sai trả về 0, 
+  sau đó trả v các đánh giá đấy dưới dạng mảng các số 0 và 1
+
 `
 
 
@@ -131,19 +133,21 @@ export const review_geminiAI: RequestHandler = async (req: Request, res: Respons
   });
 }
 
-// export const voice_geminiAI: RequestHandler = async (req: Request, res: Response) => {
-//   const { text, model } = req.body;
+export const voice_geminiAI: RequestHandler = async (req: Request, res: Response) => {
+  const { data, model } = req.body;
 
-//   if (!text || !model) {
-//     res.status(400).send({ message: 'Please fill model name & prompt' });
-//     return;
-//   }
+  if (!data || !model) {
+    res.status(400).send({ message: 'Please fill model name & prompt' });
+    return;
+  }
 
-//   const gemini_model = gemini_ai.getGenerativeModel({ model: model });
+  const gemini_model = gemini_ai.getGenerativeModel({ model: model });
 
-//   await gemini_model.generateContent([text]).then((response) => {
-//     res.status(200).send({ response: response });
-//   }).catch((e) => {
-//     res.status(400).send({ message: e.message })
-//   });
-// }
+  await gemini_model.generateContent([data + voice_prompt]).then((response) => {
+    res.status(200).send({ 
+      response: JSON.parse(response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```json|```/g, "").trim() as string)
+    });
+  }).catch((e) => {
+    res.status(400).send({ message: e.message })
+  });
+}
