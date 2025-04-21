@@ -58,7 +58,7 @@ class AppController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final res = await http.get(Uri.parse('$serverHost/user'), headers: {
+    final res = await http.get(Uri.parse('$serverHost/user/get-info'), headers: {
       'Cookie': rawCookie
     });
 

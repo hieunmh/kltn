@@ -31,7 +31,7 @@ class ReviewController extends GetxController {
       'cookie': rawCookie
     }, body: {
       'topic': topic.value,
-      'model': 'gemini-2.0-pro-exp-02-05'
+      'model': Env.geminiModel
     });
 
     print(res.body);

@@ -28,7 +28,7 @@ class ForgotPwController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('$serverHost/forgot-password'), body: {
+      final res = await http.post(Uri.parse('$serverHost/auth/forgot-password'), body: {
         'email': emailController.text
       });
 

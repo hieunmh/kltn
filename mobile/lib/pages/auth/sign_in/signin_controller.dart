@@ -46,7 +46,7 @@ class SigninController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('$serverHost/signin'), 
+      final res = await http.post(Uri.parse('$serverHost/auth/signin'), 
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

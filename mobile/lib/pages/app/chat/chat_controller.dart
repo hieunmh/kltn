@@ -18,7 +18,7 @@ class ChatController extends GetxController {
 
   final ThemeController themeController = Get.find<ThemeController>();
 
-  RxString model = 'gemini-2.0-pro-exp-02-05'.obs;
+  RxString model = Env.geminiModel.obs;
   final msgController = TextEditingController(text: '');
 
   @override

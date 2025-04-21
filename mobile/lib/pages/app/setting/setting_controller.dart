@@ -20,7 +20,7 @@ class SettingController extends GetxController {
     final rawCookie = prefs.getString('cookie') ?? '';
     
 
-    final res = await http.post(Uri.parse('$serverHost/signout'), headers: {
+    final res = await http.post(Uri.parse('$serverHost/auth/signout'), headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Connection': 'keep-alive',

@@ -32,7 +32,7 @@ class PostController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final postlist = await http.get(Uri.parse('$serverHost/get-post-by-condition'), headers: {
+    final postlist = await http.get(Uri.parse('$serverHost/post/get-post-by-condition'), headers: {
       'cookie': rawCookie
     });
     if (postlist.statusCode == 200) {
@@ -100,7 +100,7 @@ class PostController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final post = await http.delete(Uri.parse('$serverHost/delete-post'), headers: {
+    final post = await http.delete(Uri.parse('$serverHost/post/delete-post'), headers: {
       'cookie': rawCookie
     }, body: {
       'post_id': postid

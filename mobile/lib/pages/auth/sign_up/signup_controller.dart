@@ -60,7 +60,7 @@ class SignupController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('$serverHost/signup'), body: {
+      final res = await http.post(Uri.parse('$serverHost/auth/signup'), body: {
         'email': email,
         'password': password,
       });

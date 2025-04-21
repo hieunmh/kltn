@@ -16,7 +16,7 @@ class TutorView extends GetView<TutorController> {
         title: Row(
           children: [
            Text(
-            'Tutor AI',
+            'Review AI',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w800,
@@ -41,15 +41,15 @@ class TutorView extends GetView<TutorController> {
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Column(
                 children: [
-                  Text(
-                    'Welcome to Tutor AI',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF4a66f0)
-                    ),
-                  ),
+                  // Text(
+                  //   'Welcome to Tutor AI',
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.w800,
+                  //     color: Color(0xFF4a66f0)
+                  //   ),
+                  // ),
         
                   const SizedBox(height: 20),
         

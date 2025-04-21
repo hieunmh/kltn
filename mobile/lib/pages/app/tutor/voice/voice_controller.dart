@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:http/http.dart' as http;
@@ -40,7 +41,7 @@ class VoiceController extends GetxController {
     final res = await http.post(Uri.parse('$serverHost/review_geminiAI'), headers: {
       'cookie': rawCookie
     }, body: {
-      'model': 'gemini-2.0-pro-exp-02-05',
+      'model': Env.geminiModel,
       'theory': theory
     });
 
@@ -84,7 +85,7 @@ class VoiceController extends GetxController {
   }
 
   Future<void> sendAnswer() async {
-    print(1);
+    print('voice 1');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
     List<Map<String, String>> jsonData = [];
@@ -98,14 +99,20 @@ class VoiceController extends GetxController {
         'cookie': rawCookie
       }, 
       body: {
-        'model': 'gemini-2.0-pro-exp-02-05',
+        'model': Env.geminiModel,
         'data': json.encode(jsonData)
       }
     );
 
+    print(res.statusCode);
+
+    print(res.body);
+
     if (res.statusCode == 200) {
-      final data = json.decode(res.body);
-      print(data);
+      Get.toNamed(AppRoutes.result, arguments: {
+        'results': json.decode(res.body)['response'],
+        'questions': questions,
+      });
     }
   }
 }

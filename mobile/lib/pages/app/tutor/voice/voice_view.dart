@@ -20,34 +20,25 @@ class VoiceView extends GetView<VoiceController> {
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 40),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  controller.questions.length.toString(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-            
+              children: [            
                 Container(
-                  color: Colors.red,  
                   height: 100,
                   child: controller.questions.isEmpty ? Text(
-                  'No questions',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ) : AnimatedTextKit(
-                  key: ValueKey(controller.answers.length),
-                  animatedTexts: [
-                    TypewriterAnimatedText(
-                      controller.questions[controller.currentQuestionIndex.value],
-                      speed: const Duration(milliseconds: 10),
+                    'No questions',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
                     ),
-                  ],
-                  totalRepeatCount: 1,
-                ),         
+                  ) : AnimatedTextKit(
+                    key: ValueKey(controller.answers.length),
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        controller.questions[controller.currentQuestionIndex.value],
+                        speed: const Duration(milliseconds: 25),
+                      ),
+                    ],
+                    totalRepeatCount: 1,
+                  ),         
                 ) ,                    
             
                 AvatarGlow(
@@ -82,32 +73,29 @@ class VoiceView extends GetView<VoiceController> {
                   )
                   ),
                 ),
-            
-                controller.answers.isEmpty ? Text(
-                  'No answers',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ) : Container(
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: controller.answers.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(controller.answers[index]),
-                      );
-                    },
-                  ),
-                ),
-
 
                 GestureDetector(
                   onTap: () {
                     controller.sendAnswer();
                   },
-                  child: const Text('Send Answer'),
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: const Text(
+                        'Send Answer', 
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        )
+                      )
+                    ),
+                  )
                 )
               ],
             ),

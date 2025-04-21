@@ -49,7 +49,7 @@ class ResetPwController extends GetxController {
 
     try {
       isLoading.value = true;
-      await http.patch(Uri.parse('$serverHost/reset-password'), body: {
+      await http.patch(Uri.parse('$serverHost/auth/reset-password'), body: {
         'email': Get.arguments as String,
         'password': passwordController.text
       });

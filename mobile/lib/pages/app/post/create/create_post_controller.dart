@@ -50,7 +50,7 @@ class CreatePostController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
-    final request = http.MultipartRequest('POST', Uri.parse('$serverHost/create-post'));
+    final request = http.MultipartRequest('POST', Uri.parse('$serverHost/post/create-post'));
     request.headers['cookie'] = rawCookie;
     request.fields['content'] = postcontent;
     request.fields['subject'] = 'subject';

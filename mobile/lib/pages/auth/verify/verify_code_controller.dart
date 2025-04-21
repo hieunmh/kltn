@@ -35,7 +35,7 @@ class VerifyCodeController extends GetxController {
 
     try {
       isLoading.value = true;
-      final res = await http.post(Uri.parse('$serverHost/verify-code'), body: {
+      final res = await http.post(Uri.parse('$serverHost/auth/verify-code'), body: {
         'email': email.value,
         'resetcode': code.value
       });

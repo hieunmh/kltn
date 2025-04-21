@@ -48,7 +48,7 @@ class MsgController extends GetxController {
     // get AI response
     final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
       'text': usermsg.message,
-      'model': 'gemini-2.0-pro-exp-02-05'
+      'model': Env.geminiModel
     });
 
     // creaste AI message
@@ -134,7 +134,7 @@ class MsgController extends GetxController {
     //  get AI response
     final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
       'text': usertext,
-      'model': 'gemini-2.0-pro-exp-02-05',
+      'model': Env.geminiModel,
       'history': messages.where((m) => m.role == 'user').map((m) => '${m.role}: ${m.message}\n').toList().join(' ')
     });
 
