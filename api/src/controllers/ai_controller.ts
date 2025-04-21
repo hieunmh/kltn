@@ -29,8 +29,8 @@ const voice_prompt = `
   Đây là đoạn text đã được encode bằng json.encode trong flutter. Khi decode đoạn text này, 
   tạo ra được 1 mảng json, trong đó mỗi json có 2 field là question và answer, dựa vào 
   answer ứng với question đấy, hãy đánh giá đúng sai, đúng trả về 1, sai trả về 0, 
-  sau đó trả v các đánh giá đấy dưới dạng mảng các số 0 và 1
-
+  sau đó trả về các đánh giá đấy dưới dạng mảng json, mỗi json có 2 field là evaluate và explain, 
+  evaluate là 1 nếu đúng, 0 nếu sai, explain là câu trả lời của bạn
 `
 
 
@@ -145,7 +145,8 @@ export const voice_geminiAI: RequestHandler = async (req: Request, res: Response
 
   await gemini_model.generateContent([data + voice_prompt]).then((response) => {
     res.status(200).send({ 
-      response: JSON.parse(response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```json|```/g, "").trim() as string)
+      response: response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```(json)?\n?|\n?```/g, "").trim() as string,
+      raw: response.response.candidates?.[0]?.content.parts?.[0]?.text
     });
   }).catch((e) => {
     res.status(400).send({ message: e.message })

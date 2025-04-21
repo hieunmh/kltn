@@ -9,9 +9,9 @@ import commentRoute from './comment_route';
 
 const router: Router = Router();
 
-router.use('/', authRoute);
-router.use('/', userRoute);
-router.use('/', postRoute);
+router.use('/auth', authRoute);
+router.use('/user', userRoute);
+router.use('/post', postRoute);
 router.use('/', aiRoute);
 router.use('/', chatRoute);
 router.use('/', messageRoute);

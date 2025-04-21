@@ -117,9 +117,10 @@ export const createPost: RequestHandler = async (req: Request, res: Response) =>
 
 export const deletePost: RequestHandler = async (req: Request, res: Response) => {
   const { post_id } = req.body;
+  const user_id = req.session.userId as string;
 
   await Post.destroy({
-    where: { id: post_id }
+    where: { id: post_id, user_id: user_id }
   }).then(() => {
     res.status(200).send({ msg: 'Delete post successfully!' });
   }).catch((e) => {

@@ -6,10 +6,10 @@ import upload from '../config/upload';
 const router: Router = Router();
 
 
-router.get('/user', isAuth, userController.getUser);
-router.post('/user/upload-image', isAuth, upload.single('user_image'), userController.uploadUserImage);
-router.patch('/user/update-info', isAuth, userController.updateUserInfo);
-router.patch('/user/change-password', isAuth, userController.changePassword);
+router.get('/get-info', isAuth, userController.getUser);
+router.post('/upload-image', isAuth, upload.single('user_image'), userController.uploadUserImage);
+router.patch('/update-info', isAuth, userController.updateUserInfo);
+router.patch('/change-password', isAuth, userController.changePassword);
 
 
 export default router;

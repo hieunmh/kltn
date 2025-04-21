@@ -78,9 +78,20 @@ export const updateUserInfo: RequestHandler = async (req: Request, res: Response
     return;
   }
 
-  user!.name = newName;
-  user!.email = newEmail;
-  user.save();
+  if (newName) user.name = newName;
+
+  if (newEmail) {
+    const existingUser = await User.findOne({ where: { email: newEmail } });
+
+    if (existingUser && existingUser?.email === user.email) {
+      user.email = newEmail;
+    } else {
+      res.status(400).json({ message: 'Email already in use!' });
+      return;
+    }
+  }
+
+  await user!.save();
 
   res.status(200).json({
     user: {

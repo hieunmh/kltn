@@ -173,5 +173,5 @@ export const resetPassword: RequestHandler = async (req: Request, res: Response)
   user.resetCodeExpires = null;
   await user.save();
 
-  res.status(200).json({ msg: 'Password reset successfully!' });
+  res.status(204).json({ msg: 'Password reset successfully!' });
 }
