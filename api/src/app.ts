@@ -64,6 +64,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello from KLTN app');
 });
 
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`);
+app.listen(Number(PORT), '0.0.0.0', () => {
+  console.log(`Server đang chạy trên http://0.0.0.0:${PORT}`);
+  // console.log(`Để truy cập từ thiết bị khác, sử dụng địa chỉ IP của máy tính (192.168.10.142:${PORT})`);
 });

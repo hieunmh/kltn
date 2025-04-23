@@ -33,7 +33,15 @@ export const uploadUserImage: RequestHandler = async (req: Request, res: Respons
       return;
     }
 
-    const filename = `${user_id}_avatar${path.extname(req.file.originalname)}`;
+    const filename = `${user_id}_${Date.now()}_${path.extname(req.file.originalname)}`;
+
+    if (user && user.image_url) {
+      const imagePath = user.image_url.replace('userimages/', '');
+      const { error: deleteError } = await supabase.storage.from('userimages').remove([imagePath]);
+      if (deleteError) {
+        console.error('Error deleting image:', deleteError);
+      }
+    }
 
     const { data, error } = await supabase.storage.from('userimages').upload(
       '/' + filename, 
