@@ -35,6 +35,12 @@ class MsgController extends GetxController {
     }
   }
 
+  @override
+  void onClose() {
+    // Xóa bộ nhớ khi controller bị hủy
+    msgController.dispose();
+    super.onClose();
+  }
 
   Future<void> createAiMessage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -63,6 +69,7 @@ class MsgController extends GetxController {
     if (aimsg.statusCode == 200 || aimsg.statusCode == 201) {
       final data = json.decode(aimsg.body)['message'] as Map<String, dynamic>;
       messages.add(Message.fromJson(data));
+      messages.refresh();
       await http.put(Uri.parse('$serverHost/update-chat'), headers: {
         'cookie': rawCookie
       }, body: {
@@ -73,6 +80,10 @@ class MsgController extends GetxController {
       isAIresponding.value = false;
 
       chatName.value = json.decode(aires.body)['response']['title'];
+      // Đảm bảo chatId đã được thiết lập
+      if (chatId.value.isEmpty) {
+        chatId.value = usermsg.chatid;
+      }
 
       chatController.chatList.add(Chat(
         id: chat.id,
@@ -105,6 +116,7 @@ class MsgController extends GetxController {
   }
 
   Future<void> createMessage() async {
+    print('createMessage');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
@@ -126,6 +138,7 @@ class MsgController extends GetxController {
     if (usermsg.statusCode == 200 || usermsg.statusCode == 201) {
       final data = json.decode(usermsg.body)['message'] as Map<String, dynamic>;
       messages.add(Message.fromJson(data));
+      messages.refresh();
       msgController.clear();
     }
 

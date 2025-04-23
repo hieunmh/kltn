@@ -27,6 +27,13 @@ class ChatController extends GetxController {
     getAllChat();
   }
 
+  @override
+  void onClose() {
+    // Xóa bộ nhớ khi controller bị hủy
+    msgController.dispose();
+    super.onClose();
+  }
+
   Future<void> getAllChat() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
@@ -51,6 +58,10 @@ class ChatController extends GetxController {
       return;
     }
     
+    final userText = msgController.text;
+    // Xóa text trong msgController
+    msgController.clear();
+    
     // create chat
     final chat = await http.post(Uri.parse('$serverHost/create-chat'), headers: {
       'cookie': rawCookie
@@ -64,7 +75,7 @@ class ChatController extends GetxController {
     }, body: {
       'chat_id': json.decode(chat.body)['chat']['id'].toString(),
       'role': 'user',
-      'message': msgController.text,
+      'message': userText,
     });
 
     Get.back();
@@ -89,9 +100,15 @@ class ChatController extends GetxController {
         ) 
       }
     );
+
+    msgController.clear();
+    
   }
 
   void getChatMessage(String chatid, String chatName) async {
+    // Xóa text trong msgController
+    msgController.clear();
+    
     Get.toNamed(AppRoutes.message, arguments: {
       'chat_id': chatid,
       'chat_name': chatName

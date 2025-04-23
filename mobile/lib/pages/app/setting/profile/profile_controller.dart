@@ -147,6 +147,7 @@ class ProfileController extends GetxController {
     if (response.statusCode == 200) {
       Get.back();
       appController.imageUrl.value = json.decode(responseBody)['user']['image_url'];
+      prefs.setString('image_url', json.decode(responseBody)['user']['image_url']);
     }
 
     isLoading.value = false;

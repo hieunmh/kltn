@@ -14,6 +14,7 @@ class PostWidget extends StatelessWidget {
   final String userid;
   final ThemeController themeController;
   final Function(String) deletePost;
+  final String currentUserImage;
 
 
   const PostWidget({
@@ -24,7 +25,8 @@ class PostWidget extends StatelessWidget {
     required this.supabaseUrl,
     required this.userid,
     required this.themeController,
-    required this.deletePost
+    required this.deletePost,
+    required this.currentUserImage
   });
 
   @override
@@ -45,17 +47,45 @@ class PostWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    (post.user.imageUrl ?? '').isNotEmpty ? 
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
+                    currentUserImage.isNotEmpty && userid == post.user.id ? Container(
+                      width: 40, 
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle, 
+                        border: Border.all( 
+                          color: Colors.grey.shade400, 
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
+                          supabaseUrl + currentUserImage,
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ) : (post.user.imageUrl ?? '').isNotEmpty ? 
+                    Container(
+                      width: 40, 
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle, 
+                        border: Border.all( 
+                          color: Colors.grey.shade400, 
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
                           supabaseUrl + post.user.imageUrl!, 
                           height: 40,
                           width: 40,
                           fit: BoxFit.cover,
-                          // ...
                         )
-              
+                      ),
                     ) : Container(
                       width: 40, 
                       height: 40,
@@ -63,7 +93,7 @@ class PostWidget extends StatelessWidget {
                         shape: BoxShape.circle, 
                         border: Border.all( 
                           color: Colors.grey.shade400, 
-                          width: 1.5,
+                          width: 1,
                         ),
                       ),
                       child: ClipRRect(

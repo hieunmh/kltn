@@ -32,8 +32,12 @@ class ProfileView extends GetView<ProfileController> {
                                   Container(
                                     color: Colors.black,
                                     child: Center(
-                                      child: Image.network(
+                                      child: controller.appController.imageUrl.value.isNotEmpty ? Image.network(
                                         controller.supabaseUrl + controller.appController.imageUrl.value,
+                                        width: MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                      ) : Image.asset(
+                                        'assets/image/user-placeholder.png',
                                         width: MediaQuery.of(context).size.width,
                                         fit: BoxFit.cover,
                                       ),
@@ -75,8 +79,13 @@ class ProfileView extends GetView<ProfileController> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(60),
-                            child: Image.network(
+                            child: controller.appController.imageUrl.value.isNotEmpty ? Image.network(
                               controller.supabaseUrl + controller.appController.imageUrl.value,
+                              width: 120,
+                              height: 120,
+                              fit: BoxFit.cover,
+                            ) : Image.asset(
+                              'assets/image/user-placeholder.png',
                               width: 120,
                               height: 120,
                               fit: BoxFit.cover,

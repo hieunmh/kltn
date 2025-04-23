@@ -93,6 +93,7 @@ class PostView extends GetView<PostController> {
                       post: controller.posts[index],
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
                       userid: controller.appController.userid.value,
+                      currentUserImage: controller.appController.imageUrl.value,
                       ontap: () => {
                         Get.bottomSheet(
                           Container(
@@ -211,11 +212,13 @@ class PostView extends GetView<PostController> {
                                               ]
                                             ),
                                             child: CommentBox(
+                                              currentUserImage: controller.appController.imageUrl.value,
                                               comment: comment,
                                               userid: controller.appController.userid.value,
                                               supabaseUrl: controller.supabaseUrl,
                                             ),
                                           ) : CommentBox(
+                                            currentUserImage: controller.appController.imageUrl.value,
                                             comment: comment,
                                             userid: controller.appController.userid.value,
                                             supabaseUrl: controller.supabaseUrl,
@@ -238,14 +241,23 @@ class PostView extends GetView<PostController> {
                                   ),
                                   child: Row(
                                     children: [
-                                      controller.appController.imageUrl.isNotEmpty ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Image.network(
-                                          controller.supabaseUrl + controller.appController.imageUrl.value, 
-                                          height: 40,
-                                          width: 40,
-                                          fit: BoxFit.cover,
-                                        )                          
+                                      controller.appController.imageUrl.isNotEmpty ? Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Colors.grey.shade400,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(50),
+                                          child: Image.network(
+                                            controller.supabaseUrl + controller.appController.imageUrl.value,
+                                            height: 40,
+                                            width: 40,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ) : Container(
                                         width: 40, 
                                         height: 40,
@@ -253,7 +265,7 @@ class PostView extends GetView<PostController> {
                                           shape: BoxShape.circle, 
                                           border: Border.all( 
                                             color: Colors.grey.shade400, 
-                                            width: 1.5,
+                                            width: 1,
                                           ),
                                         ),
                                         child: ClipRRect(

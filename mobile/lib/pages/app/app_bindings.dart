@@ -14,6 +14,6 @@ class AppBindings extends Bindings {
     Get.lazyPut(() => TutorController());
     Get.lazyPut(() => PostController());
     Get.lazyPut(() => SettingController());
-    Get.lazyPut(() => ChatController());
+    Get.lazyPut(() => ChatController(), fenix: true);
   }
 }

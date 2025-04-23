@@ -4,25 +4,33 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeController extends GetxController {
   RxBool isDark = false.obs;
+  static SharedPreferences? _prefs;
 
   @override
   void onInit() {
-    getTheme();
     super.onInit();
+    _initPrefs();
   }
 
-  Future<void> getTheme() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    isDark.value = prefs.getBool('isDark') ?? false;
+  Future<void> _initPrefs() async {
+    _prefs ??= await SharedPreferences.getInstance();
+    isDark.value = _prefs?.getBool('isDark') ?? false;
     Get.changeThemeMode(isDark.value ? ThemeMode.dark : ThemeMode.light);
   }
 
-  void changeTheme(bool value) async {
+  Future<void> getTheme() async {
+    if (_prefs == null) {
+      await _initPrefs();
+    } else {
+      isDark.value = _prefs?.getBool('isDark') ?? false;
+      Get.changeThemeMode(isDark.value ? ThemeMode.dark : ThemeMode.light);
+    }
+  }
+
+  Future<void> changeTheme(bool value) async {
     isDark.value = value;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    await prefs.setBool('isDark', value);
-
+    _prefs ??= await SharedPreferences.getInstance();
+    await _prefs?.setBool('isDark', value);
     Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
   }
 }

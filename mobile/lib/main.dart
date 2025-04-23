@@ -26,16 +26,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-      GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'KLTN',
-        getPages: AppPages.pages,
-        initialRoute: initRoute,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeController().isDark.value ? ThemeMode.dark : ThemeMode.light,
-      ),
+    Get.lazyPut(() => ThemeController(), fenix: true);
+    
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'KLTN',
+      getPages: AppPages.pages,
+      initialRoute: initRoute,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: Get.find<ThemeController>().isDark.value ? ThemeMode.dark : ThemeMode.light,
     );
   }
 }

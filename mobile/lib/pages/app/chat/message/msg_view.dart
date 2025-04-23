@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:mobile/models/message.dart';
 import 'package:mobile/pages/app/chat/message/msg_controller.dart';
 import 'package:mobile/theme/app_color.dart';
 import 'package:mobile/widgets/app/chat/message_box.dart';
@@ -74,17 +75,16 @@ class MsgView extends GetView<MsgController> {
                     ),
                   ),
                 ),
-              ) : GroupedListView(
-                // ignore: invalid_use_of_protected_member
-                elements: controller.messages.value, 
+              ) : GroupedListView<dynamic, String>(
+                elements: controller.messages,
                 padding: const EdgeInsets.fromLTRB(15, 115, 15, 0),
-                groupBy: (msg) => msg.createdAt,
-                groupSeparatorBuilder: (msg) => SizedBox(height: 15),
+                groupBy: (dynamic msg) => msg.createdAt,
+                groupSeparatorBuilder: (String groupValue) => SizedBox(height: 15),
                 order: GroupedListOrder.DESC,
                 reverse: true,
-                itemBuilder: (context, element) {
+                itemBuilder: (context, dynamic element) {
                   return MessageBox(
-                    message: element,
+                    message: element as Message,
                     isDark: controller.themeController.isDark.value,
                   );
                 },

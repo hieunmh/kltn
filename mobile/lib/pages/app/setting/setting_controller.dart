@@ -32,7 +32,7 @@ class SettingController extends GetxController {
     prefs.remove('email');
 
     if (res.statusCode == 200) {
-      Get.offNamed(AppRoutes.signup);
+      Get.offNamed(AppRoutes.signin);
     }
   }
 }

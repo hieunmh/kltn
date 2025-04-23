@@ -6,8 +6,9 @@ class CommentBox extends StatelessWidget {
   final Comment comment;
   final String userid;
   final String supabaseUrl;
+  final String currentUserImage;
 
-  const CommentBox({super.key, required this.comment, required this.userid, required this.supabaseUrl});
+  const CommentBox({super.key, required this.comment, required this.userid, required this.supabaseUrl, required this.currentUserImage});
 
   @override
   Widget build(BuildContext context) {
@@ -18,36 +19,65 @@ class CommentBox extends StatelessWidget {
         children: [
           Row(
             children: [
-              (comment.user.imageUrl ?? '').isNotEmpty ? ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.network(
-                    supabaseUrl + comment.user.imageUrl!, 
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                    // ...
-                  )
-        
-              ) : Container(
-                width: 40, 
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle, 
-                  border: Border.all( 
-                    color: Colors.grey.shade400, 
-                    width: 1.5,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/image/user-placeholder.png',
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ), 
+              currentUserImage.isNotEmpty && userid == comment.user.id ? Container(
+                      width: 40, 
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle, 
+                        border: Border.all( 
+                          color: Colors.grey.shade400, 
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
+                          supabaseUrl + currentUserImage,
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ) : (comment.user.imageUrl ?? '').isNotEmpty ? 
+                    Container(
+                      width: 40, 
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle, 
+                        border: Border.all( 
+                          color: Colors.grey.shade400, 
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
+                          supabaseUrl + comment.user.imageUrl!, 
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        )
+                      ),
+                    ) : Container(
+                      width: 40, 
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle, 
+                        border: Border.all( 
+                          color: Colors.grey.shade400, 
+                          width: 1,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset(
+                          'assets/image/user-placeholder.png',
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
 
               SizedBox(width: 10),
 

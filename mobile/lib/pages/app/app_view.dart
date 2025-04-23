@@ -57,7 +57,7 @@ class AppView extends GetView<AppController> {
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.book_1_outline),
                   activeIcon: Icon(Iconsax.book_1_bold),
-                  label: 'Reiview AI'
+                  label: 'Review AI'
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.card_outline),
