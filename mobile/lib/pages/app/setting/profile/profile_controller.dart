@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile/config/env.dart';
@@ -29,8 +28,8 @@ class ProfileController extends GetxController {
   final newName = ''.obs;
   final newEmail = ''.obs;
   final imageUrl = ''.obs;
-  final isLoading = false.obs;
-
+  final isImageLoading = false.obs;
+  final isInfoLoading = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -46,87 +45,18 @@ class ProfileController extends GetxController {
     newEmail.value = prefs.getString('email') ?? '';
   }
 
-  Future<void> pickImage(context) async {
+  Future<void> pickImage() async {
     print('pickImage');
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
-      showModalBottomSheet(
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        builder: (context) => Container(
-          color: themeController.isDark.value ? Colors.transparent : Colors.white,
-          padding: EdgeInsets.all(20),
-          width: double.infinity,
-          height: Get.width + 50,
-          child: Column(
-            children: [
-              Text(
-                'Preview',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 15),
-              
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(120),
-                  child: Image.file(
-                    image.value!,
-                    width: 240,
-                    height: 240,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20),
-
-              GestureDetector(
-                onTap: () {
-                  updateInfo();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      isLoading.value ? 'Updating...' : 'Update',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
     }
   }
 
-  Future<void> updateInfo() async {
-    print('updateInfo');
-    isLoading.value = true;
+  Future<void> updateImage() async {
+    print('updateImage');
+    isImageLoading.value = true;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
     final imageFile = image.value;
@@ -150,7 +80,50 @@ class ProfileController extends GetxController {
       prefs.setString('image_url', json.decode(responseBody)['user']['image_url']);
     }
 
-    isLoading.value = false;
+    isImageLoading.value = false;
+
+    image.value = null;
   }
+  
+
+  Future<void> updateInfo() async {
+    print('updateInfo');
+
+    if (newEmail.value == email.value && newName.value == name.value) {
+      return;
+    }
+
+    isInfoLoading.value = true;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final res = await http.patch(Uri.parse('$serverHost/user/update-info'), headers: {
+        'Cookie': rawCookie
+      },
+      body: {
+        'newName': newName.value,
+        'newEmail': newEmail.value,
+      }
+    );
+
+    if (res.statusCode == 200) {
+      Get.showSnackbar(GetSnackBar(
+        message: 'Update info successfully!',
+        duration: Duration(seconds: 2),
+      ));
+
+      name.value = newName.value;
+      email.value = newEmail.value;
+
+      appController.name.value = newName.value;
+      appController.email.value = newEmail.value;
+      prefs.setString('name', newName.value);
+      prefs.setString('email', newEmail.value);
+    }
+
+    isInfoLoading.value = false;
+  }
+
+  
 
 }

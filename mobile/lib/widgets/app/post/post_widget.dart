@@ -15,6 +15,7 @@ class PostWidget extends StatelessWidget {
   final ThemeController themeController;
   final Function(String) deletePost;
   final String currentUserImage;
+  final String currentUserName;
 
 
   const PostWidget({
@@ -26,7 +27,8 @@ class PostWidget extends StatelessWidget {
     required this.userid,
     required this.themeController,
     required this.deletePost,
-    required this.currentUserImage
+    required this.currentUserImage,
+    required this.currentUserName
   });
 
   @override
@@ -110,7 +112,7 @@ class PostWidget extends StatelessWidget {
                     SizedBox(width: 10),
 
                     Text(
-                      post.user.name,
+                      post.userid == userid ? currentUserName : post.user.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16

@@ -90,7 +90,6 @@ class PostController extends GetxController {
     });
 
     if (comment.statusCode == 200) {
-      // comments.removeWhere((element) => element.id == commentid);
       posts.firstWhere((element) => element.id == postid).comments.removeWhere((element) => element.id == commentid);
       posts.refresh();
     }

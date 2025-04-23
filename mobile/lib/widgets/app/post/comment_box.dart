@@ -7,8 +7,16 @@ class CommentBox extends StatelessWidget {
   final String userid;
   final String supabaseUrl;
   final String currentUserImage;
+  final String currentUserName;
 
-  const CommentBox({super.key, required this.comment, required this.userid, required this.supabaseUrl, required this.currentUserImage});
+  const CommentBox({
+    super.key, 
+    required this.comment, 
+    required this.userid, 
+    required this.supabaseUrl, 
+    required this.currentUserImage, 
+    required this.currentUserName
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +96,7 @@ class CommentBox extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        comment.user.name,
+                        comment.userid == userid ? currentUserName : comment.user.name,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14

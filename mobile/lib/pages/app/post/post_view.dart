@@ -94,6 +94,7 @@ class PostView extends GetView<PostController> {
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
                       userid: controller.appController.userid.value,
                       currentUserImage: controller.appController.imageUrl.value,
+                      currentUserName: controller.appController.name.value,
                       ontap: () => {
                         Get.bottomSheet(
                           Container(
@@ -216,12 +217,14 @@ class PostView extends GetView<PostController> {
                                               comment: comment,
                                               userid: controller.appController.userid.value,
                                               supabaseUrl: controller.supabaseUrl,
+                                              currentUserName: controller.appController.name.value,
                                             ),
                                           ) : CommentBox(
                                             currentUserImage: controller.appController.imageUrl.value,
                                             comment: comment,
                                             userid: controller.appController.userid.value,
                                             supabaseUrl: controller.supabaseUrl,
+                                            currentUserName: controller.appController.name.value,
                                           );
                                         },
                                       ),
