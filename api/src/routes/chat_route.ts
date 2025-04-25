@@ -5,7 +5,7 @@ import { isAuth } from '../middleware/auth';
 const router: Router = Router();
 
 router.post('/create-chat', isAuth, chatController.createChat);
-router.put('/update-chat', isAuth, chatController.updateChat);
+router.patch('/update-chat', isAuth, chatController.updateChat);
 router.get('/get-all-chat', isAuth, chatController.getAllChatByUser);
 router.get('/get-chat-by-id', isAuth, chatController.getChatbyId);
 router.delete('/delete-chat', isAuth, chatController.deleteChat);

@@ -30,7 +30,10 @@ const voice_prompt = `
   tạo ra được 1 mảng json, trong đó mỗi json có 2 field là question và answer, dựa vào 
   answer ứng với question đấy, hãy đánh giá đúng sai, đúng trả về 1, sai trả về 0, 
   sau đó trả về các đánh giá đấy dưới dạng mảng json, mỗi json có 2 field là evaluate và explain, 
-  evaluate là 1 nếu đúng, 0 nếu sai, explain là câu trả lời của bạn
+  evaluate là 1 nếu đúng, 0 nếu sai, explain là câu trả lời của bạn dựa trên answer và question, ví dụ: 
+  khi question là "điều kiện của biến a trong phương trình ax+b=0 là gì?", answer là "a khác 0", 
+  explain sẽ là "Điều kiện của biến a trong phương trình ax+b=0 là a khác 0",
+  và do answer dùng thư viện speed_to_text nên có thể có lỗi, hãy sửa lỗi đó
 `
 
 

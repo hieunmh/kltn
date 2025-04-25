@@ -4,6 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 import { UserType } from '../types/types';
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+const transporter = nodemailer.createTransport({
+  host: 'sandbox.smtp.mailtrap.io',
+  port: 2525,
+  auth: { user: process.env.MAILTRAP_USER, pass: process.env.MAILTRAP_PW }
+})
+
 
 export const signup: RequestHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -107,12 +115,6 @@ export const forgotPassword: RequestHandler = async (req: Request, res: Response
     res.status(404).json({ msg: 'Email not registered!' });
     return;
   }
-
-  const transporter = nodemailer.createTransport({
-    host: 'sandbox.smtp.mailtrap.io',
-    port: 2525,
-    auth: { user: '937e28ebc5bd4c', pass: 'b7311a9d4f41c9' }
-  })
 
   const resetCode = Math.floor(1000 + Math.random() * 9000).toString();
   const expires = Date.now() + 15 * 60 * 1000;
