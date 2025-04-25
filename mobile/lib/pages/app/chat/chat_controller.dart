@@ -20,6 +20,7 @@ class ChatController extends GetxController {
 
   RxString model = Env.geminiModel.obs;
   final msgController = TextEditingController(text: '');
+  final newNameController = TextEditingController(text: '');
 
   @override
   void onInit() {
@@ -127,6 +128,45 @@ class ChatController extends GetxController {
     if (chat.statusCode == 200) {
       chatList.removeWhere((chat) => chat.id == chatid);
     }
-    
   }
-}
+
+  Future<void> updateChatName(String chatid, BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    final editchat = await http.patch(Uri.parse('$serverHost/update-chat'), headers: {
+        'cookie': rawCookie
+      },
+      body: {
+        'chat_id': chatid,
+        'chat_name': newNameController.text
+      }
+    );
+
+    print(editchat.body);
+
+    if (editchat.statusCode == 200) {
+      for (var chat in chatList) {
+        if (chat.id == chatid) {
+          chatList[chatList.indexOf(chat)] = Chat(
+            id: chat.id,
+            userid: chat.userid,
+            name: newNameController.text,
+            createdAt: chat.createdAt,
+            updatedAt: chat.updatedAt
+          );
+          break;
+        }
+      }
+      Get.back();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Rename successfully!'),
+          duration: Duration(seconds: 1),
+        )
+      );
+      newNameController.clear();
+    }
+  }
+} 

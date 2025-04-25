@@ -104,12 +104,10 @@ class VoiceController extends GetxController {
       }
     );
 
-    print(res.statusCode);
-
     print(res.body);
 
     if (res.statusCode == 200) {
-      Get.toNamed(AppRoutes.result, arguments: {
+      Get.offNamed(AppRoutes.result, arguments: {
         'results': json.decode(res.body)['response'],
         'questions': questions,
       });

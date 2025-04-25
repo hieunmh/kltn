@@ -22,7 +22,7 @@ class PostView extends GetView<PostController> {
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
         backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
-        title: Row(
+        title: const Row(
           children: [
             Expanded(
               child: Text(
@@ -39,12 +39,12 @@ class PostView extends GetView<PostController> {
             onPressed: () {
               Get.toNamed(AppRoutes.createpost);
             },
-            icon: Icon(BoxIcons.bx_add_to_queue),
+            icon: const Icon(BoxIcons.bx_add_to_queue),
             iconSize: 24,
           )
         ],
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(0),
+          preferredSize: const Size.fromHeight(0),
           child: Container(
             color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
             height: 0.5
@@ -63,24 +63,25 @@ class PostView extends GetView<PostController> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(
-                // color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
-              ),
+              decoration: const BoxDecoration(),
               height: Get.height - 90,
               width: double.infinity,
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Obx(() =>
-                controller.posts.isEmpty ? Center(
-                  child: Text(
-                    'No posts available',
-                    style: TextStyle(
-                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ) : ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
+              padding: EdgeInsets.zero,
+              child: Obx(() {
+                if (controller.posts.isEmpty) {
+                  return  Center(
+                    child: Text(
+                      'No posts available',
+                      style: TextStyle(
+                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  );
+                }
+                return ListView.separated(
+                  separatorBuilder: (context, index) =>Divider(
                     color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
                     thickness: 0.5,
                   ),
@@ -101,7 +102,7 @@ class PostView extends GetView<PostController> {
                             height: Get.height * 0.55,
                             decoration: BoxDecoration(
                               color: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white,
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40),
                               ),
@@ -111,7 +112,7 @@ class PostView extends GetView<PostController> {
                               children: [
                                 Container(
                                   width: double.infinity, 
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
@@ -120,7 +121,7 @@ class PostView extends GetView<PostController> {
                                       ),
                                     ),
                                   ),
-                                  child: Center(
+                                  child: const Center(
                                     child: Text(
                                       'Comments',
                                       style: TextStyle(
@@ -132,94 +133,101 @@ class PostView extends GetView<PostController> {
                                 ),
 
                                 Obx(() {
-                                  return controller.posts[index].comments.isEmpty ? Expanded(
-                                    child: Center(
-                                      child: Text(
-                                        'Be the first to comment',
-                                        style: TextStyle(
-                                          color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
+                                  if (controller.posts[index].comments.isEmpty) {
+                                    return Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          'Be the first to comment',
+                                          style: TextStyle(
+                                            color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ) : Expanded(
+                                    );
+                                  }
+                                  
+                                  return Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                      padding: EdgeInsets.zero,
                                       child: GroupedListView(
                                         // ignore: invalid_use_of_protected_member
                                         elements: controller.posts[index].comments, 
                                         groupBy: (comment) => comment.createdAt,
-                                        groupSeparatorBuilder: (comment) => SizedBox(height: 15),
+                                        groupSeparatorBuilder: (comment) => const SizedBox(height: 15),
                                         order: GroupedListOrder.DESC,
                                         reverse: true,
                                         itemBuilder: (context, comment) {
-                                          return comment.user.id == controller.appController.userid.value ? Slidable(
-                                            key: ValueKey(comment.id),
-                                            endActionPane: ActionPane(
-                                              motion: ScrollMotion(), 
-                                              extentRatio: 0.25,
-                                              children: [                                              
-                                                SlidableAction(
-                                                  onPressed: (context) {
-                                                    Slidable.of(context)?.close();
-                                                    showCupertinoModalPopup(
-                                                      context: context, 
-                                                      builder: (context) => CupertinoActionSheet(
-                                                        title: Text(
-                                                          'Are you sure to delete this comment?',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w500,
-                                                            color: Colors.grey.shade500
+                                          if (comment.user.id == controller.appController.userid.value) {
+                                            return Slidable(
+                                              key: ValueKey(comment.id),
+                                              endActionPane: ActionPane(
+                                                motion: const ScrollMotion(), 
+                                                extentRatio: 0.25,
+                                                children: [                                              
+                                                  SlidableAction(
+                                                    onPressed: (context) {
+                                                      Slidable.of(context)?.close();
+                                                      showCupertinoModalPopup(
+                                                        context: context, 
+                                                        builder: (context) => CupertinoActionSheet(
+                                                          title: const Text(
+                                                            'Are you sure to delete this comment?',
+                                                            style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.grey,
+                                                            ),
                                                           ),
-                                                        ),
-                                                        actions: [
-                                                          CupertinoActionSheetAction(
+                                                          actions: [
+                                                            CupertinoActionSheetAction(
+                                                              onPressed: () {
+                                                                Navigator.pop(context);
+                                                                controller.deleteComment(comment.id, controller.posts[index].id);
+                                                              },
+                                                              child: const Text(
+                                                                'Delete',
+                                                                style: TextStyle(
+                                                                  color: Colors.red,
+                                                                  fontSize: 18,
+                                                                  fontWeight: FontWeight.w500
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                          cancelButton: CupertinoActionSheetAction(
                                                             onPressed: () {
                                                               Navigator.pop(context);
-                                                              controller.deleteComment(comment.id, controller.posts[index].id);
                                                             },
-                                                            child: Text(
-                                                              'Delete',
-                                                              style: TextStyle(
-                                                                color: Colors.red,
-                                                                fontSize: 18,
-                                                                fontWeight: FontWeight.w500
+                                                            child: const Text(
+                                                                'Cancel',
+                                                                style: TextStyle(
+                                                                  color: Colors.blue,
+                                                                  fontSize: 18,
+                                                                  fontWeight: FontWeight.w700
+                                                                ),
                                                               ),
-                                                            ),
                                                           ),
-                                                        ],
-                                                        cancelButton: CupertinoActionSheetAction(
-                                                          onPressed: () {
-                                                            Navigator.pop(context);
-                                                          },
-                                                          child: Text(
-                                                              'Cancel',
-                                                              style: TextStyle(
-                                                                color: Colors.blue,
-                                                                fontSize: 18,
-                                                                fontWeight: FontWeight.w700
-                                                              ),
-                                                            ),
-                                                        ),
-                                                      )
-                                                    );
-                                                  },
-                                                  icon: BoxIcons.bx_trash,
-                                                  backgroundColor: Colors.red,
-                                                  foregroundColor: Colors.white,
-                                                )
-                                              ]
-                                            ),
-                                            child: CommentBox(
-                                              currentUserImage: controller.appController.imageUrl.value,
-                                              comment: comment,
-                                              userid: controller.appController.userid.value,
-                                              supabaseUrl: controller.supabaseUrl,
-                                              currentUserName: controller.appController.name.value,
-                                            ),
-                                          ) : CommentBox(
+                                                        )
+                                                      );
+                                                    },
+                                                    icon: BoxIcons.bx_trash,
+                                                    backgroundColor: Colors.red,
+                                                    foregroundColor: Colors.white,
+                                                  )
+                                                ]
+                                              ),
+                                              child: CommentBox(
+                                                currentUserImage: controller.appController.imageUrl.value,
+                                                comment: comment,
+                                                userid: controller.appController.userid.value,
+                                                supabaseUrl: controller.supabaseUrl,
+                                                currentUserName: controller.appController.name.value,
+                                              ),
+                                            );
+                                          }
+                                          return CommentBox(
                                             currentUserImage: controller.appController.imageUrl.value,
                                             comment: comment,
                                             userid: controller.appController.userid.value,
@@ -232,7 +240,7 @@ class PostView extends GetView<PostController> {
                                   );
                                 }),
 
-                                Container(
+                                Obx(() => Container(
                                   padding: const EdgeInsets.fromLTRB(15, 15, 15, 25),
                                   decoration: BoxDecoration(
                                     border: Border(
@@ -244,43 +252,44 @@ class PostView extends GetView<PostController> {
                                   ),
                                   child: Row(
                                     children: [
-                                      controller.appController.imageUrl.isNotEmpty ? Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: Colors.grey.shade400,
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(50),
-                                          child: Image.network(
-                                            controller.supabaseUrl + controller.appController.imageUrl.value,
+                                      controller.appController.imageUrl.isNotEmpty 
+                                        ? Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.grey.shade400,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(50),
+                                              child: Image.network(
+                                                controller.supabaseUrl + controller.appController.imageUrl.value,
+                                                height: 40,
+                                                width: 40,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ) : Container(
+                                            width: 40, 
                                             height: 40,
-                                            width: 40,
-                                            fit: BoxFit.cover,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle, 
+                                              border: Border.all( 
+                                                color: Colors.grey.shade400, 
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(20),
+                                              child: Image.asset(
+                                                'assets/image/user-placeholder.png',
+                                                height: 40,
+                                                width: 40,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ) : Container(
-                                        width: 40, 
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle, 
-                                          border: Border.all( 
-                                            color: Colors.grey.shade400, 
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(20),
-                                          child: Image.asset(
-                                            'assets/image/user-placeholder.png',
-                                            height: 40,
-                                            width: 40,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
 
                                       const SizedBox(width: 10),
 
@@ -296,8 +305,8 @@ class PostView extends GetView<PostController> {
                                           ),
                                           child: Row(
                                             children: [
-                                              Icon(Iconsax.add_circle_bold),
-                                              SizedBox(width: 10),
+                                              const Icon(Iconsax.add_circle_bold),
+                                              const SizedBox(width: 10),
                                               Expanded(
                                                 child: TextField(
                                                   controller: controller.commentController,
@@ -309,12 +318,12 @@ class PostView extends GetView<PostController> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                               GestureDetector(
                                                 onTap: () {
                                                   controller.createComment(controller.posts[index].id);
                                                 },
-                                                child: Icon(Iconsax.send_1_bold),
+                                                child: const Icon(Iconsax.send_1_bold),
                                               ),
                                             ],
                                           ),
@@ -322,7 +331,7 @@ class PostView extends GetView<PostController> {
                                       )
                                     ],
                                   ),
-                                ),
+                                )),
                               ],
                             ),
                           ),
@@ -333,8 +342,8 @@ class PostView extends GetView<PostController> {
                       },
                     );
                   },
-                ),
-              ),
+                );
+              }),
             )
           ],
         )

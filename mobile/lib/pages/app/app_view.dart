@@ -53,7 +53,7 @@ class AppView extends GetView<AppController> {
               ),
               unselectedItemColor: Colors.grey,
               selectedItemColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.book_1_outline),
                   activeIcon: Icon(Iconsax.book_1_bold),

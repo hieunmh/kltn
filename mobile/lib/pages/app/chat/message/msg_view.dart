@@ -14,100 +14,116 @@ class MsgView extends GetView<MsgController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-      Scaffold(
+    return Obx(() {
+      final isDark = controller.themeController.isDark.value;
+      return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          scrolledUnderElevation: 0.0,
-          backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
-          title: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  controller.chatName.value,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,  
-                  ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: AppBar(
+            scrolledUnderElevation: 0.0,
+            backgroundColor: isDark 
+                ? AppColor.bgDarkThemeColor.withAlpha(120) 
+                : Colors.white.withAlpha(120),
+            title: Row(
+              children: [
+                Expanded(
+                  child: Obx(() => Text(
+                    controller.chatName.value,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,  
+                    ),
+                  )),
                 ),
-              ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                // Get.toNamed('/post/create');
-              },
-              icon: Icon(BoxIcons.bx_dots_horizontal_rounded),
-              iconSize: 24,
-            )
-          ],
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(0),
-            child: Container(
-              color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400, 
-              height: 0.5
+              ],
             ),
-          ),
-          flexibleSpace: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  // Get.toNamed('/post/create');
+                },
+                icon: const Icon(BoxIcons.bx_dots_horizontal_rounded),
+                iconSize: 24,
+              )
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
               child: Container(
-                color: Colors.transparent
+                color: isDark 
+                    ? Colors.grey.shade700 
+                    : Colors.grey.shade400, 
+                height: 0.5
+              ),
+            ),
+            flexibleSpace: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: Container(
+                  color: Colors.transparent
+                ),
               ),
             ),
           ),
         ),
-        backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
+        backgroundColor: isDark ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: controller.messages.isEmpty ? Padding(
-                padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
-                child: Center(
-                  child: Text(
-                    'Loading messages...',
-                    style: TextStyle(
-                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                      fontSize: 16,
+              child: Obx(() => controller.messages.isEmpty 
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
+                    child: Center(
+                      child: Text(
+                        'Loading messages...',
+                        style: TextStyle(
+                          color: isDark ? Colors.white : Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ) : GroupedListView<dynamic, String>(
-                elements: controller.messages,
-                padding: const EdgeInsets.fromLTRB(15, 115, 15, 0),
-                groupBy: (dynamic msg) => msg.createdAt,
-                groupSeparatorBuilder: (String groupValue) => SizedBox(height: 15),
-                order: GroupedListOrder.DESC,
-                reverse: true,
-                itemBuilder: (context, dynamic element) {
-                  return MessageBox(
-                    message: element as Message,
-                    isDark: controller.themeController.isDark.value,
-                  );
-                },
-              )
+                  ) 
+                : GroupedListView<dynamic, String>(
+                    elements: controller.messages,
+                    padding: const EdgeInsets.fromLTRB(15, 115, 15, 0),
+                    groupBy: (dynamic msg) => msg.createdAt,
+                    groupSeparatorBuilder: (String groupValue) => const SizedBox(height: 15),
+                    order: GroupedListOrder.DESC,
+                    reverse: true,
+                    itemBuilder: (context, dynamic element) {
+                      return MessageBox(
+                        message: element as Message,
+                        isDark: isDark,
+                      );
+                    },
+                  )
+              ),
             ),
 
-            controller.isAIresponding.value ? Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-                  child: Text(
-                    'AI is responding...'
-                  ),
-                ),
-              ],
-            ) : SizedBox(),
+            Obx(() => controller.isAIresponding.value 
+              ? Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                      child: const Text(
+                        'AI is responding...'
+                      ),
+                    ),
+                  ],
+                ) 
+              : const SizedBox()
+            ),
       
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0), 
+              padding: EdgeInsets.zero, 
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: controller.themeController.isDark.value ? Colors.grey.shade800 : Colors.grey.shade300,
+                    color: isDark 
+                        ? Colors.grey.shade800 
+                        : Colors.grey.shade300,
                     width: 1
                   ),
                 ), 
@@ -115,16 +131,16 @@ class MsgView extends GetView<MsgController> {
               child: Container(
                 height: 90,
                 width: double.infinity,
-                color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                color: isDark ? AppColor.bgDarkThemeColor : Colors.white,
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
                 child: Row(
                   children: [
-                    Icon(Iconsax.add_circle_bold),
-                    SizedBox(width: 10),
+                    const Icon(Iconsax.add_circle_bold),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: TextField(
                         controller: controller.msgController,
-                        cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                        cursorColor: isDark ? Colors.white : Colors.black,
                         decoration: InputDecoration(
                           hintText: 'Type a message',
                           hintStyle: TextStyle(
@@ -134,12 +150,12 @@ class MsgView extends GetView<MsgController> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     GestureDetector(
                       onTap: () {
                         controller.createMessage();
                       },
-                      child: Icon(Iconsax.send_1_bold),
+                      child: const Icon(Iconsax.send_1_bold),
                     )
                   ],
                 ),
@@ -147,7 +163,7 @@ class MsgView extends GetView<MsgController> {
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }
