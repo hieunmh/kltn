@@ -27,27 +27,62 @@ class MsgView extends GetView<MsgController> {
                 : Colors.white.withAlpha(120),
             title: Row(
               children: [
-                Expanded(
-                  child: Obx(() => Text(
-                    controller.chatName.value,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,  
+                GestureDetector(
+                  onTap: () {
+                    print(controller.model.value);
+                  },
+                  child: Text(
+                    'Select model',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600
                     ),
-                  )),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Container(
+                  height: 40,
+                  width: 150,
+                  child: DropdownButtonFormField<String>(
+                    value: controller.model.value,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      filled: true,
+                      fillColor: controller.themeController.isDark.value ? Colors.white.withAlpha(20) : Colors.black.withAlpha(20)
+                    ),
+                    dropdownColor: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                    items: [
+                      DropdownMenuItem(
+                        value: 'geminiai',
+                        child: Text('Gemini AI', style: TextStyle(fontSize: 13)),
+                      ),
+                      DropdownMenuItem(
+                        value: 'openai',
+                        child: Text('Open AI', style: TextStyle(fontSize: 13)),
+                      ),
+                    ],
+                    onChanged: (String? value) {
+                      controller.model.value = value ?? '';
+                    },
+                  ),
                 ),
               ],
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  // Get.toNamed('/post/create');
-                },
-                icon: const Icon(BoxIcons.bx_dots_horizontal_rounded),
-                iconSize: 24,
-              )
-            ],
+
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: Container(
@@ -76,12 +111,9 @@ class MsgView extends GetView<MsgController> {
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
                     child: Center(
-                      child: Text(
-                        'Loading messages...',
-                        style: TextStyle(
-                          color: isDark ? Colors.white : Colors.black,
-                          fontSize: 16,
-                        ),
+                      child: CircularProgressIndicator(
+                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                        strokeWidth: 3,
                       ),
                     ),
                   ) 

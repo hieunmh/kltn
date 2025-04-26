@@ -18,7 +18,7 @@ class ChatController extends GetxController {
 
   final ThemeController themeController = Get.find<ThemeController>();
 
-  RxString model = Env.geminiModel.obs;
+  RxString model = 'geminiai'.obs;
   final msgController = TextEditingController(text: '');
   final newNameController = TextEditingController(text: '');
 
@@ -98,7 +98,8 @@ class ChatController extends GetxController {
           name: json.decode(chat.body)['chat']['name'],
           createdAt: json.decode(chat.body)['chat']['createdAt'],
           updatedAt: json.decode(chat.body)['chat']['updatedAt']
-        ) 
+        ),
+        'model': model.value
       }
     );
 

@@ -18,18 +18,18 @@ class MsgController extends GetxController {
 
   final ThemeController themeController = Get.find<ThemeController>();
   final ChatController chatController = Get.find<ChatController>();
-  RxString chatName = ''.obs;
   RxString chatId = ''.obs;
   RxBool isAIresponding = false.obs;
+  final RxString model = ''.obs;
 
   @override
   void onInit() {
     super.onInit(); 
+    model.value = Get.arguments['model'] ?? 'geminiai';
     if (Get.arguments['message'] != null) {
       messages.add(Get.arguments['message'] as Message); 
       createAiMessage();
     } else {
-      chatName.value = Get.arguments['chat_name'];
       chatId.value = Get.arguments['chat_id'];
       getChatMessage(Get.arguments['chat_id']);
     }
@@ -52,10 +52,17 @@ class MsgController extends GetxController {
     isAIresponding.value = true;
 
     // get AI response
-    final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
+
+    final aires = model.value == 'geminiai' ?  await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
       'text': usermsg.message,
       'model': Env.geminiModel
+    }) : 
+    await http.post(Uri.parse('$serverHost/open_ai'), body: {
+      'text': usermsg.message,
+      'model': Env.openaiModel
     });
+
+    print(aires.body);
 
     // creaste AI message
     final aimsg = await http.post(Uri.parse('$serverHost/create-message'), headers: {
@@ -70,7 +77,7 @@ class MsgController extends GetxController {
       final data = json.decode(aimsg.body)['message'] as Map<String, dynamic>;
       messages.add(Message.fromJson(data));
       messages.refresh();
-      await http.put(Uri.parse('$serverHost/update-chat'), headers: {
+      await http.patch(Uri.parse('$serverHost/update-chat'), headers: {
         'cookie': rawCookie
       }, body: {
         'chat_id': usermsg.chatid,
@@ -79,7 +86,6 @@ class MsgController extends GetxController {
       
       isAIresponding.value = false;
 
-      chatName.value = json.decode(aires.body)['response']['title'];
       // Đảm bảo chatId đã được thiết lập
       if (chatId.value.isEmpty) {
         chatId.value = usermsg.chatid;
@@ -145,9 +151,14 @@ class MsgController extends GetxController {
     isAIresponding.value = true;
 
     //  get AI response
-    final aires = await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
+    final aires = model.value == 'geminiai' ?  await http.post(Uri.parse('$serverHost/gemini_ai'), body: {
       'text': usertext,
       'model': Env.geminiModel,
+      'history': messages.where((m) => m.role == 'user').map((m) => '${m.role}: ${m.message}\n').toList().join(' ')
+    }) : 
+    await http.post(Uri.parse('$serverHost/open_ai'), body: {
+      'text': usertext,
+      'model': Env.openaiModel,
       'history': messages.where((m) => m.role == 'user').map((m) => '${m.role}: ${m.message}\n').toList().join(' ')
     });
 

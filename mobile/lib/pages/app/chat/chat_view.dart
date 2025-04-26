@@ -36,7 +36,7 @@ class ChatView extends GetView<ChatController> {
                 context: context, 
                 builder: (context) {
                   return Container(
-                    height: Get.height * 0.85,
+                    height: Get.height * 0.6,
                     padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                     decoration: BoxDecoration(
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
@@ -59,20 +59,62 @@ class ChatView extends GetView<ChatController> {
                             Icon(Iconsax.code_1_bold, size: 24),
                           ],
                         ),
-    
-                        SizedBox(
-                          height: Get.height * 0.2,
-                          child: Center(
-                            child: Text(
-                              'create chat with AI',
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Select model',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: controller.themeController.isDark.value ? Colors.white : Colors.black
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 10),
+                            Container(
+                              height: 40,
+                              width: 150,
+                              child: DropdownButtonFormField<String>(
+                                value: 'geminiai',
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  filled: true,
+                                  fillColor: controller.themeController.isDark.value ? Colors.white.withAlpha(20) : Colors.black.withAlpha(20)
+                                ),
+                                dropdownColor: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                                items: [
+                                  DropdownMenuItem(
+                                    value: 'geminiai',
+                                    child: Text('Gemini AI', style: TextStyle(fontSize: 13)),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'openai',
+                                    child: Text('Open AI', style: TextStyle(fontSize: 13)),
+                                  ),
+                                ],
+                                onChanged: (String? value) {
+                                  controller.model.value = value ?? '';
+                                },
+                              ),
+                            ),
+                          ],
                         ),
+
+                        const SizedBox(height: 10),
     
                         Container(
                           width: double.infinity,
