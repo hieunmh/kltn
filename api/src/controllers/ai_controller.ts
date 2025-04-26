@@ -10,14 +10,16 @@ const gemini_ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
 const open_ai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const prompt = process.env.CHAT_AI_PROMPT ?? `
- 
-`;
+const prompt = process.env.CHAT_AI_PROMPT ?? ``;
 
 const topic_prompt = `
   Đây là chủ đề mà người dùng đưa ra, hãy tạo ra một lý thuyết (tóm tắt ngắn gọn) cho chủ đề này, có thể chia thành nhiều đoạn văn,
   trả về dưới dạng json với 2 cặp key, value là topic và theory dưới dạng string, trong đó topic là chủ đề mà người dùng đưa ra,
-  còn theory là lý thuyết mà bạn tạo ra cho chủ đề này, lý thuyết có thể chia thành nhiều đoạn văn
+  còn theory là lý thuyết mà bạn tạo ra cho chủ đề này, lý thuyết có thể chia thành nhiều đoạn văn, ví dụ:
+  {
+    "topic": "topic",
+    "theory": "theory"
+  }
 `
 
 const review_prompt = `
@@ -36,6 +38,10 @@ const voice_prompt = `
   và do answer dùng thư viện speed_to_text nên có thể có lỗi, hãy sửa lỗi đó
 `
 
+const suggest_prompt = `
+  Đây là trình độ học vấn của người dùng và môn học, hãy tạo ra một chủ đề mà người dùng có thể học tập, không trả về chủ đề kiểu luyện tập
+  trả về chủ đề gợi ý dưới dạng string, ví dụ: "Học lý thuyết về phương trình bậc nhất"
+`
 
 export const ollamaModel: RequestHandler = async (req: Request, res: Response) => {  
   const { text, model } = req.body;
@@ -81,31 +87,38 @@ export const geminiAI: RequestHandler = async (req: Request, res: Response) => {
 }
 
 export const openAI: RequestHandler = async (req: Request, res: Response) => {
-  const { text, model } = req.body;
+  const { text, model, history } = req.body;
 
   if (!text || !model) {
     res.status(400).send({ message: 'Please fill model name & prompt' });
     return;
   }
 
+  const fullPrompt = history ? `${history}\nuser: ${text}` : `user: ${text}`;
+
+
   await open_ai.chat.completions.create({
     model: model,
     messages: [
       { role: 'user', content: text },
-      { role: 'system', content: prompt}
+      { role: 'system', content: fullPrompt + prompt}
     ],
   }).then((response) => {
-    res.status(200).send({ response: response });
+    res.status(200).send({ 
+      res: response.choices[0].message.content,
+      response: JSON.parse(response.choices[0].message.content!.replace(/```json|```/g, "").trim() as string)
+    });
+
   }).catch((e) => {
     res.status(400).send({ message: e.message })
   });
 }
 
-export const topic_geminiAI: RequestHandler = async (req: Request, res: Response) => {
-  const { topic, model } = req.body;
+export const topic_AI: RequestHandler = async (req: Request, res: Response) => {
+  const { topic, model, ainame } = req.body;
 
   if (!topic || !model) {
-    res.status(400).send({ message: 'Please fill model name & prompt' });
+    res.status(400).send({ message: 'Please fill model name & prompt & ainame' });
     return;
   }
 
@@ -120,7 +133,7 @@ export const topic_geminiAI: RequestHandler = async (req: Request, res: Response
   });
 }
 
-export const review_geminiAI: RequestHandler = async (req: Request, res: Response) => {
+export const review_AI: RequestHandler = async (req: Request, res: Response) => {
   const { theory, model } = req.body;
   if (!theory || !model) {
     res.status(400).send({ message: 'Please fill model name & prompt' });
@@ -136,7 +149,7 @@ export const review_geminiAI: RequestHandler = async (req: Request, res: Respons
   });
 }
 
-export const voice_geminiAI: RequestHandler = async (req: Request, res: Response) => {
+export const voice_AI: RequestHandler = async (req: Request, res: Response) => {
   const { data, model } = req.body;
 
   if (!data || !model) {
@@ -150,6 +163,38 @@ export const voice_geminiAI: RequestHandler = async (req: Request, res: Response
     res.status(200).send({ 
       response: response.response.candidates?.[0]?.content.parts?.[0]?.text?.replace(/```(json)?\n?|\n?```/g, "").trim() as string,
       raw: response.response.candidates?.[0]?.content.parts?.[0]?.text
+    });
+  }).catch((e) => {
+    res.status(400).send({ message: e.message })
+  });
+}
+
+export const suggest_AI: RequestHandler = async (req: Request, res: Response) => {
+  const { level, subject, model } = req.body;
+
+  if (!level || !subject || !model) {
+    res.status(400).send({ message: 'Please fill model name & prompt & subject & level' });
+    return;
+  }
+  
+  const gemini_model = gemini_ai.getGenerativeModel({ model: model });
+
+  await gemini_model.generateContent([level + subject + suggest_prompt]).then((response) => {
+    const rawResponse = response.response.candidates?.[0]?.content.parts?.[0]?.text || '';
+
+    let cleanedResponse = rawResponse.replace(/```json|```/g, "").trim();
+      
+    if (cleanedResponse.startsWith('"')) {
+      cleanedResponse = cleanedResponse.substring(1);
+    }
+    if (cleanedResponse.endsWith('"')) {
+      cleanedResponse = cleanedResponse.substring(0, cleanedResponse.length - 1);
+    }
+    cleanedResponse = cleanedResponse.replace(/^[\[\{\"\']|[\]\}\"\']$/g, "").trim();
+    
+    res.status(200).send({ 
+      response: cleanedResponse,
+      raw: rawResponse
     });
   }).catch((e) => {
     res.status(400).send({ message: e.message })

@@ -7,10 +7,11 @@ router.post('/ollama', aiController.ollamaModel);
 router.post('/gemini_ai', aiController.geminiAI);
 router.post('/open_ai', aiController.openAI);
 
-router.post('/topic_geminiAI', aiController.topic_geminiAI);
+router.post('/topic_AI', aiController.topic_AI);
 
-router.post('/review_geminiAI', aiController.review_geminiAI);
+router.post('/review_AI', aiController.review_AI);
 
-router.post('/voice_geminiAI', aiController.voice_geminiAI);
+router.post('/voice_AI', aiController.voice_AI);
 
+router.post('/suggest_theme_AI', aiController.suggest_AI);
 export default router;
