@@ -40,7 +40,7 @@ class MsgView extends GetView<MsgController> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Container(
+                SizedBox(
                   height: 40,
                   width: 150,
                   child: DropdownButtonFormField<String>(
@@ -102,98 +102,105 @@ class MsgView extends GetView<MsgController> {
             ),
           ),
         ),
-        backgroundColor: isDark ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Obx(() => controller.messages.isEmpty 
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                        strokeWidth: 3,
-                      ),
-                    ),
-                  ) 
-                : GroupedListView<dynamic, String>(
-                    elements: controller.messages,
-                    padding: const EdgeInsets.fromLTRB(15, 115, 15, 0),
-                    groupBy: (dynamic msg) => msg.createdAt,
-                    groupSeparatorBuilder: (String groupValue) => const SizedBox(height: 15),
-                    order: GroupedListOrder.DESC,
-                    reverse: true,
-                    itemBuilder: (context, dynamic element) {
-                      return MessageBox(
-                        message: element as Message,
-                        isDark: isDark,
-                      );
-                    },
-                  )
-              ),
-            ),
-
-            Obx(() => controller.isAIresponding.value 
-              ? Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-                      child: const Text(
-                        'AI is responding...'
-                      ),
-                    ),
-                  ],
-                ) 
-              : const SizedBox()
-            ),
-      
-            Container(
-              padding: EdgeInsets.zero, 
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: isDark 
-                        ? Colors.grey.shade800 
-                        : Colors.grey.shade300,
-                    width: 1
-                  ),
-                ), 
-              ),
-              child: Container(
-                height: 90,
-                width: double.infinity,
-                color: isDark ? AppColor.bgDarkThemeColor : Colors.white,
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-                child: Row(
-                  children: [
-                    const Icon(Iconsax.add_circle_bold),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: TextField(
-                        controller: controller.msgController,
-                        cursorColor: isDark ? Colors.white : Colors.black,
-                        decoration: InputDecoration(
-                          hintText: 'Type a message',
-                          hintStyle: TextStyle(
-                            color: Colors.grey.shade400
-                          ),
-                          border: InputBorder.none
+        backgroundColor: isDark ? AppColor.bgDarkThemeColor : Colors.white,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Obx(() => controller.messages.isEmpty 
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                          strokeWidth: 3,
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () {
-                        controller.createMessage();
-                      },
-                      child: const Icon(Iconsax.send_1_bold),
+                    ) 
+                  : Container(
+                      color: isDark ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
+                      child: GroupedListView<dynamic, String>(
+                        elements: controller.messages,
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
+                        groupBy: (dynamic msg) => msg.createdAt,
+                        groupSeparatorBuilder: (String groupValue) => const SizedBox(height: 15),
+                        order: GroupedListOrder.DESC,
+                        reverse: true,
+                        itemBuilder: (context, dynamic element) {
+                          return MessageBox(
+                            message: element as Message,
+                            isDark: isDark,
+                          );
+                        },
+                      ),
                     )
-                  ],
                 ),
               ),
-            ),
-          ],
+          
+              Obx(() => controller.isAIresponding.value 
+                ? Row(
+                    children: [
+                      Container(
+                        width: Get.width,
+                        color: isDark ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
+                        padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                        child: const Text(
+                          'AI is responding...'
+                        ),
+                      ),
+                    ],
+                  ) 
+                : const SizedBox()
+              ),
+                
+              Container(
+                padding: EdgeInsets.zero, 
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      color: isDark 
+                          ? Colors.grey.shade800 
+                          : Colors.grey.shade300,
+                      width: 1
+                    ),
+                  ), 
+                ),
+                child: Container(
+                  height: 55,
+                  width: double.infinity,
+                  color: isDark ? AppColor.bgDarkThemeColor : Colors.white,
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: Row(
+                    children: [
+                      const Icon(Iconsax.add_circle_bold),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextField(
+                          controller: controller.msgController,
+                          cursorColor: isDark ? Colors.white : Colors.black,
+                          decoration: InputDecoration(
+                            hintText: 'Type a message',
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade400
+                            ),
+                            border: InputBorder.none
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          controller.createMessage();
+                        },
+                        child: const Icon(Iconsax.send_1_bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     });

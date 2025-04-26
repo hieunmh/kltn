@@ -23,11 +23,10 @@ class VoiceView extends GetView<VoiceController> {
               children: [            
                 Container(
                   height: 100,
-                  child: controller.questions.isEmpty ? Text(
-                    'No questions',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                  child: controller.questions.isEmpty ? Center(
+                    child: CircularProgressIndicator(
+                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                      strokeWidth: 3,
                     ),
                   ) : AnimatedTextKit(
                     key: ValueKey(controller.answers.length),
@@ -62,12 +61,13 @@ class VoiceView extends GetView<VoiceController> {
                     child: Container(
                       padding: const EdgeInsets.all(0),
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
                         borderRadius: BorderRadius.circular(100),
                       ),
                       child: Icon(
                         controller.isListening.value ? BoxIcons.bxs_microphone : BoxIcons.bxs_microphone_off,
                         size: 50,
+                        color: controller.themeController.isDark.value ? Colors.black : Colors.white,
                       ),
                     ),
                   )
@@ -82,18 +82,11 @@ class VoiceView extends GetView<VoiceController> {
                     width: double.infinity,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Center(
-                      child: const Text(
-                        'Send Answer', 
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        )
-                      )
+                      
                     ),
                   )
                 )

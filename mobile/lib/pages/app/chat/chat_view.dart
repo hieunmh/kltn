@@ -31,12 +31,9 @@ class ChatView extends GetView<ChatController> {
         actions: [
           IconButton(
             onPressed: () {
-              showModalBottomSheet(
-                isScrollControlled: true,
-                context: context, 
-                builder: (context) {
-                  return Container(
-                    height: Get.height * 0.6,
+              Get.bottomSheet(
+                Container(
+                    height: Get.height * 0.30,
                     padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                     decoration: BoxDecoration(
                       color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
@@ -71,7 +68,7 @@ class ChatView extends GetView<ChatController> {
                               ),
                             ),
                             const SizedBox(width: 10),
-                            Container(
+                            SizedBox(
                               height: 40,
                               width: 150,
                               child: DropdownButtonFormField<String>(
@@ -167,22 +164,28 @@ class ChatView extends GetView<ChatController> {
                               color: controller.themeController.isDark.value ? Colors.white : Colors.black,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Center(
-                              child: Text(
-                                'Create Chat',
-                                style: TextStyle(
-                                  fontSize: 20,
+                            child: Obx(() => Center(
+                              child: controller.isLoading.value ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
                                   color: controller.themeController.isDark.value ? Colors.black : Colors.white,
-                                  fontWeight: FontWeight.w700
+                                  strokeWidth: 2,
+                                ),
+                              ) : Text(
+                                'Create chat',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                                  fontWeight: FontWeight.w600
                                 ),
                               ),
-                            ),
+                            )),
                           ),
                         )           
                       ],
-                    ),
-                  );
-                }
+                  ),
+                ),
               );
             },
             icon: Icon(BoxIcons.bx_message_add),
@@ -225,144 +228,133 @@ class ChatView extends GetView<ChatController> {
             itemCount: controller.chatList.length,
             itemBuilder: (context, index) {
               final chat = controller.chatList[index];
-              return Obx(() =>
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                  decoration: BoxDecoration(
-                    color: controller.themeController.isDark.value ? Colors.white.withAlpha(15) : Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.getChatMessage(chat.id, chat.name);
-                          },
-                          child: Text(
-                            overflow: TextOverflow.ellipsis,
-                            chat.name,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          )
+              return Container(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                decoration: BoxDecoration(
+                  color: controller.themeController.isDark.value ? Colors.white.withAlpha(15) : Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.getChatMessage(chat.id, chat.name);
+                        },
+                        child: Text(
+                          overflow: TextOverflow.ellipsis,
+                          chat.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                        
-                      const SizedBox(width: 10),
-                        
-                      PopupMenuButton(
-                        color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
-                            width: 0.5
-                          )
+                    ),
+                    const SizedBox(width: 10),
+                    PopupMenuButton(
+                      color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
+                          width: 0.5,
                         ),
-                        
-                        itemBuilder: (context) {
-                          return [
-                            PopupMenuItem(
-                              onTap: () {
-                                showDialog(
-                                  context: context, 
-                                  builder: (context) => EditChat(
-                                    themeController: controller.themeController,
-                                    newNameController: controller.newNameController,
-                                    onpress: controller.updateChatName,
-                                    chatid: chat.id,
-                                  )
-                                );
-                              },
-                              value: 'rename',
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(BoxIcons.bx_pencil),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Rename',
-                                  ),
-                                ],
-                              ),
+                      ),
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => EditChat(
+                                  themeController: controller.themeController,
+                                  newNameController: controller.newNameController,
+                                  onpress: controller.updateChatName,
+                                  chatid: chat.id,
+                                ),
+                              );
+                            },
+                            value: 'rename',
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(BoxIcons.bx_pencil),
+                                SizedBox(width: 5),
+                                Text('Rename'),
+                              ],
                             ),
-                        
-                            PopupMenuItem(
-                              onTap: () {
-                                Get.dialog(
-                                  CupertinoAlertDialog(
-                                    content: Text('Are you sure to delete this conversation?'),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                        child: Text(
-                                          'Cancel',
-                                          style: TextStyle(
-                                            color: Colors.blue.shade600,
-                                            fontWeight: FontWeight.w500
-                                          ),
+                          ),
+                          PopupMenuItem(
+                            onTap: () {
+                              Get.dialog(
+                                CupertinoAlertDialog(
+                                  content: Text('Are you sure to delete this conversation?'),
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                          color: Colors.blue.shade600,
+                                          fontWeight: FontWeight.w500,
                                         ),
-                                        onPressed: () {
-                                          Get.back();
-                                        },
                                       ),
-                                      CupertinoDialogAction(
-                                        child: Text(
-                                          'Delete',
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          controller.deleteChat(chat.id);
-                                          Get.back();
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              content: Text('Delete conversation successfully!'),
-                                              duration: Duration(seconds: 1),
-                                            )
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              value: 'delete',
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(BoxIcons.bx_trash, color: Colors.red),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Delete',
-                                    style: TextStyle(
-                                      color: Colors.red
+                                      onPressed: () {
+                                        Get.back();
+                                      },
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ];
-                        },
-                        child: Icon(
-                          BoxIcons.bx_dots_horizontal_rounded,
-                          size: 24,
-                        ),
-                      )
-                    ],
-                  )
+                                    CupertinoDialogAction(
+                                      child: Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        controller.deleteChat(chat.id);
+                                        Get.back();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Delete conversation successfully!'),
+                                            duration: Duration(seconds: 1),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            value: 'delete',
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(BoxIcons.bx_trash, color: Colors.red),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ];
+                      },
+                      child: Icon(
+                        BoxIcons.bx_dots_horizontal_rounded,
+                        size: 24,
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
           ),
         );
-      }
-      ),
+      }),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
 import 'package:mobile/routes/routes.dart';
+import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,7 @@ class VoiceController extends GetxController {
   RxList<String> questions = <String>[].obs;
   RxList<String> answers = <String>[].obs;
   RxInt currentQuestionIndex = 0.obs;
+  ThemeController themeController = Get.find<ThemeController>();
 
 
   @override
@@ -38,7 +40,7 @@ class VoiceController extends GetxController {
     final theory = Get.arguments['theory'];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
-    final res = await http.post(Uri.parse('$serverHost/review_geminiAI'), headers: {
+    final res = await http.post(Uri.parse('$serverHost/review_AI'), headers: {
       'cookie': rawCookie
     }, body: {
       'model': Env.geminiModel,
@@ -48,7 +50,23 @@ class VoiceController extends GetxController {
     if (res.statusCode == 200) {
       final data = json.decode(res.body);
       print(data);
-      questions.value = List<String>.from(data['response']);
+      if (data['response'] is List) {
+        questions.value = List<String>.from(data['response']);
+      } else if (data['response'] is String) {
+        try {
+          final parsedResponse = json.decode(data['response']);
+          if (parsedResponse is List) {
+            questions.value = List<String>.from(parsedResponse);
+          } else {
+            questions.value = [data['response'].toString()];
+          }
+        } catch (e) {
+          questions.value = [data['response'].toString()];
+        }
+      } else {
+        questions.value = ["Không thể tải câu hỏi. Vui lòng thử lại."];
+        print("Error: Unexpected response format: ${data['response']}");
+      }
     }
   }
 
@@ -72,6 +90,7 @@ class VoiceController extends GetxController {
         } 
         if (answers.length == questions.length) {
           print('gui api');
+          sendAnswer();
         }
       },
       localeId: 'vi-VN',
@@ -95,7 +114,7 @@ class VoiceController extends GetxController {
         'answer': answers[i]
       });
     }
-    final res = await http.post(Uri.parse('$serverHost/voice_geminiAI'), headers: {
+    final res = await http.post(Uri.parse('$serverHost/voice_AI'), headers: {
         'cookie': rawCookie
       }, 
       body: {

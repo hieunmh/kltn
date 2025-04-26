@@ -21,6 +21,7 @@ class ChatController extends GetxController {
   RxString model = 'geminiai'.obs;
   final msgController = TextEditingController(text: '');
   final newNameController = TextEditingController(text: '');
+  final isLoading = false.obs;
 
   @override
   void onInit() {
@@ -64,6 +65,7 @@ class ChatController extends GetxController {
     msgController.clear();
     
     // create chat
+    isLoading.value = true;
     final chat = await http.post(Uri.parse('$serverHost/create-chat'), headers: {
       'cookie': rawCookie
     }, body: {
@@ -103,6 +105,7 @@ class ChatController extends GetxController {
       }
     );
 
+    isLoading.value = false;
     msgController.clear();
     
   }
