@@ -28,4 +28,6 @@ class AppRoutes {
   static const String voice = '/voice';
 
   static const String result = '/result';
+
+  static const String editpost = '/editpost';
 }

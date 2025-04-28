@@ -5,6 +5,8 @@ import 'package:mobile/pages/app/chat/message/msg_bindings.dart';
 import 'package:mobile/pages/app/chat/message/msg_view.dart';
 import 'package:mobile/pages/app/post/create/create_post_bindings.dart';
 import 'package:mobile/pages/app/post/create/create_post_view.dart';
+import 'package:mobile/pages/app/post/edit/edit_post_bindings.dart';
+import 'package:mobile/pages/app/post/edit/edit_post_view.dart';
 import 'package:mobile/pages/app/setting/change_pw/pw_bindings.dart';
 import 'package:mobile/pages/app/setting/change_pw/pw_view.dart';
 import 'package:mobile/pages/app/setting/profile/profile_view.dart';
@@ -77,6 +79,13 @@ class AppPages {
       transition: Transition.downToUp,
       fullscreenDialog: true,
       transitionDuration: const Duration(milliseconds: 200)
+    ),
+    GetPage(
+      name: AppRoutes.editpost,
+      page: () => EditPostView(),
+      binding: EditPostBindings(),
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
     ),
     GetPage(
       name: AppRoutes.profile, 

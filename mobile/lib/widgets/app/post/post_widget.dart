@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mobile/models/post.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/theme_controller.dart';
 
 class PostWidget extends StatelessWidget {
@@ -133,6 +134,9 @@ class PostWidget extends StatelessWidget {
                   itemBuilder: (context) {
                     return [
                       PopupMenuItem(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.editpost);
+                        },
                         value: 'edit',
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
