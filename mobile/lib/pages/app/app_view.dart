@@ -55,13 +55,13 @@ class AppView extends GetView<AppController> {
               selectedItemColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Iconsax.book_1_outline),
-                  activeIcon: Icon(Iconsax.book_1_bold),
+                  icon: Icon(Iconsax.ghost_outline),
+                  activeIcon: Icon(Iconsax.ghost_bold),
                   label: 'Review AI'
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Iconsax.card_outline),
-                  activeIcon: Icon(Iconsax.card_bold),
+                  icon: Icon(Iconsax.receipt_outline),
+                  activeIcon: Icon(Iconsax.receipt_1_bold),
                   label: 'Q&A'
                 ),
                 BottomNavigationBarItem(

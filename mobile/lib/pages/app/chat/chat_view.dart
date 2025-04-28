@@ -29,167 +29,169 @@ class ChatView extends GetView<ChatController> {
           ],
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Get.bottomSheet(
-                Container(
-                    height: Get.height * 0.30,
-                    padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                    decoration: BoxDecoration(
-                      color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'New chat',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: controller.themeController.isDark.value ? Colors.white : Colors.black
-                              ),
-                            ),
-                            Icon(Iconsax.code_1_bold, size: 24),
-                          ],
-                        ),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Select model',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            SizedBox(
-                              height: 40,
-                              width: 150,
-                              child: DropdownButtonFormField<String>(
-                                value: 'geminiai',
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  filled: true,
-                                  fillColor: controller.themeController.isDark.value ? Colors.white.withAlpha(20) : Colors.black.withAlpha(20)
-                                ),
-                                dropdownColor: controller.themeController.isDark.value ? Colors.black : Colors.white,
-                                items: [
-                                  DropdownMenuItem(
-                                    value: 'geminiai',
-                                    child: Text('Gemini AI', style: TextStyle(fontSize: 13)),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'openai',
-                                    child: Text('Open AI', style: TextStyle(fontSize: 13)),
-                                  ),
-                                ],
-                                onChanged: (String? value) {
-                                  controller.model.value = value ?? '';
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 10),
-    
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          decoration: BoxDecoration(
-                            color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
-                            border: Border.all(
-                              color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
-                              width: 0.5
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: GestureDetector(
+              onTap: () {
+                Get.bottomSheet(
+                  Container(
+                      height: Get.height * 0.30,
+                      padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                      decoration: BoxDecoration(
+                        color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(Iconsax.add_circle_bold),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: TextField(
-                                  controller: controller.msgController,
-                                  cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                                  decoration: InputDecoration(
-                                    hintText: 'Type a message',
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey.shade400
-                                    ),
-                                    border: InputBorder.none
-                                  ),
+                              Text(
+                                'New chat',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: controller.themeController.isDark.value ? Colors.white : Colors.black
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              GestureDetector(
-                                onTap: () {
-                                  controller.createChat();
-                                },
-                                child: Icon(Iconsax.send_1_bold),
-                              )
+                              Icon(Iconsax.code_1_bold, size: 24),
                             ],
                           ),
-                        ), 
-    
-                        SizedBox(height: 20),
-    
-                        GestureDetector(
-                          onTap: () {
-                            controller.createChat();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                            decoration: BoxDecoration(
-                              color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Obx(() => Center(
-                              child: controller.isLoading.value ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  color: controller.themeController.isDark.value ? Colors.black : Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              ) : Text(
-                                'Create chat',
+            
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Select model',
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  color: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w600
                                 ),
                               ),
-                            )),
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                height: 40,
+                                width: 150,
+                                child: DropdownButtonFormField<String>(
+                                  value: 'geminiai',
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 2.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    filled: true,
+                                    fillColor: controller.themeController.isDark.value ? Colors.white.withAlpha(20) : Colors.black.withAlpha(20)
+                                  ),
+                                  dropdownColor: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                                  items: [
+                                    DropdownMenuItem(
+                                      value: 'geminiai',
+                                      child: Text('Gemini AI', style: TextStyle(fontSize: 13)),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'openai',
+                                      child: Text('Open AI', style: TextStyle(fontSize: 13)),
+                                    ),
+                                  ],
+                                  onChanged: (String? value) {
+                                    controller.model.value = value ?? '';
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        )           
-                      ],
+            
+                          const SizedBox(height: 10),
+                
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            decoration: BoxDecoration(
+                              color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                              border: Border.all(
+                                color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
+                                width: 0.5
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Iconsax.add_circle_bold),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: TextField(
+                                    controller: controller.msgController,
+                                    cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                    decoration: InputDecoration(
+                                      hintText: 'Type a message',
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey.shade400
+                                      ),
+                                      border: InputBorder.none
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.createChat();
+                                  },
+                                  child: Icon(Iconsax.send_1_bold),
+                                )
+                              ],
+                            ),
+                          ), 
+                
+                          SizedBox(height: 20),
+                
+                          GestureDetector(
+                            onTap: () {
+                              controller.createChat();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
+                              decoration: BoxDecoration(
+                                color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Obx(() => Center(
+                                child: controller.isLoading.value ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                ) : Text(
+                                  'Create chat',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: controller.themeController.isDark.value ? Colors.black : Colors.white,
+                                    fontWeight: FontWeight.w600
+                                  ),
+                                ),
+                              )),
+                            ),
+                          )           
+                        ],
+                    ),
                   ),
-                ),
-              );
-            },
-            icon: Icon(BoxIcons.bx_message_add),
-            iconSize: 24,
+                );
+              },
+              child: Icon(BoxIcons.bx_message_add),
+            ),
           )
         ],
         bottom: PreferredSize(

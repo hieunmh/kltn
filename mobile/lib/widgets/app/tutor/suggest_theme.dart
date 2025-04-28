@@ -141,7 +141,7 @@ class SuggestTheme extends StatelessWidget {
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 10),
                           prefixIcon: Icon(
-                            BoxIcons.bx_book,
+                            Iconsax.book_outline,
                             color: themeController.isDark.value ? Colors.white : Colors.black,
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -227,13 +227,13 @@ class SuggestTheme extends StatelessWidget {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(BoxIcons.bxs_graduation, color: Color(0xFF4a66f0)),
+                                Icon(Iconsax.lamp_charge_bold, color: Color(0xFF4a66f0)),
                                 const SizedBox(width: 5),
                                 Text(
                                   'Generate',
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w800,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
                                     color: Color(0xFF4a66f0),
                                   ),
                                 ),
@@ -267,8 +267,8 @@ class SuggestTheme extends StatelessWidget {
                             Text(
                               'Start',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.white,
                               ),
                             ),

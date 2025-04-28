@@ -140,7 +140,7 @@ class TutorView extends GetView<TutorController> {
                           Text(
                             'Start',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: controller.learnText.isEmpty ? Color(0xff4a66f0) : Colors.white,
                             ),
@@ -195,7 +195,7 @@ class TutorView extends GetView<TutorController> {
                           Text(
                             'Gợi ý chủ đề',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -18,12 +20,23 @@ class CreatePostController extends GetxController {
 
   final ThemeController themeController = Get.find<ThemeController>();
   final PostController postController = Get.find<PostController>();
+  final RxBool isPosting = false.obs;
+  final postcontent = ''.obs;
 
   final ImagePicker imagePicker = ImagePicker();
+  final FocusNode focusNode = FocusNode();
 
   Rx<File?> image = Rx<File?>(null);
 
   final serverHost = Env.serverhost;
+
+  @override
+  void onInit() {
+    super.onInit();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNode.requestFocus();
+    });
+  }
 
   Future<void> pickImage() async {
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -49,7 +62,7 @@ class CreatePostController extends GetxController {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
-
+    isPosting.value = true;
     final request = http.MultipartRequest('POST', Uri.parse('$serverHost/post/create-post'));
     request.headers['cookie'] = rawCookie;
     request.fields['content'] = postcontent;
@@ -82,14 +95,19 @@ class CreatePostController extends GetxController {
 
       postController.posts.insert(0, newPost);
       Get.back();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Post created successfully!'),
-          duration: Duration(seconds: 2),
-        )
+      Get.snackbar(
+        'Success',
+        'Post created successfully!',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.grey[850],
+        colorText: Colors.white,
+        margin: EdgeInsets.all(10),
+        borderRadius: 8,
+        animationDuration: Duration(milliseconds: 300),
+        duration: Duration(seconds: 2),
+        snackStyle: SnackStyle.FLOATING,
       );
     } else {
-      print(response.body);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to create post!'),
@@ -97,5 +115,7 @@ class CreatePostController extends GetxController {
         )
       );
     }
+
+    isPosting.value = false;
   }
 }

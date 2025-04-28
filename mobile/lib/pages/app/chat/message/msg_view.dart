@@ -86,18 +86,8 @@ class MsgView extends GetView<MsgController> {
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: Container(
-                color: isDark 
-                    ? Colors.grey.shade700 
-                    : Colors.grey.shade400, 
+                color: isDark ? Colors.grey.shade700 : Colors.grey.shade400, 
                 height: 0.5
-              ),
-            ),
-            flexibleSpace: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                child: Container(
-                  color: Colors.transparent
-                ),
               ),
             ),
           ),

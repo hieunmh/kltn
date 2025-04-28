@@ -42,12 +42,12 @@ class VoiceView extends GetView<VoiceController> {
             
                 AvatarGlow(
                   startDelay: const Duration(milliseconds: 1000),
-                  glowColor: Colors.blue,
+                  glowColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                   duration: const Duration(milliseconds: 1000), 
                   glowShape: BoxShape.circle,
                   animate: controller.isListening.value,
                   curve: Curves.fastOutSlowIn,
-                  child: Container(
+                  child: SizedBox(
                     width: 150,
                     height: 150,
                     child: GestureDetector(

@@ -73,7 +73,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.createpost, 
       page: () => CreatePostView(),
-      binding: CreatePostBindings()
+      binding: CreatePostBindings(),
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
+      transitionDuration: const Duration(milliseconds: 200)
     ),
     GetPage(
       name: AppRoutes.profile, 
@@ -83,7 +86,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.review,
       page: () => ReviewView(),
-      binding: ReviewBindings()
+      binding: ReviewBindings(),
+      transition: Transition.downToUp,
+      fullscreenDialog: true,
+      transitionDuration: const Duration(milliseconds: 200)
     ),
     GetPage(
       name: AppRoutes.result,
