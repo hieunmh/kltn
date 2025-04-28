@@ -106,13 +106,8 @@ class ProfileView extends GetView<ProfileController> {
                           await controller.pickImage();
                           
                           if (controller.image.value != null) {
-                            showModalBottomSheet(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ),
-                              builder: (context) => Obx(() => Container(
+                            Get.bottomSheet(
+                              Container(
                                 color: controller.themeController.isDark.value ? Colors.transparent : Colors.white,
                                 padding: EdgeInsets.all(20),
                                 width: double.infinity,
@@ -140,14 +135,10 @@ class ProfileView extends GetView<ProfileController> {
                                         borderRadius: BorderRadius.circular(120),
                                         child: Obx(() {
                                           if (controller.image.value == null) {
-                                            Future.delayed(Duration(milliseconds: 300), () {
-                                              Navigator.of(context).pop();
-                                            });
-                                            
                                             return Container(
                                               width: 240,
                                               height: 240,
-                                              color: Colors.grey.withOpacity(0.3),
+                                              color: Colors.grey.shade300,
                                               child: Center(
                                                 child: Icon(
                                                   Icons.image_not_supported_outlined,
@@ -205,8 +196,11 @@ class ProfileView extends GetView<ProfileController> {
                                     ),
                                   ],
                                 ),
-                              )),
-                            );
+                              ),
+                            ).then((value) {
+                              controller.image.value = null;
+                              
+                            });
                           }
                         },
                         child: Obx(() => Container(

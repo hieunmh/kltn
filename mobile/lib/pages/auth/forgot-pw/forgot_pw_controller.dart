@@ -32,6 +32,8 @@ class ForgotPwController extends GetxController {
         'email': emailController.text
       });
 
+      print(res.body);
+
       if (res.statusCode == 400) {
         commonError.value = 'Please enter email address!';
       } else if (res.statusCode == 404) {

@@ -104,8 +104,8 @@ class PostView extends GetView<PostController> {
                               decoration: BoxDecoration(
                                 color: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white,
                                 borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(40),
-                                  topRight: Radius.circular(40),
+                                  topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25),
                                 ),
                               ),
                               child: Column(

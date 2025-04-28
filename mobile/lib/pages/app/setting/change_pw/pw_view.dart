@@ -12,38 +12,38 @@ class PwView extends GetView<PwController> {
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
       ),
-      body: Obx(() =>
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 50),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Set new password',
-                      style: TextStyle(
-                        color: Color(0xFF4a66f0),
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Create an unique password',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600
-                      ),
-                    )
-                  ],
-                ),
-        
-                const SizedBox(height: 20),
-        
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 50),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Set new password',
+                    style: TextStyle(
+                      color: Color(0xFF4a66f0),
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Create an unique password',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600
+                    ),
+                  )
+                ],
+              ),
+      
+              const SizedBox(height: 20),
+      
+              Obx(() =>
                 InputField(
                   hintText: 'Old Password', 
                   placeholder: 'Enter old password', 
@@ -53,9 +53,11 @@ class PwView extends GetView<PwController> {
                   errorMsg: controller.oldPwError.value,
                   onTap: () => controller.showOldPw.value = !controller.showOldPw.value,
                 ),
-        
-                const SizedBox(height: 5),
-        
+              ),
+      
+              const SizedBox(height: 5),
+      
+              Obx(() =>
                 InputField(
                   hintText: 'New Password', 
                   placeholder: 'Enter new password', 
@@ -65,9 +67,11 @@ class PwView extends GetView<PwController> {
                   errorMsg: controller.newPwError.value,
                   onTap: () => controller.showNewPw.value = !controller.showNewPw.value,
                 ),
-        
-                const SizedBox(height: 5),
-        
+              ),
+      
+              const SizedBox(height: 5),
+      
+              Obx(() =>
                 InputField(
                   hintText: 'Confirm Password', 
                   placeholder: 'Enter new password again', 
@@ -77,59 +81,58 @@ class PwView extends GetView<PwController> {
                   errorMsg: controller.reNewPwError.value,
                   onTap: () => controller.showReNewPw.value = !controller.showReNewPw.value,
                 ),
+              ),
 
-                const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-                GestureDetector(
-                  onTap: () {
-                    controller.changePassword();
-                  },
-                  child: Container(
-                    height: 70,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xFF4a66f0)
-                    ),
-                    child: Center(
-                      child: controller.isLoading.value ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,                      
-                        ),
-                      ) : Text(
-                        'Change',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
+              GestureDetector(
+                onTap: () {
+                  controller.changePassword();
+                },
+                child: Container(
+                  height: 70,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFF4a66f0)
+                  ),
+                  child: Center(
+                    child: Obx(() => controller.isLoading.value ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,                      
                       ),
-                    ),
+                    ) : Text(
+                      'Change',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ))
                   ),
                 ),
-                
-                const SizedBox(height: 5),
+              ),
+              
+              const SizedBox(height: 5),
 
-                controller.commonError.value.isNotEmpty ? SizedBox(
-                  height: 20,
-                  child: Text(
-                    controller.commonError.value,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600
-                    ),
+              Obx(() => controller.commonError.value.isNotEmpty ? SizedBox(
+                height: 20,
+                child: Text(
+                  controller.commonError.value,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600
                   ),
-                ) : const SizedBox(height: 20),
-        
-              ],
-            ),
+                ),
+              ) : const SizedBox(height: 20))
+            ],
           ),
         ),
-      )
+      ),
     );
   }
 }

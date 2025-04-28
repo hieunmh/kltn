@@ -6,6 +6,8 @@ import { UserType } from '../types/types';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
+dotenv.config();
+
 const transporter = nodemailer.createTransport({
   host: 'sandbox.smtp.mailtrap.io',
   port: 2525,
@@ -134,7 +136,7 @@ export const forgotPassword: RequestHandler = async (req: Request, res: Response
   
     res.status(200).json({ msg: 'Email sent successfully!'});  
   } catch (error) {
-    res.status(500).json({ msg: 'Error sending email!' });
+    res.status(500).json({ msg: error });
   }
 }
 

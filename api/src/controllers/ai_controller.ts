@@ -39,8 +39,23 @@ const voice_prompt = `
 `
 
 const suggest_prompt = `
-  Đây là trình độ học vấn của người dùng và môn học, hãy tạo ra một chủ đề mà người dùng có thể học tập, không trả về chủ đề kiểu luyện tập
-  trả về chủ đề gợi ý dưới dạng string, ví dụ: "Học lý thuyết về phương trình bậc nhất"
+  Đây là trình độ học vấn (level) của người dùng và tên môn học (subject).
+  
+  Hãy kiểm tra tên môn học trước. Nếu tên môn học không phải là tên của một môn học thực sự trong chương trình giáo dục (như Toán, Văn, Anh, Lý, Hóa, Sinh, Sử, Địa, Công nghệ, Tin học, v.v.), thì đây là môn học không hợp lệ.
+  
+  Nếu môn học KHÔNG hợp lệ, trả về JSON có dạng: 
+  {
+    "suggest_theme": "",
+    "error": "Tên môn học không hợp lệ"
+  }
+  
+  Nếu môn học hợp lệ, hãy tạo ra một chủ đề phù hợp với trình độ mà người dùng có thể học tập, và trả về JSON có dạng:
+  {
+    "suggest_theme": "Chủ đề phù hợp với môn học và trình độ",
+    "error": ""
+  }
+  
+  QUAN TRỌNG: Đối với những chuỗi ngẫu nhiên như "dsafdfsdasfsa", "asdasd", hoặc các từ không phải tên môn học thực sự, PHẢI xác định là môn học không hợp lệ.
 `
 
 export const ollamaModel: RequestHandler = async (req: Request, res: Response) => {  
@@ -179,23 +194,24 @@ export const suggest_AI: RequestHandler = async (req: Request, res: Response) =>
   
   const gemini_model = gemini_ai.getGenerativeModel({ model: model });
 
-  await gemini_model.generateContent([level + subject + suggest_prompt]).then((response) => {
+  await gemini_model.generateContent([`Level: ${level}, Subject: ${subject}` + suggest_prompt]).then((response) => {
     const rawResponse = response.response.candidates?.[0]?.content.parts?.[0]?.text || '';
-
-    let cleanedResponse = rawResponse.replace(/```json|```/g, "").trim();
-      
-    if (cleanedResponse.startsWith('"')) {
-      cleanedResponse = cleanedResponse.substring(1);
-    }
-    if (cleanedResponse.endsWith('"')) {
-      cleanedResponse = cleanedResponse.substring(0, cleanedResponse.length - 1);
-    }
-    cleanedResponse = cleanedResponse.replace(/^[\[\{\"\']|[\]\}\"\']$/g, "").trim();
     
-    res.status(200).send({ 
-      response: cleanedResponse,
-      raw: rawResponse
-    });
+    try {
+      const parsedResponse = JSON.parse(rawResponse.replace(/```json|```/g, "").trim());
+      res.status(200).send({ 
+        response: parsedResponse,
+        raw: rawResponse,
+      });
+    } catch (e) {
+      res.status(200).send({ 
+        response: { 
+          suggest_theme: "", 
+          error: "Không thể xử lý phản hồi từ AI" 
+        },
+        raw: rawResponse,
+      });
+    }
   }).catch((e) => {
     res.status(400).send({ message: e.message })
   });

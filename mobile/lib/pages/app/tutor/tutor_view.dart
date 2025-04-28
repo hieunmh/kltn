@@ -11,6 +11,7 @@ class TutorView extends GetView<TutorController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
@@ -35,25 +36,16 @@ class TutorView extends GetView<TutorController> {
         ),
       ),
       backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : AppColor.bgLightThemeColor,
-      body: Obx(() =>
-        SingleChildScrollView(
-          child: Center(
+      body: SizedBox(
+        height: Get.height - kToolbarHeight - MediaQuery.of(context).padding.top,
+        child: Center(
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Column(
-                children: [
-                  // Text(
-                  //   'Welcome to Tutor AI',
-                  //   textAlign: TextAlign.center,
-                  //   style: TextStyle(
-                  //     fontSize: 16,
-                  //     fontWeight: FontWeight.w800,
-                  //     color: Color(0xFF4a66f0)
-                  //   ),
-                  // ),
-        
-                  const SizedBox(height: 20),
-        
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [      
+      
                   Text(
                     'Bạn muốn học chủ đề gì hôm nay?',
                     textAlign: TextAlign.center,
@@ -62,9 +54,9 @@ class TutorView extends GetView<TutorController> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-        
+      
                   const SizedBox(height: 20),
-        
+      
                   Obx(() => TextField(
                     controller: controller.learnController,
                     cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
@@ -117,7 +109,7 @@ class TutorView extends GetView<TutorController> {
                           ),
                         )
                       : const SizedBox(height: 20)),
-        
+      
                   const SizedBox(height: 5),
 
                   GestureDetector(
@@ -175,6 +167,9 @@ class TutorView extends GetView<TutorController> {
                             onStart: controller.onstart
                           ),
                         ),
+                        isScrollControlled: true,
+                        enableDrag: true,
+                        backgroundColor: Colors.transparent,
                       ).then((value) {
                         controller.suggestError.value = '';
                         controller.isLoadingGenerate.value = false;
@@ -213,7 +208,7 @@ class TutorView extends GetView<TutorController> {
             ),
           ),
         ),
-      )
+      ),
     );
   }
 }

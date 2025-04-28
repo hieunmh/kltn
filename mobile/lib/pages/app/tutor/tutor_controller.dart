@@ -48,7 +48,11 @@ class TutorController extends GetxController {
 
     if (suggest.statusCode == 200 || suggest.statusCode == 201) {
       print(json.decode(suggest.body)['response']);
-      suggestTheme.value = json.decode(suggest.body)['response'];
+      if (json.decode(suggest.body)['response']['error'].isEmpty) {
+        suggestTheme.value = json.decode(suggest.body)['response']['suggest_theme'];
+      } else {
+        suggestError.value = json.decode(suggest.body)['response']['error'];
+      }
       isLoadingGenerate.value = false;
     }
   }
@@ -58,11 +62,12 @@ class TutorController extends GetxController {
   }
 
   void onstart() {
-    Get.back();
     if (suggestTheme.value.isEmpty || level.value.isEmpty || subjectController.text.isEmpty) {
       suggestError.value = 'Vui lòng tạo chủ đề trước khi bắt đầu';
       return;
     }
+
+    Get.back();
 
     Get.toNamed(AppRoutes.review, arguments: {
       'topic': suggestTheme.value,

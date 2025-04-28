@@ -176,17 +176,16 @@ class SuggestTheme extends StatelessWidget {
                 height: 20,
                 child: Text(
                   error, 
-                  style: TextStyle(fontSize: 13, color: Colors.red)
+                  style: TextStyle(fontSize: 13, color: Colors.red, fontWeight: FontWeight.w600)
                 ),
               ),
             ]
           ),
 
           SizedBox(
-            height: 20,
             child: Text(
               theme,
-              style: TextStyle(fontSize: 13, color: Colors.black),
+              style: TextStyle(fontSize: 13, color: themeController.isDark.value ? Colors.white : Colors.black),
               maxLines: null,
               overflow: TextOverflow.visible,
             ),
