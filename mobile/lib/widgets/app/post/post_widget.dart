@@ -219,11 +219,50 @@ class PostWidget extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          (post.imageUrl ?? '').isNotEmpty ? Image.network(
-            supabaseUrl + post.imageUrl!,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ) : Container(),
+          (post.imageUrl ?? '').isNotEmpty ? GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (BuildContext context) {
+                  return Stack(
+                    children: [
+                      SizedBox.expand(
+                        child: InteractiveViewer(
+                          panEnabled: true,
+                          minScale: 1.0,
+                          child: Image.network(
+                            supabaseUrl + post.imageUrl!,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 40,
+                        right: 20,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Image.network(
+              supabaseUrl + post.imageUrl!,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ) : const SizedBox(),
 
 
           (post.imageUrl ?? '').isNotEmpty ? Column(

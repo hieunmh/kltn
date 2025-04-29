@@ -19,7 +19,7 @@ class SigninView extends GetView<SigninController> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 50, 20, 50),
+          padding: const EdgeInsets.fromLTRB(20, 40, 20, 50),
           child: Column(
             children: [
               Row(

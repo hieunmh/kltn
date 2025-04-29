@@ -25,25 +25,24 @@ class ProfileView extends GetView<ProfileController> {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
                           builder: (BuildContext context) {
                             return Stack(
                               children: [
-                                Container(
-                                  color: Colors.black,
-                                  child: Center(
-                                    child: Obx(() => controller.appController.imageUrl.value.isNotEmpty 
-                                      ? Image.network(
-                                        controller.supabaseUrl + controller.appController.imageUrl.value,
-                                        width: MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover,
-                                      ) 
-                                      : Image.asset(
-                                        'assets/image/user-placeholder.png',
-                                        width: MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox.expand(
+                                  child: Obx(() => InteractiveViewer(
+                                    panEnabled: true,
+                                    minScale: 1.0,
+                                    child: controller.appController.imageUrl.value.isNotEmpty
+                                        ? Image.network(
+                                            controller.supabaseUrl + controller.appController.imageUrl.value,
+                                            fit: BoxFit.contain,
+                                          )
+                                        : Image.asset(
+                                            'assets/image/user-placeholder.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                  )),
                                 ),
                                 Positioned(
                                   top: 40,
@@ -55,10 +54,9 @@ class ProfileView extends GetView<ProfileController> {
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: Colors.black,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.close,
                                         color: Colors.white,
                                         size: 24,
