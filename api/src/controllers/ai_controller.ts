@@ -24,7 +24,8 @@ const topic_prompt = `
 
 const review_prompt = `
   Đây là lý thuyết về chủ đề được gửi từ người dùng. Từ nội dung lý thuyết này và chủ đề, hãy tạo ra khoảng 
-  4 đến 5 câu hỏi, trả về dưới dạng mảng các string (có thể decode trực tiếp bằng json.decode trong flutter),
+  4 đến 5 câu hỏi, nội dung câu hỏi có thể trả lời bằng giọng nói, 
+  trả về dưới dạng mảng các string (có thể decode trực tiếp bằng json.decode trong flutter),
 `
 
 const voice_prompt = `

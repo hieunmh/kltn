@@ -44,7 +44,7 @@ class TutorView extends GetView<TutorController> {
             children: [      
   
               Text(
-                'Bạn muốn học chủ đề gì hôm nay?',
+                'What do you want to learn today?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28,
@@ -74,7 +74,7 @@ class TutorView extends GetView<TutorController> {
                   ),
                   fillColor: controller.themeController.isDark.value ? Colors.white.withAlpha(10) : Colors.white,
                   filled: true,
-                  hintText: 'Ví dụ: Học về lập trình Flutter',
+                  hintText: 'Example: Learn Flutter programming',
                   hintStyle: TextStyle(
                     color: controller.themeController.isDark.value ? Colors.white.withAlpha(100) : Colors.black.withAlpha(100),
                     fontSize: 14,
@@ -112,7 +112,7 @@ class TutorView extends GetView<TutorController> {
               GestureDetector(
                 onTap: () {
                   if (controller.learnText.isEmpty) {
-                    controller.learnTextError.value = 'Vui lòng nhập chủ đề bạn muốn học';
+                    controller.learnTextError.value = 'Please enter the topic you want to learn';
                     return;
                   }
                   Get.toNamed(AppRoutes.review, arguments: {
@@ -190,7 +190,7 @@ class TutorView extends GetView<TutorController> {
                       Icon(FontAwesome.bolt_lightning_solid, size: 20),
                       const SizedBox(width: 5),
                       Text(
-                        'Gợi ý chủ đề',
+                        'Suggest topic',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,

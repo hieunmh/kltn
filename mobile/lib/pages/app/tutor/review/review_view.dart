@@ -15,7 +15,7 @@ class ReviewView extends GetView<ReviewController> {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0.0,
-        toolbarHeight: 0.0,
+        // toolbarHeight: 0.0,
       ),
       body: Obx(() =>
         Column(
