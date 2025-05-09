@@ -23,6 +23,8 @@ class ChatController extends GetxController {
   final newNameController = TextEditingController(text: '');
   final isLoading = false.obs;
 
+  final chatLoading = true.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -40,6 +42,7 @@ class ChatController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
+    chatLoading.value = true;
     final chat = await http.get(Uri.parse('$serverHost/get-all-chat'), headers: {
       'cookie': rawCookie
     });
@@ -50,6 +53,7 @@ class ChatController extends GetxController {
       final data = json.decode(chat.body)['chats'] as List;
       chatList.value = data.map((p) => Chat.fromJson(p as Map<String, dynamic>)).toList();
     }
+    chatLoading.value = false;
   }
 
   Future<void> createChat() async {

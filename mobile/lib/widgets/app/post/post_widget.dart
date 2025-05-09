@@ -294,12 +294,6 @@ class PostWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                
-                    Icon(
-                      BoxIcons.bx_bookmark,
-                      // Iconsax.save_2_outline,
-                      size: 24
-                    )
                   ],
                 ),
               ),
@@ -369,12 +363,6 @@ class PostWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                
-                    Icon(
-                      BoxIcons.bx_bookmark,
-                      // Iconsax.save_2_outline,
-                      size: 24
-                    )
                   ],
                 ),
               ),

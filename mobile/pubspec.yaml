@@ -29,6 +29,7 @@ dependencies:
   animated_text_kit: ^4.2.3
   avatar_glow: ^3.0.1
   chatview: ^2.4.0
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:

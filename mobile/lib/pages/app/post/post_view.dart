@@ -11,7 +11,7 @@ import 'package:mobile/theme/app_color.dart';
 import 'package:mobile/widgets/app/post/post_widget.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:mobile/widgets/app/post/comment_box.dart';
-
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class PostView extends GetView<PostController> {
   const PostView({super.key});
@@ -28,14 +28,40 @@ class PostView extends GetView<PostController> {
             floating: true,
             scrolledUnderElevation: 0.0,
             backgroundColor: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white,
-            title: const Row(
+            title: Row(
               children: [
-                Text(
-                  'Posts',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,  
+                Obx(() =>
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      items: controller.items.map(
+                        (item) => DropdownMenuItem<String>(
+                          value: item, 
+                          child: Text(
+                            item, 
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                            )
+                          ))
+                        ).toList(),
+                      onChanged: (value) {
+                        controller.selected.value = value ?? '';
+                      },
+                      value: controller.selected.value,
+                      menuItemStyleData: MenuItemStyleData(
+                        padding: EdgeInsets.only(left: 10, right: 0), 
+                       
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          color: controller.themeController.isDark.value ? Colors.grey.shade900 : Colors.white, // Màu nền đỏ cho dropdown
+                          borderRadius: BorderRadius.circular(8.0), // Bo góc nếu cần
+                        ),
+                        maxHeight: 200, // Chiều cao tối đa của dropdown (tùy chọn)
+                      ),
+                    )
                   ),
-                ),
+                )
               ],
             ),
             actions: [
@@ -58,17 +84,34 @@ class PostView extends GetView<PostController> {
             ),
           ),
           Obx(() {
+            if (controller.postLoading.value) {
+              return SliverToBoxAdapter(
+                child: SizedBox(
+                  height: Get.height - Get.bottomBarHeight - Get.statusBarHeight,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                      strokeWidth: 2.5,
+                    ),
+                  ),
+                ),
+              );
+            }
             if (controller.posts.isEmpty) {
               return SliverToBoxAdapter(
                 child: Center(
-                  child: Text(
-                    'No posts available',
-                    style: TextStyle(
-                      color: controller.themeController.isDark.value ? Colors.white : Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
+                  child: Container(
+                    height: Get.height - Get.bottomBarHeight - Get.statusBarHeight, // Chiều cao của màn hình
+                    alignment: Alignment.center, // Căn giữa theo chiều dọc
+                    child: Text(
+                      'No posts available',
+                      style: TextStyle(
+                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  )
+                  ),
                 ),
               );
             }

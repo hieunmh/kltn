@@ -21,6 +21,14 @@ class PostController extends GetxController {
   final AppController appController = Get.find<AppController>();
 
   final commentController = TextEditingController();
+  final postLoading = true.obs;
+
+  final selected = 'All posts'.obs;
+
+  final RxList<String> items = [
+    'All posts',
+    'Your posts',
+  ].obs;
 
   @override
   void onInit() {
@@ -32,6 +40,7 @@ class PostController extends GetxController {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
+    postLoading.value = true;
     final postlist = await http.get(Uri.parse('$serverHost/post/get-post-by-condition'), headers: {
       'cookie': rawCookie
     });
@@ -39,6 +48,7 @@ class PostController extends GetxController {
       final data = json.decode(postlist.body)['posts'] as List;
       posts.value = data.map((p) => Post.fromJson(p as Map<String, dynamic>)).toList();
     }
+    postLoading.value = false;
   }
 
 

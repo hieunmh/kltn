@@ -26,6 +26,7 @@ class AppView extends GetView<AppController> {
         ],
       ),
       bottomNavigationBar: Container(
+        height: 80,
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
@@ -45,11 +46,11 @@ class AppView extends GetView<AppController> {
               backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
               unselectedLabelStyle: const TextStyle(
                 fontWeight: FontWeight.w700,
-                fontSize: 12
+                fontSize: 0
               ),
               selectedLabelStyle: const TextStyle(
                 fontWeight: FontWeight.w700,
-                fontSize: 12
+                fontSize: 0
               ),
               unselectedItemColor: Colors.grey,
               selectedItemColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
@@ -57,22 +58,22 @@ class AppView extends GetView<AppController> {
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.ghost_outline),
                   activeIcon: Icon(Iconsax.ghost_bold),
-                  label: 'Review AI'
+                  label: ''
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.receipt_outline),
                   activeIcon: Icon(Iconsax.receipt_1_bold),
-                  label: 'Q&A'
+                  label: ''
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.message_text_outline),
                   activeIcon: Icon(Iconsax.message_text_1_bold),
-                  label: 'Chat'
+                  label: ''
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Iconsax.setting_outline),
                   activeIcon: Icon(Iconsax.setting_bold),
-                  label: 'Setting'
+                  label: ''
                 ),
               ],
               currentIndex: controller.currentPage.value,

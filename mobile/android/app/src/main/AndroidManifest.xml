@@ -1,4 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Quyền truy cập microphone - Mic để nhận diện giọng nói -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Quyền truy cập bộ nhớ để đọc ảnh (Android 12 trở xuống) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" 
+                     android:maxSdkVersion="32" />
+    <!-- Quyền truy cập ảnh (Android 13 trở lên) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <!-- Quyền truy cập Internet - Cần thiết cho Speech Recognition -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="mobile"
         android:name="${applicationName}"

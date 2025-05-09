@@ -16,6 +16,7 @@ class ChatView extends GetView<ChatController> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
         backgroundColor: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor.withAlpha(120) : Colors.white.withAlpha(120),
         title: Row(
           children: [
@@ -211,13 +212,27 @@ class ChatView extends GetView<ChatController> {
         ),
       ),
       body: Obx(() {
+        if (controller.chatLoading.value) {
+          return SizedBox(
+            height: Get.height + Get.statusBarHeight,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                strokeWidth: 2.5,
+              ),
+            ),
+          );
+        }
         if (controller.chatList.isEmpty) {
-          return Center(
-            child: Text(
-              'No message found',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
+          return SizedBox(
+            height: Get.height - kToolbarHeight,
+            child: Center(
+              child: Text(
+                'No message found',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           );
@@ -229,7 +244,7 @@ class ChatView extends GetView<ChatController> {
             separatorBuilder: (context, index) => SizedBox(height: 10),
             itemCount: controller.chatList.length,
             itemBuilder: (context, index) {
-              final chat = controller.chatList[index];
+              final chat = controller.chatList.reversed.toList()[index];
               return Container(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                 decoration: BoxDecoration(
