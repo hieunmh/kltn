@@ -62,6 +62,57 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
   });
 }
 
+export const updatePost: RequestHandler = async (req: Request, res: Response) => {
+  const { content, post_id, image_path } = req.body;
+  let user_id = req.session.userId as string;
+
+  if (!content) {
+    res.status(400).send({ message: 'Please fill all fields 123' })
+    return;
+  }
+
+  let image_url = image_path;
+
+  if (req.file) {
+    const filename = `post_${Date.now()}_${req.file.originalname}`;
+    const { data, error } = await supabase.storage.from('postimages').upload(
+      `/${user_id}/${filename}`, 
+      req.file.buffer, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: req.file.mimetype
+      }
+    )
+
+    await supabase.storage.from('postimages').remove([image_path.replace('postimages/', '')])
+
+    if (data) image_url = data.fullPath;
+
+    if (error) {
+      res.status(500).send({ error: error });
+      return;
+    }
+  }
+
+  await Post.update({
+    content: content,
+    image_url: image_url
+  }, { where: { id: post_id, user_id: user_id } }).then(
+    (post) => {
+      res.status(200).send({
+        msg: 'Post updated successfully!',
+        post: {
+          id: post_id,
+          image_url: image_url,
+          content: content,
+        }
+      })
+    }
+  ).catch((e) => {
+    res.status(400).send({ message: e });
+  })
+}
+
 
 export const createPost: RequestHandler = async (req: Request, res: Response) => {
   const { subject, content } = req.body;
@@ -116,8 +167,15 @@ export const createPost: RequestHandler = async (req: Request, res: Response) =>
 }
 
 export const deletePost: RequestHandler = async (req: Request, res: Response) => {
-  const { post_id } = req.body;
+  const { post_id, image_path } = req.body;
   const user_id = req.session.userId as string;
+
+  const { data, error } = await supabase.storage.from('postimages').remove([image_path.replace('postimages/', '')])
+
+  if (error) {
+    res.status(500).send({ error: error });
+    return;
+  }
 
   await Post.destroy({
     where: { id: post_id, user_id: user_id }

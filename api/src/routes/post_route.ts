@@ -10,5 +10,6 @@ router.post('/create-post', isAuth, upload.single('post_image'), postController.
 router.get('/get-all-post', isAuth, postController.getAllPost);
 router.get('/get-post-by-condition', isAuth, postController.getPostByCondition);
 router.delete('/delete-post', isAuth, postController.deletePost);
+router.patch('/update-post', isAuth, upload.single('post_image'), postController.updatePost);
 
 export default router;
