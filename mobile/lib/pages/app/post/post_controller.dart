@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PostController extends GetxController {
   final RxList<Post> posts = <Post>[].obs;
+  final RxList<Post> filterPosts = <Post>[].obs;
 
   final serverHost = Env.serverhost;
   final supabaseUrl = '${Env.supabaseUrl}/storage/v1/object/public/';
@@ -36,6 +37,15 @@ class PostController extends GetxController {
     getPostList();
   }
 
+  void selectPost(String selected) {
+    this.selected.value = selected;
+    if (selected == 'Your posts') {
+      filterPosts.value = posts.where((post) => post.userid == appController.user.value.id).toList();
+    } else {
+      filterPosts.value = posts;
+    }
+  }
+
   Future<void> getPostList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
@@ -47,6 +57,7 @@ class PostController extends GetxController {
     if (postlist.statusCode == 200) {
       final data = json.decode(postlist.body)['posts'] as List;
       posts.value = data.map((p) => Post.fromJson(p as Map<String, dynamic>)).toList();
+      filterPosts.value = data.map((p) => Post.fromJson(p as Map<String, dynamic>)).toList();
     }
     postLoading.value = false;
   }
@@ -83,7 +94,19 @@ class PostController extends GetxController {
           user: appController.user.value
         )
       );
+      filterPosts.firstWhere((element) => element.id == postid).comments.add(
+        Comment(
+          id: data['id'],
+          postid: data['post_id'],
+          userid: data['user_id'],
+          content: data['content'],
+          createdAt: data['createdAt'],
+          updatedAt: data['updatedAt'],
+          user: appController.user.value
+        )
+      );
       posts.refresh();
+      filterPosts.refresh();
 
       commentController.clear();
     }
@@ -101,23 +124,28 @@ class PostController extends GetxController {
 
     if (comment.statusCode == 200) {
       posts.firstWhere((element) => element.id == postid).comments.removeWhere((element) => element.id == commentid);
+      filterPosts.firstWhere((element) => element.id == postid).comments.removeWhere((element) => element.id == commentid);
       posts.refresh();
+      filterPosts.refresh();
     }
   }
 
-  Future<void> deletePost(String postid) async {
+  Future<void> deletePost(String postid, String imagePath) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 
     final post = await http.delete(Uri.parse('$serverHost/post/delete-post'), headers: {
       'cookie': rawCookie
     }, body: {
-      'post_id': postid
+      'post_id': postid,
+      'image_path':imagePath
     });
 
     if (post.statusCode == 200) {
       posts.removeWhere((element) => element.id == postid);
+      filterPosts.removeWhere((element) => element.id == postid);
       posts.refresh();
+      filterPosts.refresh();
     }
   }
 }

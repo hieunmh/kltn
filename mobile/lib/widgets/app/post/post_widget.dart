@@ -14,7 +14,7 @@ class PostWidget extends StatelessWidget {
   final String supabaseUrl;
   final String userid;
   final ThemeController themeController;
-  final Function(String) deletePost;
+  final Function(String, String) deletePost;
   final String currentUserImage;
   final String currentUserName;
 
@@ -135,7 +135,15 @@ class PostWidget extends StatelessWidget {
                     return [
                       PopupMenuItem(
                         onTap: () {
-                          Get.toNamed(AppRoutes.editpost);
+                          Get.toNamed(
+                            AppRoutes.editpost,
+                            arguments: {
+                              'postid': post.id,
+                              'postcontent': post.content,
+                              'postimageurl': post.imageUrl,
+                              'post': post
+                            }
+                          );
                         },
                         value: 'edit',
                         child: Row(
@@ -177,7 +185,7 @@ class PostWidget extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () {
-                                    deletePost(post.id);
+                                    deletePost(post.id, post.imageUrl ?? '');
                                     Get.back();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

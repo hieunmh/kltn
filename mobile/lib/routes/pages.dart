@@ -86,6 +86,7 @@ class AppPages {
       binding: EditPostBindings(),
       transition: Transition.downToUp,
       fullscreenDialog: true,
+      transitionDuration: const Duration(milliseconds: 200)
     ),
     GetPage(
       name: AppRoutes.profile, 

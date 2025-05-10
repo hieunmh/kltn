@@ -58,7 +58,7 @@ class CreatePostView extends GetView<CreatePostController> {
                             style: TextStyle(
                               color: controller.postcontent.value.trim().isNotEmpty || controller.image.value != null ? Colors.white : controller.themeController.isDark.value ? Colors.white : Colors.black,
                               fontSize: 16,
-                              fontWeight: FontWeight.w500
+                              fontWeight: FontWeight.w600
                             )
                           ),  
                         ),
@@ -67,6 +67,7 @@ class CreatePostView extends GetView<CreatePostController> {
                   ),
                 )
               ],
+              leadingWidth: 85,
               leading: GestureDetector(
                 onTap: () => {
                   if (controller.postcontentController.text.isNotEmpty || controller.image.value != null) {
@@ -107,10 +108,16 @@ class CreatePostView extends GetView<CreatePostController> {
                     Get.back()
                   }
                 },
-                child: Icon(
-                  BoxIcons.bx_chevron_left, 
-                  size: 32,
-                ),
+                child: Center(
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600
+                    ),
+                  ),
+                )
               ),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(0),
@@ -183,12 +190,7 @@ class CreatePostView extends GetView<CreatePostController> {
                             )
                           )
                         ],
-                        
-                      ) : SizedBox()
-                    ),
-                          
-                    Obx(() => 
-                      controller.image.value == null ? Padding(
+                      ) : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: GestureDetector(
                           onTap: controller.pickImage,
@@ -201,13 +203,12 @@ class CreatePostView extends GetView<CreatePostController> {
                                 children: [
                                   Icon(FontAwesome.images, color: controller.themeController.isDark.value ? Colors.white : Colors.black, size: 20),
                                   const SizedBox(width: 10),
-                                  // Text('Add an image', style: TextStyle(color: controller.themeController.isDark.value ? Colors.white : Colors.black)),
                                 ],
                               ),
                             ),
                           ),
                         ),
-                      ) : SizedBox()
+                      )
                     ),
                   ],
                 ),

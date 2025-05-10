@@ -94,6 +94,7 @@ class CreatePostController extends GetxController {
       );
 
       postController.posts.insert(0, newPost);
+      postController.filterPosts.insert(0, newPost);
       Get.back();
       Get.snackbar(
         'Success',

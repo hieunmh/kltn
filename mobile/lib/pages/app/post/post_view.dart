@@ -45,7 +45,7 @@ class PostView extends GetView<PostController> {
                           ))
                         ).toList(),
                       onChanged: (value) {
-                        controller.selected.value = value ?? '';
+                        controller.selectPost(value ?? '');
                       },
                       value: controller.selected.value,
                       menuItemStyleData: MenuItemStyleData(
@@ -97,7 +97,7 @@ class PostView extends GetView<PostController> {
                 ),
               );
             }
-            if (controller.posts.isEmpty) {
+            if (controller.filterPosts.isEmpty) {
               return SliverToBoxAdapter(
                 child: Center(
                   child: Container(
@@ -124,7 +124,7 @@ class PostView extends GetView<PostController> {
                         deletePost: controller.deletePost,
                         themeController: controller.themeController,
                         supabaseUrl: controller.supabaseUrl,
-                        post: controller.posts[index],
+                        post: controller.filterPosts[index],
                         color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
                         userid: controller.appController.userid.value,
                         currentUserImage: controller.appController.imageUrl.value,
@@ -374,7 +374,7 @@ class PostView extends GetView<PostController> {
                           })
                         },
                       ),
-                      if (index < controller.posts.length - 1)
+                      if (index < controller.filterPosts.length - 1)
                         Divider(
                           color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
                           thickness: 0.5,
@@ -382,7 +382,7 @@ class PostView extends GetView<PostController> {
                     ],
                   );
                 },
-                childCount: controller.posts.length,
+                childCount: controller.filterPosts.length,
               ),
             );
           }),
