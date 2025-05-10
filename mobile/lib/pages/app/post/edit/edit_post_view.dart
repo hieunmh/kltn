@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -30,7 +31,45 @@ class EditPostView extends GetView<EditPostController> {
             ),
             leadingWidth: 85,
             leading: GestureDetector(
-              onTap: () => Get.back(),
+              onTap: () {
+                if (controller.postContent.value == controller.oldPostContent.value && controller.postImageurl.value == controller.deleteImagePath.value) {
+                  Get.back();
+                } else {
+                   Get.dialog(
+                    CupertinoAlertDialog(
+                      title: Text('Warning!'),
+                      content: Text('Are you sure you want to discard changes?'),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: Colors.blue.shade600,
+                              fontWeight: FontWeight.w500
+                            ),
+                          ),
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            'Discard',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          onPressed: () {
+                            Get.back();
+                            Get.back();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
               child: Center(
                 child: Text(
                   'Cancel',

@@ -197,8 +197,16 @@ class PostView extends GetView<PostController> {
                                                   key: ValueKey(comment.id),
                                                   endActionPane: ActionPane(
                                                     motion: const ScrollMotion(),
-                                                    extentRatio: 0.25,
+                                                    extentRatio: 0.5,
                                                     children: [
+                                                      SlidableAction(
+                                                        onPressed: (context) {
+                                                          controller.showEditComment(comment.content, comment.id, comment.createdAt);                           
+                                                        },
+                                                        icon: BoxIcons.bx_edit,
+                                                        backgroundColor: Colors.blue,
+                                                        foregroundColor: Colors.white,
+                                                      ),
                                                       SlidableAction(
                                                         onPressed: (context) {
                                                           Slidable.of(context)?.close();
@@ -285,44 +293,43 @@ class PostView extends GetView<PostController> {
                                       ),
                                       child: Row(
                                         children: [
-                                          controller.appController.imageUrl.isNotEmpty
-                                            ? Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: Colors.grey.shade400,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(50),
-                                                  child: Image.network(
-                                                    controller.supabaseUrl + controller.appController.imageUrl.value,
-                                                    height: 40,
-                                                    width: 40,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ) : Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: Colors.grey.shade400,
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(20),
-                                                  child: Image.asset(
-                                                    'assets/image/user-placeholder.png',
-                                                    height: 40,
-                                                    width: 40,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
+                                          controller.appController.imageUrl.isNotEmpty ? Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.grey.shade400,
+                                                width: 1,
                                               ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(50),
+                                              child: Image.network(
+                                                controller.supabaseUrl + controller.appController.imageUrl.value,
+                                                height: 40,
+                                                width: 40,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ) : Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: Colors.grey.shade400,
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(20),
+                                              child: Image.asset(
+                                                'assets/image/user-placeholder.png',
+                                                height: 40,
+                                                width: 40,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
                                           const SizedBox(width: 10),
                                           Expanded(
                                             child: Container(
@@ -341,6 +348,7 @@ class PostView extends GetView<PostController> {
                                                   Expanded(
                                                     child: TextField(
                                                       controller: controller.commentController,
+                                                      focusNode: controller.focusNode,
                                                       cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                                                       decoration: InputDecoration(
                                                         hintText: 'Comment for ${controller.posts[index].user.name}',
@@ -352,9 +360,22 @@ class PostView extends GetView<PostController> {
                                                   const SizedBox(width: 10),
                                                   GestureDetector(
                                                     onTap: () {
-                                                      controller.createComment(controller.posts[index].id);
+                                                      if (controller.isEdit.value) {
+                                                        controller.editComment(controller.posts[index].id);
+                                                      } else {
+                                                        controller.createComment(controller.posts[index].id);
+                                                      }
                                                     },
-                                                    child: const Icon(Iconsax.send_1_bold),
+                                                    child: controller.isLoading.value ? SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child: CircularProgressIndicator(
+                                                        color: controller.themeController.isDark.value ? Colors.white : Colors.black,
+                                                        strokeWidth: 2.5,
+                                                      ),
+                                                    ) : controller.isEdit.value ? 
+                                                    const Icon(Iconsax.send_2_bold) : 
+                                                    const Icon(Iconsax.send_1_bold),
                                                   ),
                                                 ],
                                               ),
@@ -371,6 +392,7 @@ class PostView extends GetView<PostController> {
                             isScrollControlled: true,
                           ).then((value) {
                             controller.commentController.clear();
+                            controller.isEdit.value = false;
                           })
                         },
                       ),

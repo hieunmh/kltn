@@ -21,6 +21,7 @@ class EditPostController extends GetxController {
 
   final postid = ''.obs;
   final postContent = ''.obs;
+  final oldPostContent = ''.obs;
   final postImageurl = ''.obs;
   final deleteImagePath = ''.obs;
 
@@ -60,6 +61,7 @@ class EditPostController extends GetxController {
     });
     postid.value = Get.arguments['postid'];
     postContent.value = Get.arguments['postcontent'];
+    oldPostContent.value = Get.arguments['postcontent'];
     postImageurl.value = Get.arguments['postimageurl'];
     deleteImagePath.value = Get.arguments['postimageurl'];
     post.value = Get.arguments['post'];

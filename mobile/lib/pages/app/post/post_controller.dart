@@ -17,12 +17,17 @@ class PostController extends GetxController {
   final serverHost = Env.serverhost;
   final supabaseUrl = '${Env.supabaseUrl}/storage/v1/object/public/';
   
-
   final ThemeController themeController = Get.find<ThemeController>();
   final AppController appController = Get.find<AppController>();
 
   final commentController = TextEditingController();
   final postLoading = true.obs;
+  final FocusNode focusNode = FocusNode();
+  final isEdit = false.obs;
+  final isLoading = false.obs;
+  final editCommentId = ''.obs;
+  final createdAtCmt = ''.obs;
+  final oldCmtontent = ''.obs;
 
   final selected = 'All posts'.obs;
 
@@ -71,6 +76,7 @@ class PostController extends GetxController {
       return;
     }
 
+    isLoading.value = true;
     // create comment
     final comment = await http.post(Uri.parse('$serverHost/create-comment'), headers: {
       'cookie': rawCookie
@@ -109,6 +115,7 @@ class PostController extends GetxController {
       filterPosts.refresh();
 
       commentController.clear();
+      isLoading.value = false;
     }
   }
 
@@ -128,6 +135,57 @@ class PostController extends GetxController {
       posts.refresh();
       filterPosts.refresh();
     }
+  }
+
+  void showEditComment(String content, String commentid, String createdAt) async {
+
+    focusNode.requestFocus();
+    commentController.text = content;
+    isEdit.value = true;
+    editCommentId.value = commentid;
+    createdAtCmt.value = createdAt;
+    oldCmtontent.value = content;
+  }
+
+  Future<void> editComment(String postid) async {
+    if (commentController.text == oldCmtontent.value) {
+      return;
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final rawCookie = prefs.getString('cookie') ?? '';
+
+    isLoading.value = true;
+
+    final comment = await http.patch(Uri.parse('$serverHost/edit-comment'), headers: {
+      'cookie': rawCookie
+    }, body: {
+      'comment_id': editCommentId.value,
+      'content': commentController.text
+    });
+
+    if (comment.statusCode == 200) {
+      final newComment = Comment(
+        id: json.decode(comment.body)['comment']['id'],
+        postid: postid,
+        userid: appController.userid.value,
+        content: json.decode(comment.body)['comment']['content'],
+        user: appController.user.value,
+        createdAt: createdAtCmt.value,
+        updatedAt: DateTime.now().toIso8601String(),
+      );
+
+      posts[posts.indexWhere((element) => element.id == postid)].comments[posts[posts.indexWhere((element) => element.id == postid)].comments.indexWhere((element) => element.id == editCommentId.value)] = newComment;
+      filterPosts[filterPosts.indexWhere((element) => element.id == postid)].comments[filterPosts[filterPosts.indexWhere((element) => element.id == postid)].comments.indexWhere((element) => element.id == editCommentId.value)] = newComment;
+      posts.refresh();
+      filterPosts.refresh();
+    }
+    isEdit.value = false;
+    commentController.clear();
+    editCommentId.value = '';
+    createdAtCmt.value = '';
+    focusNode.unfocus();
+
+    isLoading.value = false;
   }
 
   Future<void> deletePost(String postid, String imagePath) async {

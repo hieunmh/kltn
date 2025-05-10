@@ -73,36 +73,36 @@ class CreatePostView extends GetView<CreatePostController> {
                   if (controller.postcontentController.text.isNotEmpty || controller.image.value != null) {
                     Get.dialog(
                       CupertinoAlertDialog(
-                      title: Text('Warning!'),
-                      content: Text('Are you sure you want to discard this post?'),
-                      actions: [
-                        CupertinoDialogAction(
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              color: Colors.blue.shade600,
-                              fontWeight: FontWeight.w500
+                        title: Text('Warning!'),
+                        content: Text('Are you sure you want to discard this post?'),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Colors.blue.shade600,
+                                fontWeight: FontWeight.w500
+                              ),
                             ),
+                            onPressed: () {
+                              Get.back();
+                            },
                           ),
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                        CupertinoDialogAction(
-                          child: Text(
-                            'Discard',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w500,
+                          CupertinoDialogAction(
+                            child: Text(
+                              'Discard',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
+                            onPressed: () {
+                              Get.back();
+                              Get.back();
+                            },
                           ),
-                          onPressed: () {
-                            Get.back();
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                     )
                   } else {
                     Get.back()
