@@ -50,6 +50,20 @@ export const getAllCommentByPost: RequestHandler = async (req: Request, res: Res
   })
 }
 
+export const editComment: RequestHandler = async (req: Request, res: Response) => {
+  const { comment_id, content } = req.body;
+
+  await Comment.update({ content }, { where: { id: comment_id } }).then(() => {
+    res.status(200).send({ 
+      msg: 'Edit comment successfully!',
+      comment: {
+        id: comment_id,
+        content: content
+      }
+    });
+  })
+}
+
 export const deleteComment: RequestHandler = async (req: Request, res: Response) => {
   const { comment_id } = req.body;
 
