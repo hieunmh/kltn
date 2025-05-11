@@ -29,7 +29,6 @@ class EditPostView extends GetView<EditPostController> {
                 ),
               ),
             ),
-            leadingWidth: 85,
             leading: GestureDetector(
               onTap: () {
                 if (controller.postContent.value == controller.oldPostContent.value && controller.postImageurl.value == controller.deleteImagePath.value) {
@@ -37,12 +36,12 @@ class EditPostView extends GetView<EditPostController> {
                 } else {
                    Get.dialog(
                     CupertinoAlertDialog(
-                      title: Text('Warning!'),
-                      content: Text('Are you sure you want to discard changes?'),
+                      title: Text('Cảnh báo!'),
+                      content: Text('Bạn có chắc chắn muốn huỷ thay đổi?'),
                       actions: [
                         CupertinoDialogAction(
                           child: Text(
-                            'Cancel',
+                            'Không',
                             style: TextStyle(
                               color: Colors.blue.shade600,
                               fontWeight: FontWeight.w500
@@ -54,7 +53,7 @@ class EditPostView extends GetView<EditPostController> {
                         ),
                         CupertinoDialogAction(
                           child: Text(
-                            'Discard',
+                            'Hủy thay đổi',
                             style: TextStyle(
                               color: Colors.red,
                               fontWeight: FontWeight.w500,
@@ -72,7 +71,7 @@ class EditPostView extends GetView<EditPostController> {
               },
               child: Center(
                 child: Text(
-                  'Cancel',
+                  'Hủy',
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 16,
@@ -89,7 +88,7 @@ class EditPostView extends GetView<EditPostController> {
                     child: Obx(() =>
                       Container(
                         height: 30,
-                        width: 90,
+                        width: 100,
                         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                         decoration: BoxDecoration(
                           color: controller.postContent.value.trim().isNotEmpty || controller.postImageurl.value.isNotEmpty ?  Colors.blue : controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.grey.shade300,
@@ -104,10 +103,10 @@ class EditPostView extends GetView<EditPostController> {
                               strokeWidth: 2
                             ),
                           ) : Text(
-                            'Update', 
+                            'Cập nhật', 
                             style: TextStyle(
                               color: controller.postContent.value.trim().isNotEmpty || controller.postImageurl.value.isNotEmpty ? Colors.white : controller.themeController.isDark.value ? Colors.white : Colors.black,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600
                             )
                           ),  

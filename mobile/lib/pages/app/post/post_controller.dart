@@ -29,11 +29,11 @@ class PostController extends GetxController {
   final createdAtCmt = ''.obs;
   final oldCmtontent = ''.obs;
 
-  final selected = 'All posts'.obs;
+  final selected = 'Tất cả bài viết'.obs;
 
   final RxList<String> items = [
-    'All posts',
-    'Your posts',
+    'Tất cả bài viết',
+    'Bài viết của bạn',
   ].obs;
 
   @override
@@ -44,7 +44,7 @@ class PostController extends GetxController {
 
   void selectPost(String selected) {
     this.selected.value = selected;
-    if (selected == 'Your posts') {
+    if (selected == 'Bài viết của bạn') {
       filterPosts.value = posts.where((post) => post.userid == appController.user.value.id).toList();
     } else {
       filterPosts.value = posts;

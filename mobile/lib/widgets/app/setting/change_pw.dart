@@ -26,7 +26,7 @@ class ChangePw extends StatelessWidget {
                 Icon(BoxIcons.bxs_lock, size: 16),
                 const SizedBox(width: 10),
                 Text(
-                  'Change password',
+                  'Đổi mật khẩu',
                   style: TextStyle(
                     fontSize: 16,
                   ),

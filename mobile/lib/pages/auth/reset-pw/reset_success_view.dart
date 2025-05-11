@@ -19,7 +19,7 @@ class ResetSuccessView extends StatelessWidget{
               Row(
                 children: [
                   Text(
-                    'Password Changed',
+                    'Mật khẩu đã được thay đổi',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
@@ -30,20 +30,14 @@ class ResetSuccessView extends StatelessWidget{
               ),
               Row(
                 children: [
-                  Text(
-                    'No hassle anymore',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
+
                 ],
               ),
 
               const SizedBox(height: 20),
 
               Text(
-                'Your password has been reset',
+                'Mật khẩu của bạn đã được đặt lại',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 18
@@ -51,7 +45,7 @@ class ResetSuccessView extends StatelessWidget{
               ),
 
               Text(
-                'Successfully!',
+                'Thành công!',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w800,
@@ -73,7 +67,7 @@ class ResetSuccessView extends StatelessWidget{
                   ),
                   child: Center(
                     child: Text(
-                      'Continue',
+                      'Tiếp tục',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,

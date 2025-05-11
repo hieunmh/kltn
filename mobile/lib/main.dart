@@ -6,6 +6,7 @@ import 'package:mobile/routes/routes.dart';
 import 'package:mobile/theme/app_theme.dart';
 import 'package:mobile/theme/theme_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +16,7 @@ void main() async {
   final userid = prefs.getString('user_id') ?? '';
 
   final initRoute = userid.isEmpty ? AppRoutes.signup : AppRoutes.application;
+  await initializeDateFormatting('vi_VN', null);
 
   runApp(MyApp(initRoute: initRoute));
 }

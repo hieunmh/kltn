@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:mobile/pages/app/setting/setting_controller.dart';
 import 'package:mobile/theme/app_color.dart';
 import 'package:mobile/widgets/app/setting/change_pw.dart';
-import 'package:mobile/widgets/app/setting/id_setting.dart';
 import 'package:mobile/widgets/app/setting/profile_setting.dart';
 import 'package:mobile/widgets/app/setting/signout_setting.dart';
 import 'package:mobile/widgets/app/setting/theme_setting.dart';
@@ -22,7 +21,7 @@ class SettingView extends GetView<SettingController> {
           title: Row(
             children: [
               Text(
-                'Setting',
+                'Cài đặt',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,  
@@ -64,14 +63,30 @@ class SettingView extends GetView<SettingController> {
                 ),
                 child: Column(
                   children: [
-                    ProfileSetting(name: controller.appController.name.value),
-                
-                    const SizedBox(height: 5),
-                
-                    IdSetting(id: controller.appController.userid.value),
-                
-                    const SizedBox(height: 5),
-                
+                    ProfileSetting(
+                      name: controller.appController.name.value,
+                      email: controller.appController.email.value
+                    ),
+              
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                  border: Border.all(
+                    color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
+                    width: 0.5
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [                
                     ThemeSetting(
                       isDarkMode: controller.themeController.isDark.value,
                       setDarkTheme: (value) => controller.themeController.changeTheme(value),
@@ -80,13 +95,30 @@ class SettingView extends GetView<SettingController> {
                     const SizedBox(height: 5),
 
                     ChangePw(),
-                    
-                    const SizedBox(height: 5),
-                
+          
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: controller.themeController.isDark.value ? AppColor.bgDarkThemeColor : Colors.white,
+                  border: Border.all(
+                    color: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade400,
+                    width: 0.5
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
                     SignoutSetting(signout: controller.signout),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         )

@@ -54,10 +54,10 @@ class CreatePostView extends GetView<CreatePostController> {
                               strokeWidth: 2
                             ),
                           ) : Text(
-                            'Post', 
+                            'Đăng', 
                             style: TextStyle(
                               color: controller.postcontent.value.trim().isNotEmpty || controller.image.value != null ? Colors.white : controller.themeController.isDark.value ? Colors.white : Colors.black,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600
                             )
                           ),  
@@ -67,18 +67,17 @@ class CreatePostView extends GetView<CreatePostController> {
                   ),
                 )
               ],
-              leadingWidth: 85,
               leading: GestureDetector(
                 onTap: () => {
                   if (controller.postcontentController.text.isNotEmpty || controller.image.value != null) {
                     Get.dialog(
                       CupertinoAlertDialog(
-                        title: Text('Warning!'),
-                        content: Text('Are you sure you want to discard this post?'),
+                        title: Text('Cảnh báo!'),
+                        content: Text('Bạn có chắc chắn muốn xoá bài viết này không?'),
                         actions: [
                           CupertinoDialogAction(
                             child: Text(
-                              'Cancel',
+                              'Hủy',
                               style: TextStyle(
                                 color: Colors.blue.shade600,
                                 fontWeight: FontWeight.w500
@@ -90,7 +89,7 @@ class CreatePostView extends GetView<CreatePostController> {
                           ),
                           CupertinoDialogAction(
                             child: Text(
-                              'Discard',
+                              'Xóa',
                               style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.w500,
@@ -110,7 +109,7 @@ class CreatePostView extends GetView<CreatePostController> {
                 },
                 child: Center(
                   child: Text(
-                    'Cancel',
+                    'Hủy',
                     style: TextStyle(
                       color: Colors.red,
                       fontSize: 16,
@@ -146,7 +145,7 @@ class CreatePostView extends GetView<CreatePostController> {
                           cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                           decoration: InputDecoration(
                             focusedBorder: InputBorder.none,
-                            hintText: 'Write something...',
+                            hintText: 'Hôm nay có gì?',
                             hintStyle: TextStyle(
                               color: controller.themeController.isDark.value ? Colors.white.withAlpha(100) : Colors.black.withAlpha(100),
                             ),

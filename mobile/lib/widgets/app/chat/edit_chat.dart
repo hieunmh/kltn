@@ -41,7 +41,7 @@ class EditChat extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 10),
               child: Text(
-                'Rename',
+                'Đổi tên',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -55,7 +55,7 @@ class EditChat extends StatelessWidget {
                 controller: newNameController,
                 cursorColor: Colors.grey,
                 decoration: InputDecoration(
-                  labelText: 'New name',
+                  labelText: 'Tên mới',
                   labelStyle: const TextStyle(color: Colors.grey),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.grey),
@@ -75,7 +75,7 @@ class EditChat extends StatelessWidget {
                 children: [
                   TextButton(
                     child: const Text(
-                      'Cancel',
+                      'Hủy',
                       style: TextStyle(
                         color: Colors.red,
                         fontWeight: FontWeight.w500,
@@ -88,7 +88,7 @@ class EditChat extends StatelessWidget {
                   ),
                   TextButton(
                     child: Text(
-                      'Save',
+                      'Lưu',
                       style: TextStyle(
                         color: Colors.blue.shade600,
                         fontWeight: FontWeight.w500,

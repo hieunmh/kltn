@@ -14,7 +14,7 @@ class SignoutSetting extends StatelessWidget {
           context: context, 
           builder: (context) => CupertinoActionSheet(
             title: Text(
-              'Are you sure you want to sign out?',
+              'Bạn có chắc chắc muốn đăng xuất không?',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -28,7 +28,7 @@ class SignoutSetting extends StatelessWidget {
                   Navigator.pop(context);                       
                 },
                 child: Text(
-                  'Sign out',
+                  'Đăng xuất',
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 18,
@@ -42,7 +42,7 @@ class SignoutSetting extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                  'Cancel',
+                  'Huỷ',
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 18,
@@ -66,7 +66,7 @@ class SignoutSetting extends StatelessWidget {
                 Icon(BoxIcons.bxs_log_out, size: 16),
                 const SizedBox(width: 10),
                 Text(
-                  'Sign out',
+                  'Đăng xuất',
                   style: TextStyle(
                     fontSize: 16,
                   ),

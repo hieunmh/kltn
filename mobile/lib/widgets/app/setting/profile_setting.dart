@@ -5,7 +5,8 @@ import 'package:mobile/routes/routes.dart';
 
 class ProfileSetting extends StatelessWidget {
   final String name;
-  const ProfileSetting({super.key, required this.name});
+  final String email;
+  const ProfileSetting({super.key, required this.name, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -13,28 +14,72 @@ class ProfileSetting extends StatelessWidget {
       onTap: () {
         Get.toNamed(AppRoutes.profile);
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(BoxIcons.bxs_user, size: 16),
-                const SizedBox(width: 10),
-                Text(
-                  name,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-      
-            Icon(FontAwesome.chevron_right_solid, size: 16),
-          ],
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          // color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
         ),
-      ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(BoxIcons.bxs_user, size: 16),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Tên tài khoản',
+                        style: TextStyle(
+                          fontSize: 16
+                        ),
+                      )
+                    ],
+                  ),
+            
+                  Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(BoxIcons.bxs_envelope, size: 16),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Email',
+                        style: TextStyle(
+                          fontSize: 16
+                        ),
+                      )
+                    ],
+                  ),
+            
+                  Text(
+                    email,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]
+        ),
+      )
     );
   }
 }

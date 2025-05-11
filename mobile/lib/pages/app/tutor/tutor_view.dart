@@ -44,7 +44,7 @@ class TutorView extends GetView<TutorController> {
             children: [      
   
               Text(
-                'What do you want to learn today?',
+                'Bạn muốn học chủ đề gì hôm nay?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28,
@@ -74,7 +74,7 @@ class TutorView extends GetView<TutorController> {
                   ),
                   fillColor: controller.themeController.isDark.value ? Colors.white.withAlpha(10) : Colors.white,
                   filled: true,
-                  hintText: 'Example: Learn Flutter programming',
+                  hintText: 'Ví dụ: học flutter',
                   hintStyle: TextStyle(
                     color: controller.themeController.isDark.value ? Colors.white.withAlpha(100) : Colors.black.withAlpha(100),
                     fontSize: 14,
@@ -112,7 +112,7 @@ class TutorView extends GetView<TutorController> {
               GestureDetector(
                 onTap: () {
                   if (controller.learnText.isEmpty) {
-                    controller.learnTextError.value = 'Please enter the topic you want to learn';
+                    controller.learnTextError.value = 'Vui lòng nhập chủ đề bạn muốn học';
                     return;
                   }
                   Get.toNamed(AppRoutes.review, arguments: {
@@ -135,7 +135,7 @@ class TutorView extends GetView<TutorController> {
                       Icon(BoxIcons.bxs_graduation, color: controller.learnText.isEmpty ? Color(0xff4a66f0) : Colors.white, size: 20),
                       const SizedBox(width: 5),
                       Text(
-                        'Start',
+                        'Bắt đầu học',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
@@ -190,7 +190,7 @@ class TutorView extends GetView<TutorController> {
                       Icon(FontAwesome.bolt_lightning_solid, size: 20),
                       const SizedBox(width: 5),
                       Text(
-                        'Suggest topic',
+                        'Gợi ý chủ đề',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,

@@ -53,7 +53,7 @@ class CreatePostController extends GetxController {
     if (postcontent.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Post content cannot be empty!'),
+          content: Text('Nội dung bài viết không được để trống!'),
           duration: Duration(seconds: 2),
         )
       );
@@ -97,8 +97,8 @@ class CreatePostController extends GetxController {
       postController.filterPosts.insert(0, newPost);
       Get.back();
       Get.snackbar(
-        'Success',
-        'Post created successfully!',
+        'Thành công',
+        'Bài viết đã được tạo thành công!',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.grey[850],
         colorText: Colors.white,
@@ -111,7 +111,7 @@ class CreatePostController extends GetxController {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to create post!'),
+          content: Text('Không thể tạo bài viết!'),
           duration: Duration(seconds: 2),
         )
       );

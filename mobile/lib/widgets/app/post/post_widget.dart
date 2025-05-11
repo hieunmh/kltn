@@ -152,7 +152,7 @@ class PostWidget extends StatelessWidget {
                             Icon(BoxIcons.bx_pencil),
                             SizedBox(width: 5),
                             Text(
-                              'Edit',
+                              'Chỉnh sửa',
                             ),
                           ],
                         ),
@@ -162,11 +162,11 @@ class PostWidget extends StatelessWidget {
                         onTap: () {
                           Get.dialog(
                             CupertinoAlertDialog(
-                              content: Text('Are you sure to delete this post?'),
+                              content: Text('Bạn có chắc chắn muốn xoá bài viết này không?'),
                               actions: [
                                 CupertinoDialogAction(
                                   child: Text(
-                                    'Cancel',
+                                    'Hủy',
                                     style: TextStyle(
                                       color: Colors.blue.shade600,
                                       fontWeight: FontWeight.w500
@@ -178,7 +178,7 @@ class PostWidget extends StatelessWidget {
                                 ),
                                 CupertinoDialogAction(
                                   child: Text(
-                                    'Delete',
+                                    'Xóa',
                                     style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.w500,
@@ -189,7 +189,7 @@ class PostWidget extends StatelessWidget {
                                     Get.back();
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: Text('Delete post successfully!'),
+                                        content: Text('Bài viết đã được xóa thành công!'),
                                         duration: Duration(seconds: 1),
                                       )
                                     );
@@ -206,7 +206,7 @@ class PostWidget extends StatelessWidget {
                             Icon(BoxIcons.bx_trash, color: Colors.red),
                             SizedBox(width: 5),
                             Text(
-                              'Delete',
+                              'Xóa',
                               style: TextStyle(
                                 color: Colors.red
                               ),
@@ -383,7 +383,7 @@ class PostWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              '${DateFormat('EEEE, MMMM dd, yyyy').format(DateTime.parse(post.createdAt))} at ${DateFormat('HH:mm').format(DateTime.parse(post.createdAt))}',
+              '${DateFormat('EEEE, d MMMM, yyyy', 'vi_VN').format(DateTime.parse(post.createdAt).toLocal())} lúc ${DateFormat('HH:mm', 'vi_VN').format(DateTime.parse(post.createdAt).toLocal())}',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey

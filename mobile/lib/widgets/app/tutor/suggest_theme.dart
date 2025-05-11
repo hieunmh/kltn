@@ -66,59 +66,63 @@ class SuggestTheme extends StatelessWidget {
                         fillColor: themeController.isDark.value ? Colors.white.withAlpha(20) : Colors.black.withAlpha(20),
                       ),
                       dropdownColor: themeController.isDark.value ? Colors.black : Colors.white,
-                      hint: Text('Select level', style: TextStyle(fontSize: 13)),
+                      hint: Text('Chọn trình độ', style: TextStyle(fontSize: 13)),
                       items: [
                         DropdownMenuItem(
                           value: 'Grade 1',
-                          child: Text('Grade 1', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 1', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 2',
-                          child: Text('Grade 2', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 2', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 3',
-                          child: Text('Grade 3', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 3', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 4',
-                          child: Text('Grade 4', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 4', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 5',
-                          child: Text('Grade 5', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 5', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 6',
-                          child: Text('Grade 6', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 6', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 7',
-                          child: Text('Grade 7', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 7', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 8',
-                          child: Text('Grade 8', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 8', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 9',
-                          child: Text('Grade 9', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 9', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 10',
-                          child: Text('Grade 10', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 10', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 11',
-                          child: Text('Grade 11', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 11', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'Grade 12',
-                          child: Text('Grade 12', style: TextStyle(fontSize: 13)),
+                          child: Text('Lớp 12', style: TextStyle(fontSize: 13)),
                         ),
                         DropdownMenuItem(
                           value: 'University',
-                          child: Text('University', style: TextStyle(fontSize: 13)),
+                          child: Text('Đại học', style: TextStyle(fontSize: 13)),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Other',
+                          child: Text('Khác', style: TextStyle(fontSize: 13)),
                         ),
                       ],
                       onChanged: (String? value) {
@@ -153,7 +157,7 @@ class SuggestTheme extends StatelessWidget {
                           ),
                           fillColor: themeController.isDark.value ? Colors.white.withAlpha(10) : Colors.white,
                           filled: true,
-                          hintText: 'Subject',
+                          hintText: 'Nội dung muốn học',
                           hintStyle: TextStyle(
                             color: themeController.isDark.value ? Colors.white.withAlpha(100) : Colors.black.withAlpha(100),
                             fontWeight: FontWeight.w600
@@ -230,7 +234,7 @@ class SuggestTheme extends StatelessWidget {
                                 Icon(Iconsax.lamp_charge_bold, color: Color(0xFF4a66f0)),
                                 const SizedBox(width: 5),
                                 Text(
-                                  'Generate',
+                                  'Tạo chủ đề',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
@@ -252,10 +256,10 @@ class SuggestTheme extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         decoration: BoxDecoration(
-                          color: Color(0xFF4a66f0),
+                          color: theme.isEmpty ? Colors.grey : Color(0xFF4a66f0),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Color(0xFF4a66f0),
+                            color: theme.isEmpty ? Colors.grey : Color(0xFF4a66f0),
                             width: 2,
                           ),
                         ),
@@ -265,7 +269,7 @@ class SuggestTheme extends StatelessWidget {
                             Icon(BoxIcons.bxs_graduation, color: Colors.white),
                             const SizedBox(width: 5),
                             Text(
-                              'Start',
+                              'Bắt đầu học',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,

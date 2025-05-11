@@ -22,7 +22,7 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
               Row(
                 children: [
                   Text(
-                    'Verification',
+                    'Xác thực',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
@@ -34,7 +34,7 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
               Row(
                 children: [
                   Text(
-                    'Enter the code to continue',
+                    'Nhập mã để tiếp tục',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -45,7 +45,7 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
               const SizedBox(height: 20),
       
               Text(
-                'We sent a reset code to',
+                'Chúng tôi đã gửi mã xác thực đến',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16
@@ -63,39 +63,37 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
                 ),
               ),
       
-              const SizedBox(height: 20),
-      
-              Obx(() =>
-                Pinput(
-                  onChanged: (value) {
-                    controller.code.value = value;
-                  },
-                  defaultPinTheme: PinTheme(
-                    width: (Get.width - 40) / 4,
-                    height: (Get.width - 40) / 4,
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade400, width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    )
+              const SizedBox(height: 20), 
+              
+              Pinput(
+                onChanged: (value) {
+                  controller.code.value = value;
+                },
+                defaultPinTheme: PinTheme(
+                  width: (Get.width - 40) / 4,
+                  height: (Get.width - 40) / 4,
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20
                   ),
-                  focusedPinTheme: PinTheme(
-                    width: (Get.width - 40) / 4,
-                    height: (Get.width - 40) / 4,
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff4a66f0), width: 2),
-                      borderRadius: BorderRadius.circular(20),
-                    )
-                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400, width: 2),
+                    borderRadius: BorderRadius.circular(10),
+                  )
                 ),
-              ),
+                focusedPinTheme: PinTheme(
+                  width: (Get.width - 40) / 4,
+                  height: (Get.width - 40) / 4,
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xff4a66f0), width: 2),
+                    borderRadius: BorderRadius.circular(20),
+                  )
+                ),
+              ),     
       
               const SizedBox(height: 5),
       
@@ -126,20 +124,22 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
                     borderRadius: BorderRadius.circular(10),
                     color: Color(0xFF4a66f0)
                   ),
-                  child: Center(
-                    child: controller.isLoading.value ? SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
-                    ) : Text(
-                      'Verify',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                  child: Obx(() =>
+                    Center(
+                      child: controller.isLoading.value ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      ) : Text(
+                        'Xác thực',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -152,7 +152,7 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Did\'t receive code? ',
+                    'Không nhận được mã? ',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -165,7 +165,7 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
                       // Get.back();
                     },
                     child: Text(
-                      'Send again',
+                      'Gửi lại',
                       style: TextStyle(
                         color: Color(0xFF4a66f0),
                         fontSize: 14,
@@ -191,7 +191,7 @@ class VerifyCodeView extends GetView<VerifyCodeController> {
                     ),
           
                     Text(
-                      'Back to sign in?',
+                      'Quay lại đăng nhập?',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600

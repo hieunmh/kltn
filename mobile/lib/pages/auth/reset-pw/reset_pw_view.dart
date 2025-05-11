@@ -22,7 +22,7 @@ class ResetPwView extends GetView<ResetPwController> {
               Row(
                 children: [
                   Text(
-                    'Set New Password',
+                    'Đặt mật khẩu mới',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
@@ -34,13 +34,7 @@ class ResetPwView extends GetView<ResetPwController> {
       
               Row(
                 children: [
-                  Text(
-                    'Create a unique password',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
+
                 ],
               ),
       
@@ -48,8 +42,8 @@ class ResetPwView extends GetView<ResetPwController> {
       
               Obx(() =>
                 InputField(
-                  hintText: 'New Password', 
-                  placeholder: 'Create new password', 
+                  hintText: 'Mật khẩu mới', 
+                  placeholder: 'Tạo mật khẩu mới', 
                   obscureText: controller.showPassword.value, 
                   ctrler: controller.passwordController, 
                   borderColor: Colors.grey.shade300, 
@@ -62,8 +56,8 @@ class ResetPwView extends GetView<ResetPwController> {
       
               Obx(() =>
                 InputField(
-                  hintText: 'Confirm Password', 
-                  placeholder: 'Re-enter password', 
+                  hintText: 'Xác nhận mật khẩu', 
+                  placeholder: 'Nhập lại mật khẩu', 
                   obscureText: controller.showRePassword.value, 
                   ctrler: controller.rePasswordController, 
                   borderColor: Colors.grey.shade300, 
@@ -94,7 +88,7 @@ class ResetPwView extends GetView<ResetPwController> {
                           strokeWidth: 2,
                         ),
                       ) : Text(
-                        'Reset Password',
+                        'Đặt lại mật khẩu',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -122,7 +116,7 @@ class ResetPwView extends GetView<ResetPwController> {
                     ),
     
                     Text(
-                      'Back to sign in?',
+                      'Quay lại đăng nhập?',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

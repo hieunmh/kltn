@@ -25,7 +25,7 @@ class SigninView extends GetView<SigninController> {
               Row(
                 children: [
                   Text(
-                    'Login Account',
+                    'Đăng nhập',
                     style: TextStyle(
                       color: Color(0xFF4a66f0),
                       fontSize: 28,
@@ -34,24 +34,12 @@ class SigninView extends GetView<SigninController> {
                   )
                 ],
               ),
-              Row(
-                children: [
-                  Text(
-                    'Welcome back!',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600
-                    ),
-                  )
-                ],
-              ),
       
               const SizedBox(height: 20),
       
               Obx(() => InputField(
-                hintText: 'Email Address', 
-                placeholder: 'Enter email address', 
+                hintText: 'Email', 
+                placeholder: 'Nhập email', 
                 obscureText: false, 
                 ctrler: controller.emailController, 
                 borderColor: Colors.grey.shade300, 
@@ -61,8 +49,8 @@ class SigninView extends GetView<SigninController> {
               const SizedBox(height: 5),
       
               Obx(() => InputField(
-                hintText: 'Password', 
-                placeholder: 'Enter password', 
+                hintText: 'Mật khẩu', 
+                placeholder: 'Nhập mật khẩu', 
                 obscureText: controller.showPassword.value, 
                 ctrler: controller.passwordController, 
                 borderColor: Colors.grey.shade300, 
@@ -78,7 +66,7 @@ class SigninView extends GetView<SigninController> {
                       controller.goToForgotPw();
                     },
                     child: Text(
-                      'Forgot password?',
+                      'Quên mật khẩu?',
                       style: TextStyle(
                         color: Color(0xFF4a66f0),
                         fontSize: 14,
@@ -111,7 +99,7 @@ class SigninView extends GetView<SigninController> {
                         strokeWidth: 2,
                       ),
                     ) : Text(
-                      'Sign in',
+                      'Đăng nhập',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -149,7 +137,7 @@ class SigninView extends GetView<SigninController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      'Or sign in with',
+                      'Hoặc đăng nhập với',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.grey.shade500,
@@ -199,7 +187,7 @@ class SigninView extends GetView<SigninController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don\'t have an account?',
+                    'Không có tài khoản? ',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -212,7 +200,7 @@ class SigninView extends GetView<SigninController> {
                       Get.toNamed(AppRoutes.signup);
                     },
                     child: Text(
-                      ' Create Account',
+                      'Tạo tài khoản',
                       style: TextStyle(
                         color: Color(0xFF4a66f0),
                         fontSize: 14,

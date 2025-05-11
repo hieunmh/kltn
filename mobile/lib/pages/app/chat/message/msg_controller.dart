@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,12 @@ class MsgController extends GetxController {
   RxBool isAIresponding = false.obs;
   final RxString model = ''.obs;
 
+  final ImagePicker imagePicker = ImagePicker();
+  final FocusNode focusNode = FocusNode();
+
+  Rx<File?> image = Rx<File?>(null);
+  RxString filename = ''.obs;
+
   @override
   void onInit() {
     super.onInit(); 
@@ -37,10 +45,20 @@ class MsgController extends GetxController {
 
   @override
   void onClose() {
-    // Xóa bộ nhớ khi controller bị hủy
     msgController.dispose();
     super.onClose();
   }
+
+  Future<void> pickImage() async {
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      image.value = File(pickedFile.path);
+      filename.value = pickedFile.name;
+    }
+  }
+
+
 
   Future<void> createAiMessage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

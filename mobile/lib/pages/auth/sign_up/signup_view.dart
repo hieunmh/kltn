@@ -25,7 +25,7 @@ class SignupView extends GetView<SignupController> {
               Row(
                 children: [
                   Text(
-                    'Create Account',
+                    'Tạo tài khoản',
                     style: TextStyle(
                       color: Color(0xFF4a66f0),
                       fontSize: 28,
@@ -34,24 +34,12 @@ class SignupView extends GetView<SignupController> {
                   )
                 ],
               ),
-              Row(
-                children: [
-                  Text(
-                    'Sign up to abf!',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600
-                    ),
-                  )
-                ],
-              ),
       
               const SizedBox(height: 20),
       
               Obx(() => InputField(
-                hintText: 'Email Address', 
-                placeholder: 'Enter email address', 
+                hintText: 'Email', 
+                placeholder: 'Nhập email', 
                 obscureText: false, 
                 ctrler: controller.emailController, 
                 borderColor: Colors.grey.shade300, 
@@ -61,8 +49,8 @@ class SignupView extends GetView<SignupController> {
               const SizedBox(height: 5),
       
               Obx(() => InputField(
-                hintText: 'Password', 
-                placeholder: 'Enter password', 
+                hintText: 'Mật khẩu', 
+                placeholder: 'Nhập mật khẩu', 
                 obscureText: controller.showPassword.value, 
                 ctrler: controller.passwordController, 
                 borderColor: Colors.grey.shade300, 
@@ -73,8 +61,8 @@ class SignupView extends GetView<SignupController> {
               const SizedBox(height: 5),
 
               Obx(() => InputField(
-                hintText: 'Confirm password', 
-                placeholder: 'Re-enter password', 
+                hintText: 'Xác nhận mật khẩu', 
+                placeholder: 'Nhập lại mật khẩu', 
                 obscureText: controller.showRePassword.value, 
                 ctrler: controller.rePasswordController, 
                 borderColor: Colors.grey.shade300, 
@@ -104,7 +92,7 @@ class SignupView extends GetView<SignupController> {
                         strokeWidth: 2,
                       ),
                     ) : Text(
-                      'Sign up',
+                      'Tạo tài khoản',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -142,7 +130,7 @@ class SignupView extends GetView<SignupController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      'Or continue with',
+                      'Hoặc tiếp tục với',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.grey.shade500,
@@ -192,7 +180,7 @@ class SignupView extends GetView<SignupController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already have an account?',
+                    'Đã có tài khoản? ',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 14,
@@ -205,7 +193,7 @@ class SignupView extends GetView<SignupController> {
                       Get.offAllNamed(AppRoutes.signin);
                     },
                     child: Text(
-                      ' Sign in',
+                      'Đăng nhập',
                       style: TextStyle(
                         color: Color(0xFF4a66f0),
                         fontSize: 14,

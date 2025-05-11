@@ -21,7 +21,7 @@ class ChatView extends GetView<ChatController> {
         title: Row(
           children: [
             Text(
-              'Chats',
+              'Chat',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,  
@@ -49,14 +49,13 @@ class ChatView extends GetView<ChatController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'New chat',
+                                'Tạo đoạn chat mới',
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: controller.themeController.isDark.value ? Colors.white : Colors.black
                                 ),
                               ),
-                              Icon(Iconsax.code_1_bold, size: 24),
                             ],
                           ),
             
@@ -64,7 +63,7 @@ class ChatView extends GetView<ChatController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'Select model',
+                                'Chọn model',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600
@@ -129,14 +128,12 @@ class ChatView extends GetView<ChatController> {
                             ),
                             child: Row(
                               children: [
-                                Icon(Iconsax.add_circle_bold),
-                                SizedBox(width: 10),
                                 Expanded(
                                   child: TextField(
                                     controller: controller.msgController,
                                     cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                                     decoration: InputDecoration(
-                                      hintText: 'Type a message',
+                                      hintText: 'Nhập tin nhắn',
                                       hintStyle: TextStyle(
                                         color: Colors.grey.shade400
                                       ),
@@ -176,7 +173,7 @@ class ChatView extends GetView<ChatController> {
                                     strokeWidth: 2,
                                   ),
                                 ) : Text(
-                                  'Create chat',
+                                  'Tạo chat',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: controller.themeController.isDark.value ? Colors.black : Colors.white,
@@ -228,7 +225,7 @@ class ChatView extends GetView<ChatController> {
             height: Get.height - kToolbarHeight,
             child: Center(
               child: Text(
-                'No message found',
+                'Không có tin nhắn',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -300,7 +297,7 @@ class ChatView extends GetView<ChatController> {
                               children: [
                                 Icon(BoxIcons.bx_pencil),
                                 SizedBox(width: 5),
-                                Text('Rename'),
+                                Text('Đổi tên'),
                               ],
                             ),
                           ),
@@ -308,11 +305,11 @@ class ChatView extends GetView<ChatController> {
                             onTap: () {
                               Get.dialog(
                                 CupertinoAlertDialog(
-                                  content: Text('Are you sure to delete this conversation?'),
+                                  content: Text('Bạn có chắc chắn muốn xóa cuộc hội thoại này không?'),
                                   actions: [
                                     CupertinoDialogAction(
                                       child: Text(
-                                        'Cancel',
+                                        'Hủy',
                                         style: TextStyle(
                                           color: Colors.blue.shade600,
                                           fontWeight: FontWeight.w500,
@@ -324,7 +321,7 @@ class ChatView extends GetView<ChatController> {
                                     ),
                                     CupertinoDialogAction(
                                       child: Text(
-                                        'Delete',
+                                        'Xóa',
                                         style: TextStyle(
                                           color: Colors.red,
                                           fontWeight: FontWeight.w500,
@@ -352,7 +349,7 @@ class ChatView extends GetView<ChatController> {
                                 Icon(BoxIcons.bx_trash, color: Colors.red),
                                 SizedBox(width: 5),
                                 Text(
-                                  'Delete',
+                                  'Xóa',
                                   style: TextStyle(color: Colors.red),
                                 ),
                               ],

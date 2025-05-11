@@ -39,7 +39,7 @@ class PostView extends GetView<PostController> {
                           child: Text(
                             item, 
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 14,
                               color: controller.themeController.isDark.value ? Colors.white : Colors.black,
                             )
                           ))
@@ -104,7 +104,7 @@ class PostView extends GetView<PostController> {
                     height: Get.height - Get.bottomBarHeight - Get.statusBarHeight, // Chiều cao của màn hình
                     alignment: Alignment.center, // Căn giữa theo chiều dọc
                     child: Text(
-                      'No posts available',
+                      'Không có bài viết',
                       style: TextStyle(
                         color: controller.themeController.isDark.value ? Colors.white : Colors.black,
                         fontSize: 20,
@@ -157,7 +157,7 @@ class PostView extends GetView<PostController> {
                                       ),
                                       child: const Center(
                                         child: Text(
-                                          'Comments',
+                                          'Bình luậln',
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700,
@@ -170,7 +170,7 @@ class PostView extends GetView<PostController> {
                                         return Expanded(
                                           child: Center(
                                             child: Text(
-                                              'Be the first to comment',
+                                              'Bình luận đầu tiên',
                                               style: TextStyle(
                                                 color: controller.themeController.isDark.value ? Colors.white : Colors.black,
                                                 fontSize: 20,
@@ -214,7 +214,7 @@ class PostView extends GetView<PostController> {
                                                             context: context,
                                                             builder: (context) => CupertinoActionSheet(
                                                               title: const Text(
-                                                                'Are you sure to delete this comment?',
+                                                                'Bạn có chắc chắn muốn xóa bình luận này không?',
                                                                 style: TextStyle(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight.w500,
@@ -228,7 +228,7 @@ class PostView extends GetView<PostController> {
                                                                     controller.deleteComment(comment.id, controller.posts[index].id);
                                                                   },
                                                                   child: const Text(
-                                                                    'Delete',
+                                                                    'Xóa',
                                                                     style: TextStyle(
                                                                       color: Colors.red,
                                                                       fontSize: 18,
@@ -242,7 +242,7 @@ class PostView extends GetView<PostController> {
                                                                   Navigator.pop(context);
                                                                 },
                                                                 child: const Text(
-                                                                  'Cancel',
+                                                                  'Hủy',
                                                                   style: TextStyle(
                                                                     color: Colors.blue,
                                                                     fontSize: 18,
@@ -351,7 +351,7 @@ class PostView extends GetView<PostController> {
                                                       focusNode: controller.focusNode,
                                                       cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                                                       decoration: InputDecoration(
-                                                        hintText: 'Comment for ${controller.posts[index].user.name}',
+                                                        hintText: 'Bình luận cho ${controller.posts[index].user.name}',
                                                         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
                                                         border: InputBorder.none,
                                                       ),

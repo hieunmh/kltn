@@ -108,7 +108,7 @@ class ProfileController extends GetxController {
 
     if (res.statusCode == 200) {
       Get.showSnackbar(GetSnackBar(
-        message: 'Update info successfully!',
+        message: 'Cập nhật thông tin thành công!',
         duration: Duration(seconds: 2),
       ));
 

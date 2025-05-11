@@ -228,7 +228,7 @@ class ProfileView extends GetView<ProfileController> {
                   initialValue: controller.appController.name.value,
                   cursorColor: Colors.grey,
                   decoration: InputDecoration(
-                    labelText: 'Name',
+                    labelText: 'Tên tài khoản',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10),
@@ -287,7 +287,7 @@ class ProfileView extends GetView<ProfileController> {
                           color: Colors.white,
                           strokeWidth: 2,
                         ),
-                      ) : Text('Update', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600))
+                      ) : Text('Cập nhật', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600))
                     ),
                   )
                 ) : const SizedBox(height: 0)),

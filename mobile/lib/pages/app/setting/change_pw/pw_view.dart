@@ -20,22 +20,11 @@ class PwView extends GetView<PwController> {
               Row(
                 children: [
                   Text(
-                    'Set new password',
+                    'Tạo mật khẩu mới',
                     style: TextStyle(
                       color: Color(0xFF4a66f0),
                       fontSize: 28,
                       fontWeight: FontWeight.w800
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Create an unique password',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600
                     ),
                   )
                 ],
@@ -45,8 +34,8 @@ class PwView extends GetView<PwController> {
       
               Obx(() =>
                 InputField(
-                  hintText: 'Old Password', 
-                  placeholder: 'Enter old password', 
+                  hintText: 'Mật khẩu cũ', 
+                  placeholder: 'Nhập mật khẩu cũ', 
                   obscureText: !controller.showOldPw.value, 
                   ctrler: controller.oldPw, 
                   borderColor: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300, 
@@ -59,8 +48,8 @@ class PwView extends GetView<PwController> {
       
               Obx(() =>
                 InputField(
-                  hintText: 'New Password', 
-                  placeholder: 'Enter new password', 
+                  hintText: 'Mật khẩu mới', 
+                  placeholder: 'Nhập mật khẩu mới', 
                   obscureText: !controller.showNewPw.value, 
                   ctrler: controller.newPw, 
                   borderColor: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300, 
@@ -73,8 +62,8 @@ class PwView extends GetView<PwController> {
       
               Obx(() =>
                 InputField(
-                  hintText: 'Confirm Password', 
-                  placeholder: 'Enter new password again', 
+                  hintText: 'Xác nhận mật khẩu mới', 
+                  placeholder: 'Nhập lại mật khẩu mới', 
                   obscureText: !controller.showReNewPw.value, 
                   ctrler: controller.reNewPw, 
                   borderColor: controller.themeController.isDark.value ? Colors.grey.shade700 : Colors.grey.shade300, 
@@ -105,7 +94,7 @@ class PwView extends GetView<PwController> {
                         strokeWidth: 2,                      
                       ),
                     ) : Text(
-                      'Change',
+                      'Thay đổi',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,

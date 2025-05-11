@@ -22,7 +22,7 @@ class ForgotPwView extends GetView<ForgotPwController> {
               Row(
                 children: [
                   Text(
-                    'Forgot Password?',
+                    'Quên mật khẩu?',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.w800,
@@ -31,25 +31,13 @@ class ForgotPwView extends GetView<ForgotPwController> {
                   ),
                 ],
               ),
-
-              Row(
-                children: [
-                  Text(
-                    'No worries, we got you',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  )
-                ],
-              ),
       
               const SizedBox( height: 20),
       
               Obx(() =>
                 InputField(
                   hintText: 'Email', 
-                  placeholder: 'Enter email address', 
+                  placeholder: 'Nhập email', 
                   obscureText: false, 
                   ctrler: controller.emailController, 
                   borderColor: Colors.grey.shade300, 
@@ -79,7 +67,7 @@ class ForgotPwView extends GetView<ForgotPwController> {
                           strokeWidth: 2,
                         ),
                       ) : Text(
-                        'Send Code',
+                        'Gửi mã',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -105,7 +93,7 @@ class ForgotPwView extends GetView<ForgotPwController> {
                       ),
       
                       Text(
-                        'Back to sign in?',
+                        'Quay lại đăng nhập?',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600

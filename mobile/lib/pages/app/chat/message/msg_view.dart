@@ -32,7 +32,7 @@ class MsgView extends GetView<MsgController> {
                     print(controller.model.value);
                   },
                   child: Text(
-                    'Select model',
+                    'Chọn model',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600
@@ -143,9 +143,53 @@ class MsgView extends GetView<MsgController> {
                   ) 
                 : const SizedBox()
               ),
+
+              Obx(() => controller.image.value != null ? 
+                Container(
+                  width: Get.width,
+                  color: Colors.white,
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          Image.file(
+                            controller.image.value!,
+                            fit: BoxFit.cover,
+                            width: 80,
+                            height: 40,
+                          ),
+                          
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                controller.image.value = null;
+                              },
+                              child: Container(
+                                width: 80,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withAlpha(100),
+                                ),
+                                child: const Icon(
+                                  Iconsax.trash_bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          )
+                        ],
+                        
+                      )
+                    ],
+                  ),
+                ): const SizedBox()
+              ),
                 
               Container(
-                padding: EdgeInsets.zero, 
                 decoration: BoxDecoration(
                   border: Border(
                     top: BorderSide(
@@ -156,38 +200,46 @@ class MsgView extends GetView<MsgController> {
                     ),
                   ), 
                 ),
-                child: Container(
-                  height: 55,
-                  width: double.infinity,
-                  color: isDark ? AppColor.bgDarkThemeColor : Colors.white,
-                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child: Row(
-                    children: [
-                      const Icon(Iconsax.add_circle_bold),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextField(
-                          controller: controller.msgController,
-                          cursorColor: isDark ? Colors.white : Colors.black,
-                          decoration: InputDecoration(
-                            hintText: 'Type a message',
-                            hintStyle: TextStyle(
-                              color: Colors.grey.shade400
-                            ),
-                            border: InputBorder.none
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      color: isDark ? AppColor.bgDarkThemeColor : Colors.white,
+                      padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              controller.pickImage();
+                            },
+                            child: const Icon(Iconsax.add_circle_bold),
                           ),
-                        ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextField(
+                              controller: controller.msgController,
+                              cursorColor: isDark ? Colors.white : Colors.black,
+                              decoration: InputDecoration(
+                                hintText: 'Nhập tin nhắn',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey.shade400
+                                ),
+                                border: InputBorder.none
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              controller.createMessage();
+                            },
+                            child: const Icon(Iconsax.send_1_bold),
+                          )
+                        ],
                       ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          controller.createMessage();
-                        },
-                        child: const Icon(Iconsax.send_1_bold),
-                      )
-                    ],
-                  ),
-                ),
+                    ),
+                  ],
+                )
               ),
             ],
           ),

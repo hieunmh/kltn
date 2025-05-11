@@ -19,7 +19,7 @@ class ThemeSetting extends StatelessWidget {
               Icon(isDarkMode ? BoxIcons.bxs_moon : BoxIcons.bxs_sun, size: 16),
               const SizedBox(width: 10),
               Text(
-                'Theme',
+                'Giao diện',
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -30,7 +30,7 @@ class ThemeSetting extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  isDarkMode ? 'Dark' : 'Light',
+                  isDarkMode ? 'Tối' : 'Sáng',
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -52,7 +52,7 @@ class ThemeSetting extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        'Light',
+                        'Sáng',
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
@@ -66,7 +66,7 @@ class ThemeSetting extends StatelessWidget {
                         Navigator.pop(context);                       
                       },
                       child: Text(
-                        'Dark',
+                        'Tối',
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
@@ -80,7 +80,7 @@ class ThemeSetting extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Text(
-                        'Cancel',
+                        'Huỷ',
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
