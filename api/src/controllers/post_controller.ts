@@ -63,7 +63,7 @@ export const getPostByCondition: RequestHandler = async (req: Request, res: Resp
 }
 
 export const updatePost: RequestHandler = async (req: Request, res: Response) => {
-  const { content, post_id, image_path } = req.body;
+  const { content, post_id, image_path, is_delete_image } = req.body;
   let user_id = req.session.userId as string;
 
   if (!content) {
@@ -84,7 +84,7 @@ export const updatePost: RequestHandler = async (req: Request, res: Response) =>
       }
     )
 
-    await supabase.storage.from('postimages').remove([image_path.replace('postimages/', '')])
+    await supabase.storage.from('postimages').remove([image_path.replace('postimages/', '')]);
 
     if (data) image_url = data.fullPath;
 
@@ -92,6 +92,8 @@ export const updatePost: RequestHandler = async (req: Request, res: Response) =>
       res.status(500).send({ error: error });
       return;
     }
+  } else if (is_delete_image == 'true') {
+    await supabase.storage.from('postimages').remove([image_path.replace('postimages/', '')]);
   }
 
   await Post.update({
