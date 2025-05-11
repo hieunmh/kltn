@@ -25,7 +25,14 @@ const topic_prompt = `
 const review_prompt = `
   Đây là lý thuyết về chủ đề được gửi từ người dùng. Từ nội dung lý thuyết này và chủ đề, hãy tạo ra khoảng 
   4 đến 5 câu hỏi, nội dung câu hỏi có thể trả lời bằng giọng nói, 
-  trả về dưới dạng mảng các string (có thể decode trực tiếp bằng json.decode trong flutter),
+  trả về dưới dạng mảng các string (có thể decode trực tiếp bằng json.decode trong flutter), ví dụ:
+  [
+    "Câu hỏi 1",
+    "Câu hỏi 2",
+    "Câu hỏi 3",
+    "Câu hỏi 4",
+    "Câu hỏi 5"
+  ]
 `
 
 const voice_prompt = `
@@ -42,7 +49,9 @@ const voice_prompt = `
 const suggest_prompt = `
   Đây là trình độ học vấn (level) của người dùng và tên môn học (subject).
   
-  Hãy kiểm tra tên môn học trước. Nếu tên môn học không phải là tên của một môn học thực sự trong chương trình giáo dục (như Toán, Văn, Anh, Lý, Hóa, Sinh, Sử, Địa, Công nghệ, Tin học, v.v.), thì đây là môn học không hợp lệ.
+  Hãy kiểm tra tên môn học trước. Nếu tên môn học không phải là tên của một môn họctrong chương 
+  trình giáo dục (như Toán, Văn, Anh, Lý, Hóa, Sinh, Sử, Địa, Công nghệ, Tin học, v.v.), 
+  thì đây là môn học không hợp lệ.
   
   Nếu môn học KHÔNG hợp lệ, trả về JSON có dạng: 
   {

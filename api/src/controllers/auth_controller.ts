@@ -25,7 +25,7 @@ export const signup: RequestHandler = async (req: Request, res: Response) => {
 
   await User.create({
     id: uuidv4(),
-    name: '',
+    name: email.split('@')[0],
     email: email,
     password: bcrypt.hashSync(password, 10)
   }).then((user: UserType) => {
