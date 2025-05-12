@@ -96,7 +96,7 @@ class ReviewView extends GetView<ReviewController> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Start testing',
+                                  'Bắt đầu kiểm tra',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w800,

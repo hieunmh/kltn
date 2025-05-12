@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile/config/env.dart';
@@ -77,7 +78,6 @@ class PostController extends GetxController {
     }
 
     isLoading.value = true;
-    // create comment
     final comment = await http.post(Uri.parse('$serverHost/create-comment'), headers: {
       'cookie': rawCookie
     }, body: {
@@ -89,17 +89,6 @@ class PostController extends GetxController {
 
       final data = json.decode(comment.body)['comment'];
 
-      posts.firstWhere((element) => element.id == postid).comments.add(
-        Comment(
-          id: data['id'],
-          postid: data['post_id'],
-          userid: data['user_id'],
-          content: data['content'],
-          createdAt: data['createdAt'],
-          updatedAt: data['updatedAt'],
-          user: appController.user.value
-        )
-      );
       filterPosts.firstWhere((element) => element.id == postid).comments.add(
         Comment(
           id: data['id'],
@@ -147,10 +136,60 @@ class PostController extends GetxController {
     oldCmtontent.value = content;
   }
 
-  Future<void> editComment(String postid) async {
-    if (commentController.text == oldCmtontent.value) {
+  Future<void> editComment(String postid, BuildContext context) async {
+    if (commentController.text.trim() == oldCmtontent.value.trim()) {
       return;
     }
+
+    if (commentController.text.trim().isEmpty) {
+      showCupertinoModalPopup(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+          title: const Text(
+            'Bạn có chắc chắn muốn xóa bình luận này không?',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            ),
+          ),
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () {
+                Navigator.pop(context);
+                deleteComment(editCommentId.value, postid);
+              },
+              child: const Text(
+                'Xóa',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500
+                ),
+              ),
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            onPressed: () {
+              Navigator.pop(context);
+              isEdit.value = true;
+              commentController.text = oldCmtontent.value;
+            },
+            child: const Text(
+              'Hủy',
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 18,
+                fontWeight: FontWeight.w700
+              ),
+            ),
+          ),
+        )
+      );
+      isEdit.value = false;
+      return;
+    }
+    
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final rawCookie = prefs.getString('cookie') ?? '';
 

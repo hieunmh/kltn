@@ -332,7 +332,7 @@ class ChatView extends GetView<ChatController> {
                                         Get.back();
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
-                                            content: Text('Delete conversation successfully!'),
+                                            content: Text('Xóa cuộc hội thoại thành công!'),
                                             duration: Duration(seconds: 1),
                                           ),
                                         );

@@ -65,6 +65,15 @@ class PostView extends GetView<PostController> {
               ],
             ),
             actions: [
+              GestureDetector(
+                onTap: () {
+                  controller.getPostList();
+                },
+                child: Icon(FontAwesome.rotate_right_solid, size: 20),
+              ),
+    
+              const SizedBox(width: 15),
+
               Padding(
                 padding: const EdgeInsets.only(right: 15),
                 child: GestureDetector(
@@ -157,7 +166,7 @@ class PostView extends GetView<PostController> {
                                       ),
                                       child: const Center(
                                         child: Text(
-                                          'Bình luậln',
+                                          'Bình luận',
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700,
@@ -166,7 +175,7 @@ class PostView extends GetView<PostController> {
                                       ),
                                     ),
                                     Obx(() {
-                                      if (controller.posts[index].comments.isEmpty) {
+                                      if (controller.filterPosts[index].comments.isEmpty) {
                                         return Expanded(
                                           child: Center(
                                             child: Text(
@@ -184,11 +193,11 @@ class PostView extends GetView<PostController> {
                                         child: Container(
                                           padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
                                           child: GroupedListView(
-                                            elements: controller.posts[index].comments,
+                                            elements: controller.filterPosts[index].comments,
                                             groupBy: (comment) => comment.createdAt,
                                             groupSeparatorBuilder: (comment) => const SizedBox(height: 15),
-                                            order: controller.posts[index].comments.length > 5 ? GroupedListOrder.DESC : GroupedListOrder.ASC,
-                                            reverse: controller.posts[index].comments.length > 5 ? true : false,
+                                            order: controller.filterPosts[index].comments.length > 5 ? GroupedListOrder.DESC : GroupedListOrder.ASC,
+                                            reverse: controller.filterPosts[index].comments.length > 5 ? true : false,
                                             useStickyGroupSeparators: false,
                                             floatingHeader: false,
                                             itemBuilder: (context, comment) {
@@ -225,7 +234,7 @@ class PostView extends GetView<PostController> {
                                                                 CupertinoActionSheetAction(
                                                                   onPressed: () {
                                                                     Navigator.pop(context);
-                                                                    controller.deleteComment(comment.id, controller.posts[index].id);
+                                                                    controller.deleteComment(comment.id, controller.filterPosts[index].id);
                                                                   },
                                                                   child: const Text(
                                                                     'Xóa',
@@ -351,7 +360,7 @@ class PostView extends GetView<PostController> {
                                                       focusNode: controller.focusNode,
                                                       cursorColor: controller.themeController.isDark.value ? Colors.white : Colors.black,
                                                       decoration: InputDecoration(
-                                                        hintText: 'Bình luận cho ${controller.posts[index].user.name}',
+                                                        hintText: 'Bình luận cho ${controller.filterPosts[index].user.name}',
                                                         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13),
                                                         border: InputBorder.none,
                                                       ),
@@ -361,9 +370,9 @@ class PostView extends GetView<PostController> {
                                                   GestureDetector(
                                                     onTap: () {
                                                       if (controller.isEdit.value) {
-                                                        controller.editComment(controller.posts[index].id);
+                                                        controller.editComment(controller.filterPosts[index].id, context);
                                                       } else {
-                                                        controller.createComment(controller.posts[index].id);
+                                                        controller.createComment(controller.filterPosts[index].id);
                                                       }
                                                     },
                                                     child: controller.isLoading.value ? SizedBox(

@@ -31,7 +31,7 @@ class TutorController extends GetxController {
     final rawCookie = prefs.getString('cookie') ?? '';
 
     if (level.value.isEmpty || subjectController.text.isEmpty) {
-      suggestError.value = 'Vui lòng chọn trình độ và nội dung muốn học';
+      suggestError.value = 'Please select level and subject to create a theme';
       return;
     }
 
@@ -63,7 +63,7 @@ class TutorController extends GetxController {
 
   void onstart() {
     if (suggestTheme.value.isEmpty || level.value.isEmpty || subjectController.text.isEmpty) {
-      suggestError.value = 'Vui lòng tạo chủ đề trước khi học';
+      suggestError.value = 'Please create a theme before starting';
       return;
     }
 

@@ -10,7 +10,7 @@ class ProfileView extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Hồ sơ'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -180,7 +180,7 @@ class ProfileView extends GetView<ProfileController> {
                                                 strokeWidth: 2,
                                               ),
                                             ) : Text(
-                                              'Update',
+                                              'Cập nhật',
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16,

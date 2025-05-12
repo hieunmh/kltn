@@ -99,6 +99,7 @@ class EditPostController extends GetxController {
     request.fields['content'] = postcontentController.text;
     request.fields['post_id'] = postid.value;
     request.fields['image_path'] = deleteImagePath.value;
+    request.fields['is_delete_image'] = postImageurl.value.isEmpty ? 'true' : 'false';
 
     if (imageFile != null) {
       request.files.add(

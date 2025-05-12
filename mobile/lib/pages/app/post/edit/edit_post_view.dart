@@ -82,39 +82,39 @@ class EditPostView extends GetView<EditPostController> {
             ),
             actions: [
               GestureDetector(
-                  onTap: () => controller.editPost(context),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: Obx(() =>
-                      Container(
-                        height: 30,
-                        width: 100,
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                        decoration: BoxDecoration(
-                          color: controller.postContent.value.trim().isNotEmpty || controller.postImageurl.value.isNotEmpty ?  Colors.blue : controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: controller.isUpdating.value ? SizedBox(
-                            width: 15,
-                            height: 15,
-                            child: const CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2
-                            ),
-                          ) : Text(
-                            'Cập nhật', 
-                            style: TextStyle(
-                              color: controller.postContent.value.trim().isNotEmpty || controller.postImageurl.value.isNotEmpty ? Colors.white : controller.themeController.isDark.value ? Colors.white : Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600
-                            )
-                          ),  
-                        ),
+                onTap: () => controller.editPost(context),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: Obx(() =>
+                    Container(
+                      height: 30,
+                      width: 100,
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                      decoration: BoxDecoration(
+                        color: controller.postContent.value.trim().isNotEmpty || controller.postImageurl.value.isNotEmpty ?  Colors.blue : controller.themeController.isDark.value ? Colors.white.withAlpha(30) : Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: controller.isUpdating.value ? SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2
+                          ),
+                        ) : Text(
+                          'Cập nhật', 
+                          style: TextStyle(
+                            color: controller.postContent.value.trim().isNotEmpty || controller.postImageurl.value.isNotEmpty ? Colors.white : controller.themeController.isDark.value ? Colors.white : Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                          )
+                        ),  
                       ),
                     ),
                   ),
-                )
+                ),
+              )
             ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
@@ -179,6 +179,7 @@ class EditPostView extends GetView<EditPostController> {
                             child: GestureDetector(
                               onTap: () {
                                 controller.postImageurl.value = '';
+                                print(1);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(3),

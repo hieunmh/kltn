@@ -72,7 +72,7 @@ class InputField extends StatelessWidget {
                   ),
                 ),
 
-                hintText.toLowerCase().contains('password') ? GestureDetector(
+                hintText.toLowerCase().contains('mật khẩu') ? GestureDetector(
                   onTap: onTap as void Function()?,
                   child: Icon(
                     obscureText ? FontAwesome.eye_slash_solid : FontAwesome.eye_solid,
