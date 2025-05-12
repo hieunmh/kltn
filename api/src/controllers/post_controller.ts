@@ -101,7 +101,7 @@ export const updatePost: RequestHandler = async (req: Request, res: Response) =>
 
   await Post.update({
     content: content,
-    image_url: image_url
+    image_url: is_delete_image == 'true' ? '' : image_url
   }, { where: { id: post_id, user_id: user_id } }).then(
     (post) => {
       res.status(200).send({
