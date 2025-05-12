@@ -73,6 +73,9 @@ export const updatePost: RequestHandler = async (req: Request, res: Response) =>
 
   let image_url = image_path;
 
+  console.log(is_delete_image == 'true');
+  console.log(req.body);
+
   if (req.file) {
     const filename = `post_${Date.now()}_${req.file.originalname}`;
     const { data, error } = await supabase.storage.from('postimages').upload(
@@ -105,7 +108,7 @@ export const updatePost: RequestHandler = async (req: Request, res: Response) =>
         msg: 'Post updated successfully!',
         post: {
           id: post_id,
-          image_url: image_url,
+          image_url: is_delete_image == 'true' ? '' : image_url,
           content: content,
         }
       })
