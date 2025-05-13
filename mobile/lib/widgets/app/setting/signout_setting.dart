@@ -32,7 +32,7 @@ class SignoutSetting extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 18,
-                    fontWeight: FontWeight.w500
+                    fontWeight: FontWeight.w600
                   ),
                 ),
               ),
@@ -46,7 +46,7 @@ class SignoutSetting extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 18,
-                    fontWeight: FontWeight.w700
+                    fontWeight: FontWeight.w600
                   ),
                 ),
             ),

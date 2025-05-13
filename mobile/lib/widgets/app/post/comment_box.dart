@@ -66,99 +66,114 @@ class _CommentBoxState extends State<CommentBox> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              widget.currentUserImage.isNotEmpty && widget.userid == widget.comment.user.id ? Container(
-                width: 40, 
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle, 
-                  border: Border.all( 
-                    color: Colors.grey.shade400, 
-                    width: 1,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    widget.supabaseUrl + widget.currentUserImage,
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ) : (widget.comment.user.imageUrl ?? '').isNotEmpty ? 
-              Container(
-                width: 40, 
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle, 
-                  border: Border.all( 
-                    color: Colors.grey.shade400, 
-                    width: 1,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(
-                    widget.supabaseUrl + widget.comment.user.imageUrl!, 
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                  )
-                ),
-              ) : Container(
-                width: 40, 
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle, 
-                  border: Border.all( 
-                    color: Colors.grey.shade400, 
-                    width: 1,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    'assets/image/user-placeholder.png',
-                    height: 40,
-                    width: 40,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-
-              SizedBox(width: 10),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.comment.userid == widget.userid ? widget.currentUserName : widget.comment.user.name,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14
-                        )
-                      ),
-                      SizedBox(width: 5),
-
-                      Obx(() => Text(
-                        timeAgo.value,
-                        style: TextStyle(
-                          color: Colors.grey
+          Expanded( 
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                widget.currentUserImage.isNotEmpty && widget.userid == widget.comment.user.id
+                    ? Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.grey.shade400,
+                            width: 1,
+                          ),
                         ),
-                      ))
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.network(
+                            widget.supabaseUrl + widget.currentUserImage,
+                            height: 40,
+                            width: 40,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : (widget.comment.user.imageUrl ?? '').isNotEmpty
+                        ? Container(
+                            width: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey.shade400,
+                                width: 1,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: Image.network(
+                                widget.supabaseUrl + widget.comment.user.imageUrl!,
+                                height: 40,
+                                width: 40,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey.shade400,
+                                width: 1,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                'assets/image/user-placeholder.png',
+                                height: 40,
+                                width: 40,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+
+                SizedBox(width: 10),
+
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            widget.comment.userid == widget.userid
+                                ? widget.currentUserName
+                                : widget.comment.user.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Obx(
+                            () => Text(
+                              timeAgo.value,
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        widget.comment.content,
+                        softWrap: true,
+                      ),
                     ],
                   ),
-                  Text(widget.comment.content),
-                ],
-              ),
-            ],
-          ),    
-          widget.comment.user.id == widget.userid ? Icon(BoxIcons.bx_chevron_left) : Container()     
+                ),
+              ],
+            ),
+          ),
+          widget.comment.user.id == widget.userid
+              ? Icon(BoxIcons.bx_chevron_left)
+              : Container(),
         ],
       ),
     );
