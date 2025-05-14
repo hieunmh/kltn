@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:mobile/pages/auth/sign_in/signin_controller.dart';
 import 'package:mobile/routes/routes.dart';
 import 'package:mobile/widgets/auth/input_field.dart';
-import 'package:icons_plus/icons_plus.dart';
-
 
 class SigninView extends GetView<SigninController> {
   const SigninView({super.key});
@@ -123,63 +121,7 @@ class SigninView extends GetView<SigninController> {
                   ),
                 ),
               ) : const SizedBox(height: 20)),
-
-              const SizedBox(height: 5),
       
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey.shade300,
-                      thickness: 1,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      'Hoặc đăng nhập với',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey.shade500,
-                        fontSize: 12
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      color: Colors.grey.shade300,
-                      thickness: 1,
-                    ),
-                  ),
-                ],
-              ),
-      
-              const SizedBox(height: 20),
-      
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Get.toNamed('/forgot-password');
-                    },
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFFE5E8FC).withAlpha(120)
-                      ),
-                      child: Center(
-                        child: Brand(
-                          Brands.google,  
-                          size: 50,
-                        )
-                      ),
-                    ),
-                  ),
-                ],
-              ),
       
               const SizedBox(height: 20),
       
