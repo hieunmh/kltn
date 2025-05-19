@@ -24,7 +24,7 @@ const topic_prompt = `
 
 const review_prompt = `
   Đây là lý thuyết về chủ đề được gửi từ người dùng. Từ nội dung lý thuyết này và chủ đề, hãy tạo ra khoảng 
-  4 đến 5 câu hỏi, nội dung câu hỏi có thể trả lời bằng giọng nói, 
+  4 đến 5 câu hỏi, nội dung câu hỏi phù hợp để người dùng trả lời bằng giọng nói, không yêu cầu vẽ hình, 
   trả về dưới dạng mảng các string (có thể decode trực tiếp bằng json.decode trong flutter), ví dụ:
   [
     "Câu hỏi 1",
@@ -39,11 +39,21 @@ const voice_prompt = `
   Đây là đoạn text đã được encode bằng json.encode trong flutter. Khi decode đoạn text này, 
   tạo ra được 1 mảng json, trong đó mỗi json có 2 field là question và answer, dựa vào 
   answer ứng với question đấy, hãy đánh giá đúng sai, đúng trả về 1, sai trả về 0, 
-  sau đó trả về các đánh giá đấy dưới dạng mảng json, mỗi json có 2 field là evaluate và explain, 
-  evaluate là 1 nếu đúng, 0 nếu sai, explain là câu trả lời của bạn dựa trên answer và question, ví dụ: 
+  sau đó trả về các đánh giá đấy dưới dạng mảng json như sau:
+  [
+    {
+      "evaluate": 1,
+      "explain": "Câu trả lời của bạn dựa trên answer và question"
+    },
+    {
+      "evaluate": 0,
+      "explain": "Câu trả lời của bạn dựa trên answer và question"
+    }
+  ví dụ:
   khi question là "điều kiện của biến a trong phương trình ax+b=0 là gì?", answer là "a khác 0", 
   explain sẽ là "Điều kiện của biến a trong phương trình ax+b=0 là a khác 0",
-  và do answer dùng thư viện speed_to_text nên có thể có lỗi, hãy sửa lỗi đó
+  và do answer dùng thư viện speed_to_text nên có thể có lỗi, hãy sửa lỗi đó,
+  explain không đem câu trả lời vào để giải thích, chỉ đem câu trả lời đã được sửa lỗi vào để giải thích
 `
 
 const suggest_prompt = `
