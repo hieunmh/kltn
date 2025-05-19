@@ -51,9 +51,9 @@ const voice_prompt = `
     }
   ví dụ:
   khi question là "điều kiện của biến a trong phương trình ax+b=0 là gì?", answer là "a khác 0", 
-  explain sẽ là "Điều kiện của biến a trong phương trình ax+b=0 là a khác 0",
-  và do answer dùng thư viện speed_to_text nên có thể có lỗi, hãy sửa lỗi đó,
-  explain không đem câu trả lời vào để giải thích, chỉ đem câu trả lời đã được sửa lỗi vào để giải thích
+  explain sẽ là "Điều kiện của biến a trong phương trình ax+b=0 là a khác 0".
+  Lưu ý: answer dùng thư viện speed_to_text nên có thể có lỗi, hãy sửa lỗi đó,
+  Phần explain chỉ giải thích dựa trên question và lý do đúng/sai, không được lặp lại nội dung của answer.
 `
 
 const suggest_prompt = `
